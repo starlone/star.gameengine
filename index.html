@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>Canvas tutorial</title>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/windowcanvas.js"></script>
+    <script type="text/javascript" src="js/windowgame.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             var game = new WindowGame('canvas');
@@ -22,15 +22,15 @@
             obj1.update(function(){
                 var key = game.getKeyPress();
                 if (key){
-		    if (key == 'Left'){
-		        obj1.x -= speed;
-		    } else if (key == 'Right'){
-		        obj1.x += speed;
-		    } else if (key == 'Up'){
-		        obj1.y -= speed;
-		    } else if (key == 'Down'){
-		        obj1.y += speed;
-		    }
+                    if (key == 'Left'){
+                        obj1.x -= speed;
+                    } else if (key == 'Right'){
+                        obj1.x += speed;
+                    } else if (key == 'Up'){
+                        obj1.y -= speed;
+                    } else if (key == 'Down'){
+                        obj1.y += speed;
+                    }
                 }
             });
         });
