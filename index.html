@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Canvas tutorial</title>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/windowcanvas.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			var game = new WindowGame('canvas');
+			var ctx = game.getContext();
+
+			var scene = new Scene();
+			game.addScene(scene);
+
+			var obj1 = new GameObject(25,25,100,100);
+			scene.add(obj1);
+
+			game.init();
+
+			var speed = 4;
+			obj1.update(function(){
+				var key = game.getKeyPress();
+				if (key){
+					if (key == 'Left'){
+						obj1.x -= speed;
+					} else if (key == 'Right'){
+						obj1.x += speed;
+					} else if (key == 'Up'){
+						obj1.y -= speed;
+					} else if (key == 'Down'){
+						obj1.y += speed;
+					}
+				}
+			});
+
+			/*
+			$(document).keypress(function(e){
+				if (e.key == 'Left'){
+					obj1.x -= speed;
+				} else if (e.key == 'Right'){
+					obj1.x += speed;
+				} else if (e.key == 'Up'){
+					obj1.y -= speed;
+				} else if (e.key == 'Down'){
+					obj1.y += speed;
+				}
+			});
+			*/
+		});
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </body>
+</html>
