@@ -13,23 +13,24 @@
             var scene = new Scene();
             game.addScene(scene);
 
-            var obj1 = new GameObject(25,25,100,100);
-            scene.add(obj1);
+            var obj_player = new GameObject(25,25,50,50);
+            scene.add(obj_player);
 
             game.init();
 
             var speed = 4;
-            obj1.update(function(){
+            obj_player.update(function(){
                 var key = game.getKeyPress();
                 if (key){
-                    if (key == 'Left'){
-                        obj1.x -= speed;
-                    } else if (key == 'Right'){
-                        obj1.x += speed;
-                    } else if (key == 'Up'){
-                        obj1.y -= speed;
-                    } else if (key == 'Down'){
-                        obj1.y += speed;
+					key = key.toLowerCase();
+                    if (key == 'Left' || key == 'a'){
+                        obj_player.x -= speed;
+                    } else if (key == 'Right' || key == 'd'){
+                        obj_player.x += speed;
+                    } else if (key == 'Up' || key == 'w'){
+                        obj_player.y -= speed;
+                    } else if (key == 'Down' || key == 's'){
+                        obj_player.y += speed;
                     }
                 }
             });
