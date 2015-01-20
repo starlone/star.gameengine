@@ -103,7 +103,7 @@ Scene.prototype.check_move_cam = function(ctx){
 		var y = this.camY - this.camera.getY();
 		ctx.translate(x,y);
 		this.camX = this.camera.getX();
-		this.camY = this.camera.getX();
+		this.camY = this.camera.getY();
 	} 
 }
 
