@@ -56,27 +56,71 @@ WindowGame.prototype.render = function(){
     this.getSceneCurrent().render(this.ctx);
 };
 WindowGame.prototype.update = function(){
-    this.clrscr();
+    //this.clrscr();
     this.render();
 };
 WindowGame.prototype.init = function(){
     windowGameMain = this;
-    animationFrame(updateFrame);    
+    animationFrame(updateFrame);
 };
 
 
-
-
-function Scene(){
+function Scene(width,height){
+	this.width = width;
+	this.height = height;
+	this.camera = new Camera(0,0);
+	this.camX = 0;
+	this.camY = 0;
     this.objs = [];
+};
+Scene.prototype.getWidth = function(){
+    return this.width
+};
+Scene.prototype.getHeight = function(){
+    return this.height
 };
 Scene.prototype.add = function(obj){
     this.objs.push(obj);
 };
 Scene.prototype.render = function(ctx){
+	this.check_move_cam(ctx);
+	this.clear(ctx);
     for(var i in this.objs){
         this.objs[i].render(ctx);
     }
+};
+Scene.prototype.clear = function(ctx){
+    ctx.clearRect(
+		this.camera.getX(),
+		this.camera.getY(),
+		this.getWidth(), 
+		this.getHeight()
+	);
+}
+Scene.prototype.check_move_cam = function(ctx){
+	if(this.camX != this.camera.getX() || this.camY != this.camera.getY()){
+	    var x = this.camX - this.camera.getX();
+		var y = this.camY - this.camera.getY();
+		ctx.translate(x,y);
+		this.camX = this.camera.getX();
+		this.camY = this.camera.getX();
+	} 
+}
+
+
+function Camera(x,y){
+	this.x = x;
+	this.y = y;
+};
+Camera.prototype.getX = function(){
+    return this.x;
+};
+Camera.prototype.getY = function(){
+    return this.y;
+};
+Camera.prototype.move = function(x,y){
+    this.x = x;
+    this.y = y;
 };
 
 
