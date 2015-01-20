@@ -6,41 +6,54 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/windowgame.js"></script>
     <script type="text/javascript">
+		var game = null;
         $(document).ready(function(){
-            var game = new WindowGame('canvas');
+            game = new WindowGame('canvas');
             var ctx = game.getContext();
 
-            var scene = new Scene();
+            var scene = new Scene(game.getWidth(),game.getHeight());
             game.addScene(scene);
 
-            var obj_player = new GameObject(25,25,50,50);
+            var obj_player = new GameObject(20,20,50,50);
             scene.add(obj_player);
 
-            game.init();
+			var chao = new GameObject(30,250,340,10);
+            scene.add(chao);
 
             var speed = 4;
             obj_player.update(function(){
                 var key = game.getKeyPress();
                 if (key){
 					key = key.toLowerCase();
-                    if (key == 'Left' || key == 'a'){
+                    if (key == 'left' || key == 'a'){
+						//scene.camera.move(50,50);
                         obj_player.x -= speed;
-                    } else if (key == 'Right' || key == 'd'){
+                    } else if (key == 'right' || key == 'd'){
                         obj_player.x += speed;
-                    } else if (key == 'Up' || key == 'w'){
+                    } else if (key == 'up' || key == 'w'){
                         obj_player.y -= speed;
-                    } else if (key == 'Down' || key == 's'){
+                    } else if (key == 'down' || key == 's'){
                         obj_player.y += speed;
                     }
                 }
             });
+
+            game.init();
         });
     </script>
     <style type="text/css">
-      canvas { border: 1px solid black; }
+		.container{
+			margin: 10px auto;
+			width: 400px;
+		}
+		canvas { 
+		    border: 1px solid black; 
+	    }
     </style>
   </head>
   <body>
-    <canvas id="canvas" width="300" height="300"></canvas>
+	  <div class="container">
+		  <canvas id="canvas" width="400" height="400"></canvas>
+	  </div>
   </body>
 </html>
