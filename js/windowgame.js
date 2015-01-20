@@ -12,6 +12,9 @@ window.animationFrame = (function(){
 var windowGameMain = null;
 
 function updateFrame(){
+	windowGameMain.element.width = window.innerWidth - 30
+	windowGameMain.element.height = window.innerHeight - 30
+
     windowGameMain.update();
     animationFrame(updateFrame);
 }
