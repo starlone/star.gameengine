@@ -26,14 +26,17 @@
                 if (key){
 					key = key.toLowerCase();
                     if (key == 'left' || key == 'a'){
-						//scene.camera.move(50,50);
                         obj_player.x -= speed;
+						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     } else if (key == 'right' || key == 'd'){
                         obj_player.x += speed;
+						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     } else if (key == 'up' || key == 'w'){
                         obj_player.y -= speed;
+						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     } else if (key == 'down' || key == 's'){
                         obj_player.y += speed;
+						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     }
                 }
             });
