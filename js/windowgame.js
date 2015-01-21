@@ -163,22 +163,24 @@ function ComponentScript(function_update){
 };
 
 
-function ComponentPlayer(game){
+function ComponentPlayer(game,speed){
 	this.window = game;
+	this.speed = 4;
+	if(speed)
+		this.speed = speed;
 };
 ComponentPlayer.prototype.update = function(obj){
-	var speed = 4;
 	var key = game.getKeyPress();
 	if (key){
 		key = key.toLowerCase();
 		if (key == 'left' || key == 'a'){
-			obj.x -= speed;
+			obj.x -= this.speed;
 		} else if (key == 'right' || key == 'd'){
-			obj.x += speed;
+			obj.x += this.speed;
 		} else if (key == 'up' || key == 'w'){
-			obj.y -= speed;
+			obj.y -= this.speed;
 		} else if (key == 'down' || key == 's'){
-			obj.y += speed;
+			obj.y += this.speed;
 		}
 	}
 };

@@ -14,7 +14,7 @@
             game.addScene(scene);
 
             var obj_player = new GameObject(20,20,50,50);
-			obj_player.addComponent( new ComponentPlayer(game) );
+			obj_player.addComponent( new ComponentPlayer(game,4) );
             scene.add(obj_player);
 
 			scene.getCamera().addComponent( new ComponentFollowPlayer(obj_player));
