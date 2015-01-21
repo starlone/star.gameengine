@@ -79,16 +79,19 @@ WindowGame.prototype.init = function(){
 function Scene(width,height){
 	this.width = width;
 	this.height = height;
-	this.camera = new Camera(0,0);
+	this.camera = new GameObject(0,0,0,0);
 	this.camX = 0;
 	this.camY = 0;
-    this.objs = [];
+    this.objs = [this.camera];
 };
 Scene.prototype.getWidth = function(){
     return this.width
 };
 Scene.prototype.getHeight = function(){
     return this.height
+};
+Scene.prototype.getCamera = function(){
+	return this.camera;
 };
 Scene.prototype.setSize = function(width,height){
 	this.width = width;
@@ -123,34 +126,75 @@ Scene.prototype.check_move_cam = function(ctx){
 }
 
 
-function Camera(x,y){
-	this.x = x;
-	this.y = y;
-};
-Camera.prototype.getX = function(){
-    return this.x;
-};
-Camera.prototype.getY = function(){
-    return this.y;
-};
-Camera.prototype.move = function(x,y){
-    this.x = x;
-    this.y = y;
-};
-
-
 function GameObject(x,y,width,height){
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this._update = function(){};
+	this.components = [];
+};
+GameObject.prototype.getX = function(){
+	return this.x;
+};
+GameObject.prototype.getY = function(){
+	return this.y;
 };
 GameObject.prototype.render = function(ctx){
-    this._update();
+	this.update();
     ctx.fillRect(this.x,this.y,this.width,this.height);
 };
-GameObject.prototype.update = function(funcao){
-    this._update = funcao;
+GameObject.prototype.update = function(){
+	for(var i in this.components){
+		this.components[i].update(this);
+	}
 };
+GameObject.prototype.addComponent = function(component){
+	this.components.push(component);
+	return this;
+};
+GameObject.prototype.move = function(x,y){
+    this.x = x;
+    this.y = y;
+};
+
+
+function ComponentScript(function_update){
+	this.update = function_update;
+};
+
+
+function ComponentPlayer(game){
+	this.window = game;
+};
+ComponentPlayer.prototype.update = function(obj){
+	var speed = 4;
+	var key = game.getKeyPress();
+	if (key){
+		key = key.toLowerCase();
+		if (key == 'left' || key == 'a'){
+			obj.x -= speed;
+		} else if (key == 'right' || key == 'd'){
+			obj.x += speed;
+		} else if (key == 'up' || key == 'w'){
+			obj.y -= speed;
+		} else if (key == 'down' || key == 's'){
+			obj.y += speed;
+		}
+	}
+};
+
+function ComponentFollowPlayer(obj_player){
+	this.obj_player = obj_player;
+}
+ComponentFollowPlayer.prototype.update = function(obj){
+	var game = windowGameMain;
+
+	var posx = game.getWidth() / 2 - this.obj_player.width / 2;
+	posx = this.obj_player.x + (this.obj_player.width / 2) - posx;
+	var posy = game.getHeight() / 2 - this.obj_player.height / 2;
+	posy = this.obj_player.y + (this.obj_player.height / 2) - posy;
+
+	obj.move(posx,posy);
+}
+
 

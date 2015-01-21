@@ -14,35 +14,13 @@
             game.addScene(scene);
 
             var obj_player = new GameObject(20,20,50,50);
+			obj_player.addComponent( new ComponentPlayer(game) );
             scene.add(obj_player);
-			// Posicionando a camera conforme o player
-			scene.camera.move(obj_player.x - 20,obj_player.y - 100);
+
+			scene.getCamera().addComponent( new ComponentFollowPlayer(obj_player));
 
 			var chao = new GameObject(30,250,340,10);
             scene.add(chao);
-
-            var speed = 4;
-            obj_player.update(function(){
-                var key = game.getKeyPress();
-                if (key){
-					key = key.toLowerCase();
-                    if (key == 'left' || key == 'a'){
-                        obj_player.x -= speed;
-                    } else if (key == 'right' || key == 'd'){
-                        obj_player.x += speed;
-                    } else if (key == 'up' || key == 'w'){
-                        obj_player.y -= speed;
-                    } else if (key == 'down' || key == 's'){
-                        obj_player.y += speed;
-                    }
-                }
-				var posx = game.getWidth() / 2 - obj_player.width / 2;
-				posx = obj_player.x + (obj_player.width / 2) - posx;
-				var posy = game.getHeight() / 2 - obj_player.height / 2;
-				posy = obj_player.y + (obj_player.height / 2) - posy;
-				
-				scene.camera.move(posx,posy);
-            });
 
 			game.updateSize();
             game.init();
