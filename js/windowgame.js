@@ -12,9 +12,6 @@ window.animationFrame = (function(){
 var windowGameMain = null;
 
 function updateFrame(){
-	windowGameMain.element.width = window.innerWidth - 30
-	windowGameMain.element.height = window.innerHeight - 30
-
     windowGameMain.update();
     animationFrame(updateFrame);
 }
@@ -27,7 +24,6 @@ function WindowGame(elementID){
     }
     this.scenes = [];
     this.key = null;
-
     $(document).keypress(function(e){
         self.key = e.key;
     });
@@ -38,6 +34,21 @@ WindowGame.prototype.getWidth = function(){
 WindowGame.prototype.getHeight = function(){
     return this.element.height
 };
+WindowGame.prototype.getSceneCurrent = function(){
+    return this.scenes[0];
+};
+WindowGame.prototype.setSize = function(width, height){
+	var elem = this.element;
+    this.element.width = width;
+    this.element.height = height;
+	this.getSceneCurrent().setSize(width, height);
+}
+WindowGame.prototype.updateSize = function(){
+	var width = this.getWidth();
+	var height = this.getHeight();
+	if (width != window.innerWidth || height != window.innerHeight)
+		this.setSize(window.innerWidth, window.innerHeight);
+}
 WindowGame.prototype.clrscr = function(){
     this.ctx.clearRect(0,0,this.getWidth(), this.getHeight());
 };
@@ -46,9 +57,6 @@ WindowGame.prototype.getContext = function(){
 };
 WindowGame.prototype.addScene = function(scene){
     this.scenes.push(scene);
-};
-WindowGame.prototype.getSceneCurrent = function(){
-    return this.scenes[0];
 };
 WindowGame.prototype.getKeyPress = function(){
     var key = this.key;
@@ -59,7 +67,7 @@ WindowGame.prototype.render = function(){
     this.getSceneCurrent().render(this.ctx);
 };
 WindowGame.prototype.update = function(){
-    //this.clrscr();
+    // this.updateSize();
     this.render();
 };
 WindowGame.prototype.init = function(){
@@ -82,6 +90,10 @@ Scene.prototype.getWidth = function(){
 Scene.prototype.getHeight = function(){
     return this.height
 };
+Scene.prototype.setSize = function(width,height){
+	this.width = width;
+	this.height = height;
+}
 Scene.prototype.add = function(obj){
     this.objs.push(obj);
 };

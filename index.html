@@ -9,7 +9,6 @@
 		var game = null;
         $(document).ready(function(){
             game = new WindowGame('canvas');
-            var ctx = game.getContext();
 
             var scene = new Scene(game.getWidth(),game.getHeight());
             game.addScene(scene);
@@ -29,27 +28,31 @@
 					key = key.toLowerCase();
                     if (key == 'left' || key == 'a'){
                         obj_player.x -= speed;
-						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     } else if (key == 'right' || key == 'd'){
                         obj_player.x += speed;
-						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     } else if (key == 'up' || key == 'w'){
                         obj_player.y -= speed;
-						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     } else if (key == 'down' || key == 's'){
                         obj_player.y += speed;
-						scene.camera.move(obj_player.x - 20,obj_player.y - 100);
                     }
                 }
+				var posx = game.getWidth() / 2 - obj_player.width / 2;
+				posx = obj_player.x + (obj_player.width / 2) - posx;
+				var posy = game.getHeight() / 2 - obj_player.height / 2;
+				posy = obj_player.y + (obj_player.height / 2) - posy;
+				
+				scene.camera.move(posx,posy);
             });
 
+			game.updateSize();
             game.init();
         });
     </script>
     <style type="text/css">
-		.container{
-			margin: 10px auto;
-			width: 600px;
+		body{
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
 		}
 		canvas { 
 		    border: 1px solid black; 
