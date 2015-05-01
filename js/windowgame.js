@@ -153,47 +153,44 @@ GameObject.prototype.move = function(x,y){
 function Joystick(){
 	this.key = null;
 	var self = this;
+	var x = 0;
+	var y = 0;
 	$(document).keydown(function(e){
         self.key = e.keyCode;
+        self.update();
     });
 	$(document).keyup(function(e){
         self.key = null;
+        self.reset();
     });
 }
-Joystick.prototype.getKeyPress = function(){
-    var key = this.key;
-    this.key = null;
-    return key;
-};
+
+Joystick.prototype.update = function(){
+	var key = this.key;
+	if (key == '65'){ // Left
+		this.x = -1;
+	} else if (key == '68'){ // 'right'
+		this.x = 1;
+	} else if (key == '87'){ // Up
+		this.y = -1;
+	} else if (key == '83'){ // 'Down'
+		this.y = 1;
+	}
+}
+
+Joystick.prototype.reset = function (){
+	this.x = 0;
+	this.y = 0;
+}
 
 Joystick.prototype.getAxis = function (name){
-	var key = this.key;
-	var val = 0;
 	if(name == 'horizontal'){
-		if (key == '65'){ // Left
-			val =  -1;
-		} else if (key == '68'){ // 'right'
-			val = 1;			
-		}
+		return this.x;
 	} 
 	if(name == 'vertical'){
-		if (key == '87'){ // Left
-			val =  -1;
-		} else if (key == '83'){ // 'right'
-			val = 1;			
-		}
+		return this.y;
 	}
-	
-//	
-//	
-//	else if(name == 'vertical'){
-//		if (key == '119'){ // up
-//			val = 1;
-//		} else if (key == '115'){ // down
-//			val = -1;
-//		}
-//	}
-	return val;
+	return 0;
 }
 
 
@@ -218,6 +215,7 @@ ComponentPlayer.prototype.update = function(obj){
 		obj.y += ver * this.speed;
 	}
 };
+
 
 function ComponentFollowPlayer(obj_player){
 	this.obj_player = obj_player;
