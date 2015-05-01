@@ -15,10 +15,10 @@ window.animationFrame = (function(){
         };
 })();
 
-var windowGameMain = null;
+se.windowGameMain = null;
 
 se.updateFrame = function (){
-    windowGameMain.update();
+    se.windowGameMain.update();
     animationFrame(se.updateFrame);
 }
 
@@ -74,7 +74,7 @@ se.WindowGame.prototype.update = function(){
     this.render();
 };
 se.WindowGame.prototype.init = function(){
-    windowGameMain = this;
+    se.windowGameMain = this;
     animationFrame(se.updateFrame);
 };
 
@@ -86,6 +86,7 @@ se.Scene = function (width,height){
     this.width = width;
     this.height = height;
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
+    this.camera.parent = this;
     this.camX = 0;
     this.camY = 0;
     this.objs = [this.camera];
@@ -154,6 +155,12 @@ se.GameObject.prototype.getX = function(){
 se.GameObject.prototype.getY = function(){
     return this.y;
 };
+se.GameObject.prototype.getWidth = function(){
+    return this.width;
+};
+se.GameObject.prototype.getHeight = function(){
+    return this.height;
+};
 se.GameObject.prototype.getColliders = function(){
     return this.colliders;
 };
@@ -196,36 +203,9 @@ se.GameObject.prototype.checkCollision = function(x,y){
     for(var i in objs){
         var obj = objs[i];        
         if(this.name != obj.name){
-            if( checkColliders( this.getColliders(), obj.getColliders() ) )
+            if( se.checkColliders( this.getColliders(), obj.getColliders() ) )
                 return true;
         }
-    }
-    return false;
-}
-
-function checkColliders(cols1, cols2){        
-    for(var i in cols1){
-        for(var j in cols2){
-            var col1 = cols1[i];                        
-            var col2 = cols2[j];
-            var ps1 = col1.getPoints();
-            var ps2 = col2.getPoints();
-            if(checkPolygonContido(ps1,ps2)){
-                return true;
-            }
-                        
-        }
-    }
-    return false;
-}
-
-function checkPolygonContido(ps1, ps2){
-    var min = ps2[0];
-    var max = ps2[3];
-    
-    for(var i in ps1){
-        if(ps1[i][0] >= min[0] && ps1[i][0] <= max[0] && ps1[i][1] >= min[1] && ps1[i][1] <= max[1])
-            return true;
     }
     return false;
 }
@@ -251,7 +231,7 @@ se.Joystick = function (){
 }
 
 se.Joystick.prototype.update = function(){
-        var key = this.key;
+    var key = this.key;
     if (key == '65'){ // Left
         this.x = -1;
     } else if (key == '68'){ // 'right'
@@ -312,11 +292,11 @@ se.ComponentFollowPlayer = function (obj_player){
     this.obj_player = obj_player;
 }
 se.ComponentFollowPlayer.prototype.update = function(obj){
-    var game = windowGameMain;
-
-    var posx = game.getWidth() / 2 - this.obj_player.width / 2;
+	var scene = this.parent.parent;
+	
+    var posx = scene.getWidth() / 2 - this.obj_player.width / 2;
     posx = this.obj_player.x + (this.obj_player.width / 2) - posx;
-    var posy = game.getHeight() / 2 - this.obj_player.height / 2;
+    var posy = scene.getHeight() / 2 - this.obj_player.height / 2;
     posy = this.obj_player.y + (this.obj_player.height / 2) - posy;
 
     obj.move(posx,posy);
@@ -355,4 +335,35 @@ se.Collider.prototype.getPoints = function(obj){
     lista.push([pai.x + pai.width, pai.y + pai.height]);
 
     return lista;
+}
+
+
+/*
+    Functions utils 
+*/
+
+se.checkColliders = function (cols1, cols2){
+    for(var i in cols1){
+        for(var j in cols2){
+            var col1 = cols1[i];
+            var col2 = cols2[j];
+            var ps1 = col1.getPoints();
+            var ps2 = col2.getPoints();
+            if(se.checkPolygonContido(ps1,ps2)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+se.checkPolygonContido = function (ps1, ps2){
+    var min = ps2[0];
+    var max = ps2[3];
+
+    for(var i in ps1){
+        if(ps1[i][0] >= min[0] && ps1[i][0] <= max[0] && ps1[i][1] >= min[1] && ps1[i][1] <= max[1])
+            return true;
+    }
+    return false;
 }
