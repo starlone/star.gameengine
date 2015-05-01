@@ -1,3 +1,9 @@
+/*
+    Star Engine
+*/
+
+var se = new Object();
+
 window.animationFrame = (function(){
     return  window.requestAnimationFrame       ||
         window.webkitRequestAnimationFrame ||
@@ -16,95 +22,95 @@ function updateFrame(){
     animationFrame(updateFrame);
 }
 
-function WindowGame(elementID){
+se.WindowGame = function (elementID){
     var self = this;
     this.element = document.getElementById(elementID);
     if (this.element.getContext){
         this.ctx = canvas.getContext('2d');
     }
     this.scenes = [];
-    this.joystick = new Joystick();
+    this.joystick = new se.Joystick();
 };
-WindowGame.prototype.getWidth = function(){
+se.WindowGame.prototype.getWidth = function(){
     return this.element.width
 };
-WindowGame.prototype.getHeight = function(){
+se.WindowGame.prototype.getHeight = function(){
     return this.element.height
 };
-WindowGame.prototype.getSceneCurrent = function(){
+se.WindowGame.prototype.getSceneCurrent = function(){
     return this.scenes[0];
 };
-WindowGame.prototype.setSize = function(width, height){
+se.WindowGame.prototype.setSize = function(width, height){
     var elem = this.element;
     this.element.width = width;
     this.element.height = height;
     this.getSceneCurrent().setSize(width, height);
 }
-WindowGame.prototype.updateSize = function(){
+se.WindowGame.prototype.updateSize = function(){
     var width = this.getWidth();
     var height = this.getHeight();
     if (width != window.innerWidth || height != window.innerHeight)
         this.setSize(window.innerWidth, window.innerHeight);
 }
-WindowGame.prototype.clrscr = function(){
+se.WindowGame.prototype.clrscr = function(){
     this.ctx.clearRect(0,0,this.getWidth(), this.getHeight());
 };
-WindowGame.prototype.getContext = function(){
+se.WindowGame.prototype.getContext = function(){
     return this.ctx;
 };
-WindowGame.prototype.addScene = function(scene){
+se.WindowGame.prototype.addScene = function(scene){
     this.scenes.push(scene);
     scene.parent = this;
 };
-WindowGame.prototype.render = function(){
+se.WindowGame.prototype.render = function(){
     this.getSceneCurrent().render(this.ctx);
 };
-WindowGame.prototype.update = function(){
+se.WindowGame.prototype.update = function(){
     // this.updateSize();
     this.render();
 };
-WindowGame.prototype.init = function(){
+se.WindowGame.prototype.init = function(){
     windowGameMain = this;
     animationFrame(updateFrame);
 };
 
 
-function Scene(width,height){
+se.Scene = function (width,height){
     this.width = width;
     this.height = height;
-    this.camera = new GameObject('MainCamera',0,0,0,0);
+    this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camX = 0;
     this.camY = 0;
     this.objs = [this.camera];
 };
-Scene.prototype.getWidth = function(){
+se.Scene.prototype.getWidth = function(){
     return this.width
 };
-Scene.prototype.getHeight = function(){
+se.Scene.prototype.getHeight = function(){
     return this.height
 };
-Scene.prototype.getCamera = function(){
+se.Scene.prototype.getCamera = function(){
     return this.camera;
 };
-Scene.prototype.getObjs = function(){
+se.Scene.prototype.getObjs = function(){
     return this.objs;
 };
-Scene.prototype.setSize = function(width,height){
+se.Scene.prototype.setSize = function(width,height){
     this.width = width;
     this.height = height;
 }
-Scene.prototype.add = function(obj){
+se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
     obj.parent = this;
 };
-Scene.prototype.render = function(ctx){
+se.Scene.prototype.render = function(ctx){
     this.check_move_cam(ctx);
     this.clear(ctx);
     for(var i in this.objs){
         this.objs[i].render(ctx);
     }
 };
-Scene.prototype.clear = function(ctx){
+se.Scene.prototype.clear = function(ctx){
     ctx.clearRect(
         this.camera.getX(),
         this.camera.getY(),
@@ -112,7 +118,7 @@ Scene.prototype.clear = function(ctx){
         this.getHeight()
     );
 }
-Scene.prototype.check_move_cam = function(ctx){
+se.Scene.prototype.check_move_cam = function(ctx){
     if(this.camX != this.camera.getX() || this.camY != this.camera.getY()){
         var x = this.camX - this.camera.getX();
         var y = this.camY - this.camera.getY();
@@ -123,7 +129,7 @@ Scene.prototype.check_move_cam = function(ctx){
 }
 
 
-function GameObject(name, x, y, width, height){
+se.GameObject = function (name, x, y, width, height){
     this.name = name;
     this.x = x;
     this.y = y;
@@ -132,39 +138,39 @@ function GameObject(name, x, y, width, height){
     this.components = [];
     this.colliders = [];
 };
-GameObject.prototype.getX = function(){
+se.GameObject.prototype.getX = function(){
     return this.x;
 };
-GameObject.prototype.getY = function(){
+se.GameObject.prototype.getY = function(){
     return this.y;
 };
-GameObject.prototype.getColliders = function(){
+se.GameObject.prototype.getColliders = function(){
     return this.colliders;
 };
-GameObject.prototype.render = function(ctx){
+se.GameObject.prototype.render = function(ctx){
     this.update();
     ctx.fillRect(this.x,this.y,this.width,this.height);
 };
-GameObject.prototype.update = function(){
+se.GameObject.prototype.update = function(){
     for(var i in this.components){
         this.components[i].update(this);
     }
 };
-GameObject.prototype.addComponent = function(component){
+se.GameObject.prototype.addComponent = function(component){
     this.components.push(component);
     component.parent = this;
     return this;
 };
-GameObject.prototype.addCollider = function(collider){
+se.GameObject.prototype.addCollider = function(collider){
     this.colliders.push(collider);
     collider.parent = this;
     return this;
 };
-GameObject.prototype.move = function(x,y){
+se.GameObject.prototype.move = function(x,y){
     this.x = x;
     this.y = y;
 };
-GameObject.prototype.sum = function(x,y){
+se.GameObject.prototype.sum = function(x,y){
     var xb = this.x;
     var yb = this.y;
     this.x += x;
@@ -174,7 +180,7 @@ GameObject.prototype.sum = function(x,y){
         this.y = yb;        
     }
 };
-GameObject.prototype.checkCollision = function(x,y){
+se.GameObject.prototype.checkCollision = function(x,y){
     var scene = this.parent;
     var objs = scene.getObjs();    
     for(var i in objs){
@@ -214,7 +220,7 @@ function checkPolygonContido(ps1, ps2){
     return false;
 }
 
-function Joystick(){
+se.Joystick = function (){
     this.key = null;
     var self = this;
     var x = 0;
@@ -230,7 +236,7 @@ function Joystick(){
     });
 }
 
-Joystick.prototype.update = function(){
+se.Joystick.prototype.update = function(){
         var key = this.key;
     if (key == '65'){ // Left
         this.x = -1;
@@ -245,29 +251,30 @@ Joystick.prototype.update = function(){
     }
 }
 
-Joystick.prototype.reset = function (){
+se.Joystick.prototype.reset = function (){
     this.x = 0;
     this.y = 0;
     this.jump = false;
 }
 
-Joystick.prototype.getAxis = function (name){
+se.Joystick.prototype.getAxis = function (name){
     if(name == 'horizontal') return this.x;
     if(name == 'vertical') return this.y;    
     if(name == 'jump') return this.jump;
     return 0;
 }
 
-function ComponentScript(function_update){
+
+se.ComponentScript = function (function_update){
     this.update = function_update;
 };
 
 
-function ComponentPlayer(game,speed,gravity){
+se.ComponentPlayer = function (game,speed,gravity){
     this.window = game;
     this.speed = speed;
 };
-ComponentPlayer.prototype.update = function(obj){
+se.ComponentPlayer.prototype.update = function(obj){
     var x = game.joystick.getAxis('horizontal') * this.speed;
     if(x)
         obj.sum(x,0);
@@ -278,10 +285,10 @@ ComponentPlayer.prototype.update = function(obj){
 };
 
 
-function ComponentFollowPlayer(obj_player){
+se.ComponentFollowPlayer = function (obj_player){
     this.obj_player = obj_player;
 }
-ComponentFollowPlayer.prototype.update = function(obj){
+se.ComponentFollowPlayer.prototype.update = function(obj){
     var game = windowGameMain;
 
     var posx = game.getWidth() / 2 - this.obj_player.width / 2;
@@ -293,22 +300,22 @@ ComponentFollowPlayer.prototype.update = function(obj){
 }
 
 
-function ComponentRigidBody(gravity){
+se.ComponentRigidBody = function (gravity){
     this.gravity = gravity;
 }
 
-ComponentRigidBody.prototype.update = function(obj){
+se.ComponentRigidBody.prototype.update = function(obj){
     obj.sum(0, this.gravity);
 }
 
-function Collider(x1,y1,x2,y2){
+se.Collider = function (x1,y1,x2,y2){
     this.x1 = x1;
     this.x2 = x2;
     this.y1 = y1;
     this.y2 = y2;
 }
 
-Collider.prototype.getPoints = function(obj){
+se.Collider.prototype.getPoints = function(obj){
     var pai = this.parent;
     var lista = [];
 
