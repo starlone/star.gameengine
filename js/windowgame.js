@@ -54,6 +54,7 @@ WindowGame.prototype.getContext = function(){
 };
 WindowGame.prototype.addScene = function(scene){
     this.scenes.push(scene);
+    scene.parent = this;
 };
 WindowGame.prototype.render = function(){
     this.getSceneCurrent().render(this.ctx);
@@ -91,6 +92,7 @@ Scene.prototype.setSize = function(width,height){
 }
 Scene.prototype.add = function(obj){
     this.objs.push(obj);
+    obj.parent = this;
 };
 Scene.prototype.render = function(ctx){
 	this.check_move_cam(ctx);
@@ -124,6 +126,7 @@ function GameObject(x,y,width,height){
     this.width = width;
     this.height = height;
 	this.components = [];
+	this.colliders = [];
 };
 GameObject.prototype.getX = function(){
 	return this.x;
@@ -142,6 +145,12 @@ GameObject.prototype.update = function(){
 };
 GameObject.prototype.addComponent = function(component){
 	this.components.push(component);
+	component.parent = this;
+	return this;
+};
+GameObject.prototype.addCollider = function(collider){
+	this.colliders.push(collider);
+	collider.parent = this;
 	return this;
 };
 GameObject.prototype.move = function(x,y){
@@ -206,13 +215,10 @@ function ComponentPlayer(game,speed,gravity){
 ComponentPlayer.prototype.update = function(obj){
 	var x = game.joystick.getAxis('horizontal');
 	var y = game.joystick.getAxis('vertical');
-	if (x || y){
-		if(x)
-		    obj.x += x * this.speed;
-		if(y)
-			obj.y += y * this.speed;
-	} else {
-		
+	if(x)
+		obj.x += x * this.speed;
+	if(y)
+		obj.y += y * this.speed;
 	}
 };
 
@@ -240,4 +246,14 @@ ComponentRigidBody.prototype.update = function(obj){
 	obj.y += this.gravity;
 }
 
+function Collider(x1,y1,x2,y2){
+	this.x1 = x1;
+	this.x2 = x2;
+	this.y1 = y1;
+	this.y2 = y2;
+}
+
+Collider.prototype.update = function(obj){
+	
+}
 
