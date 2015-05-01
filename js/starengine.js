@@ -22,6 +22,10 @@ se.updateFrame = function (){
     animationFrame(se.updateFrame);
 }
 
+
+/*
+    Windows Game
+*/
 se.WindowGame = function (elementID){
     var self = this;
     this.element = document.getElementById(elementID);
@@ -75,6 +79,9 @@ se.WindowGame.prototype.init = function(){
 };
 
 
+/*
+    Scene
+*/
 se.Scene = function (width,height){
     this.width = width;
     this.height = height;
@@ -129,6 +136,9 @@ se.Scene.prototype.check_move_cam = function(ctx){
 }
 
 
+/*
+    GameObject
+*/
 se.GameObject = function (name, x, y, width, height){
     this.name = name;
     this.x = x;
@@ -220,6 +230,10 @@ function checkPolygonContido(ps1, ps2){
     return false;
 }
 
+
+/*
+    Joystick
+*/
 se.Joystick = function (){
     this.key = null;
     var self = this;
@@ -265,11 +279,17 @@ se.Joystick.prototype.getAxis = function (name){
 }
 
 
+/*
+    ComponentScript
+*/
 se.ComponentScript = function (function_update){
     this.update = function_update;
 };
 
 
+/*
+    ComponentPlayer
+*/
 se.ComponentPlayer = function (game,speed,gravity){
     this.window = game;
     this.speed = speed;
@@ -285,6 +305,9 @@ se.ComponentPlayer.prototype.update = function(obj){
 };
 
 
+/*
+    ComponentFollowPlayer
+*/
 se.ComponentFollowPlayer = function (obj_player){
     this.obj_player = obj_player;
 }
@@ -300,6 +323,9 @@ se.ComponentFollowPlayer.prototype.update = function(obj){
 }
 
 
+/*
+    ComponentRigidBody
+*/
 se.ComponentRigidBody = function (gravity){
     this.gravity = gravity;
 }
@@ -308,6 +334,10 @@ se.ComponentRigidBody.prototype.update = function(obj){
     obj.sum(0, this.gravity);
 }
 
+
+/*
+    Collider
+*/
 se.Collider = function (x1,y1,x2,y2){
     this.x1 = x1;
     this.x2 = x2;

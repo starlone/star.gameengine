@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>Canvas tutorial</title>
+    <title>Star Engine</title>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/starengine.js"></script>
     <script type="text/javascript">
@@ -21,7 +21,7 @@
 
 			scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
 
-			var chao = new se.GameObject('chao', -100,250,1000,100);
+			var chao = new se.GameObject('chao', -100,250,1000,25);
 			chao.addCollider( new se.Collider(-100,250,1000,100) );
             scene.add(chao);
 
