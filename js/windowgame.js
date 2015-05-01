@@ -202,7 +202,6 @@ function ComponentScript(function_update){
 function ComponentPlayer(game,speed,gravity){
 	this.window = game;
 	this.speed = speed;
-	this.gravity = gravity;
 };
 ComponentPlayer.prototype.update = function(obj){
 	var x = game.joystick.getAxis('horizontal');
@@ -213,7 +212,7 @@ ComponentPlayer.prototype.update = function(obj){
 		if(y)
 			obj.y += y * this.speed;
 	} else {
-		obj.y += this.gravity;
+		
 	}
 };
 
@@ -230,6 +229,15 @@ ComponentFollowPlayer.prototype.update = function(obj){
 	posy = this.obj_player.y + (this.obj_player.height / 2) - posy;
 
 	obj.move(posx,posy);
+}
+
+
+function ComponentRigidBody(gravity){
+	this.gravity = gravity;
+}
+
+ComponentRigidBody.prototype.update = function(obj){
+	obj.y += this.gravity;
 }
 
 
