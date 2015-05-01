@@ -153,8 +153,11 @@ GameObject.prototype.move = function(x,y){
 function Joystick(){
 	this.key = null;
 	var self = this;
-	$(document).keypress(function(e){
-        self.key = e.charCode;
+	$(document).keydown(function(e){
+        self.key = e.keyCode;
+    });
+	$(document).keyup(function(e){
+        self.key = null;
     });
 }
 Joystick.prototype.getKeyPress = function(){
@@ -164,21 +167,32 @@ Joystick.prototype.getKeyPress = function(){
 };
 
 Joystick.prototype.getAxis = function (name){
-	var key = this.getKeyPress();
+	var key = this.key;
 	var val = 0;
-	if(name == 'horizontal'){		
-		if (key == '97'){ // Left
+	if(name == 'horizontal'){
+		if (key == '65'){ // Left
 			val =  -1;
-		} else if (key == '100'){ // 'right'
+		} else if (key == '68'){ // 'right'
 			val = 1;			
 		}
-	} else if(name == 'vertical'){
-		if (key == '119'){ // up
-			val = 1;
-		} else if (key == '115'){ // down
-			val = -1;
+	} 
+	if(name == 'vertical'){
+		if (key == '87'){ // Left
+			val =  -1;
+		} else if (key == '83'){ // 'right'
+			val = 1;			
 		}
 	}
+	
+//	
+//	
+//	else if(name == 'vertical'){
+//		if (key == '119'){ // up
+//			val = 1;
+//		} else if (key == '115'){ // down
+//			val = -1;
+//		}
+//	}
 	return val;
 }
 
@@ -198,6 +212,10 @@ ComponentPlayer.prototype.update = function(obj){
 	var hor = game.joystick.getAxis('horizontal');	
 	if (hor){
 		obj.x += hor * this.speed;
+	}
+	var ver = game.joystick.getAxis('vertical');
+	if (ver){
+		obj.y += ver * this.speed;
 	}
 };
 
