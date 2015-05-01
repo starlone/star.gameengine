@@ -199,20 +199,21 @@ function ComponentScript(function_update){
 };
 
 
-function ComponentPlayer(game,speed){
+function ComponentPlayer(game,speed,gravity){
 	this.window = game;
-	this.speed = 4;
-	if(speed)
-		this.speed = speed;
+	this.speed = speed;
+	this.gravity = gravity;
 };
 ComponentPlayer.prototype.update = function(obj){
-	var hor = game.joystick.getAxis('horizontal');	
-	if (hor){
-		obj.x += hor * this.speed;
-	}
-	var ver = game.joystick.getAxis('vertical');
-	if (ver){
-		obj.y += ver * this.speed;
+	var x = game.joystick.getAxis('horizontal');
+	var y = game.joystick.getAxis('vertical');
+	if (x || y){
+		if(x)
+		    obj.x += x * this.speed;
+		if(y)
+			obj.y += y * this.speed;
+	} else {
+		obj.y += this.gravity;
 	}
 };
 
