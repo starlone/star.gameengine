@@ -1,5 +1,5 @@
 /*
-    Star Engine
+    Star Game Engine
 */
 
 var se = new Object();
@@ -27,19 +27,24 @@ se.updateFrame = function (){
     Windows Game
 */
 se.WindowGame = function (elementID){
-    var self = this;
+	var self = this;
     this.element = document.getElementById(elementID);
     if (this.element.getContext){
         this.ctx = canvas.getContext('2d');
     }
     this.scenes = [];
     this.joystick = new se.Joystick();
+    self.updateSize();
+    $(window).resize(function(){
+    	var scene = self.getSceneCurrent().resetCamera();
+    	self.updateSize();    	    	
+    });
 };
 se.WindowGame.prototype.getWidth = function(){
-    return this.element.width
+    return this.element.width;
 };
 se.WindowGame.prototype.getHeight = function(){
-    return this.element.height
+    return this.element.height;
 };
 se.WindowGame.prototype.getSceneCurrent = function(){
     return this.scenes[0];
@@ -48,13 +53,11 @@ se.WindowGame.prototype.setSize = function(width, height){
     var elem = this.element;
     this.element.width = width;
     this.element.height = height;
-    this.getSceneCurrent().setSize(width, height);
 }
 se.WindowGame.prototype.updateSize = function(){
-    var width = this.getWidth();
-    var height = this.getHeight();
-    if (width != window.innerWidth || height != window.innerHeight)
-        this.setSize(window.innerWidth, window.innerHeight);
+	var ele = $(this.element);
+	var parent = ele.parent();
+	this.setSize(parent.width(), parent.height());
 }
 se.WindowGame.prototype.clrscr = function(){
     this.ctx.clearRect(0,0,this.getWidth(), this.getHeight());
@@ -101,10 +104,6 @@ se.Scene.prototype.getCamera = function(){
 se.Scene.prototype.getObjs = function(){
     return this.objs;
 };
-se.Scene.prototype.setSize = function(width,height){
-    this.width = width;
-    this.height = height;
-}
 se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
     obj.parent = this;
@@ -112,10 +111,20 @@ se.Scene.prototype.add = function(obj){
 se.Scene.prototype.render = function(ctx){
     this.check_move_cam(ctx);
     this.clear(ctx);
+    this.renderBackground(ctx);
     for(var i in this.objs){
         this.objs[i].render(ctx);
     }
 };
+se.Scene.prototype.renderBackground = function(ctx){
+	ctx.fillStyle = 'rgba(135, 206, 250,1)';
+	ctx.fillRect(
+        this.camera.getX(),
+        this.camera.getY(),
+        this.getWidth(), 
+        this.getHeight()
+    );
+}
 se.Scene.prototype.clear = function(ctx){
     ctx.clearRect(
         this.camera.getX(),
@@ -132,6 +141,10 @@ se.Scene.prototype.check_move_cam = function(ctx){
         this.camX = this.camera.getX();
         this.camY = this.camera.getY();
     } 
+}
+se.Scene.prototype.resetCamera = function(){
+	this.camX = 0;
+	this.camY = 0;
 }
 
 
