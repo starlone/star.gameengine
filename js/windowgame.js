@@ -219,6 +219,7 @@ function Joystick(){
     var self = this;
     var x = 0;
     var y = 0;
+    this.jump = false;
     $(document).keydown(function(e){
         self.key = e.keyCode;
         self.update();
@@ -230,7 +231,7 @@ function Joystick(){
 }
 
 Joystick.prototype.update = function(){
-    var key = this.key;
+        var key = this.key;
     if (key == '65'){ // Left
         this.x = -1;
     } else if (key == '68'){ // 'right'
@@ -239,20 +240,23 @@ Joystick.prototype.update = function(){
         this.y = -1;
     } else if (key == '83'){ // 'Down'
         this.y = 1;
+    } else if (key == '32'){ // 'Space'
+        this.jump = true
     }
 }
 
 Joystick.prototype.reset = function (){
     this.x = 0;
     this.y = 0;
+    this.jump = false;
 }
 
 Joystick.prototype.getAxis = function (name){
     if(name == 'horizontal') return this.x;
     if(name == 'vertical') return this.y;    
+    if(name == 'jump') return this.jump;
     return 0;
 }
-
 
 function ComponentScript(function_update){
     this.update = function_update;
@@ -265,9 +269,12 @@ function ComponentPlayer(game,speed,gravity){
 };
 ComponentPlayer.prototype.update = function(obj){
     var x = game.joystick.getAxis('horizontal') * this.speed;
-    var y = game.joystick.getAxis('vertical') * this.speed;
-    if(x || y)
-        obj.sum(x,y);
+    if(x)
+        obj.sum(x,0);
+    //var y = game.joystick.getAxis('vertical') * this.speed;
+    if(game.joystick.getAxis('jump')){
+        obj.sum(0, -1 * this.speed * 2);
+    }
 };
 
 
@@ -304,12 +311,11 @@ function Collider(x1,y1,x2,y2){
 Collider.prototype.getPoints = function(obj){
     var pai = this.parent;
     var lista = [];
-        
+
     lista.push([pai.x, pai.y]);
     lista.push([pai.x + pai.width, pai.y]);
     lista.push([pai.x, pai.y + pai.height]);
     lista.push([pai.x + pai.width, pai.y + pai.height]);
-        
+
     return lista;
 }
-
