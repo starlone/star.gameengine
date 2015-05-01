@@ -148,6 +148,7 @@ se.GameObject = function (name, x, y, width, height){
     this.height = height;
     this.components = [];
     this.colliders = [];
+    this.renderer = null;
 };
 se.GameObject.prototype.getX = function(){
     return this.x;
@@ -164,9 +165,13 @@ se.GameObject.prototype.getHeight = function(){
 se.GameObject.prototype.getColliders = function(){
     return this.colliders;
 };
+se.GameObject.prototype.setRenderer = function(renderer){
+	renderer.setParent(this);
+    this.renderer = renderer;
+};
 se.GameObject.prototype.render = function(ctx){
     this.update();
-    ctx.fillRect(this.x,this.y,this.width,this.height);
+    if(this.renderer) this.renderer.render(ctx);
 };
 se.GameObject.prototype.update = function(){
     for(var i in this.components){
@@ -338,6 +343,25 @@ se.ComponentRigidBody.prototype.setParent = function(obj){
 	this.parent = obj;
 }
 
+
+/*
+BoxRender
+*/
+se.BoxRenderer = function(color){
+	this.color = color;
+}
+se.BoxRenderer.prototype.render = function(ctx){
+    var obj = this.parent;
+	console.debug(this.color);
+    var cbkp = ctx.fillStyle; // Backup
+    ctx.fillStyle = this.color;
+    ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
+    ctx.fillStyle = cbkp; // Restore backup
+    
+}
+se.BoxRenderer.prototype.setParent = function(obj){
+	this.parent = obj;
+}
 
 /*
     Collider
