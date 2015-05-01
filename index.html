@@ -16,13 +16,13 @@
             var obj_player = new se.GameObject('Player',20,20,50,50);
 			obj_player.addComponent( new se.ComponentPlayer(game, 6) );
 			obj_player.addComponent( new se.ComponentRigidBody(5) );
-			obj_player.addCollider( new se.Collider(20,20,50,50) );
+			obj_player.addCollider( new se.BoxCollider(0, 0, 50, 50) );
             scene.add(obj_player);
 
 			scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
 
-			var chao = new se.GameObject('chao', -100,250,1000,25);
-			chao.addCollider( new se.Collider(-100,250,1000,100) );
+			var chao = new se.GameObject('chao', -100, 250, 1000, 25);
+			chao.addCollider( new se.BoxCollider(0, 0, 1000, 25) );
             scene.add(chao);
 
 			game.updateSize();

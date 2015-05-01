@@ -82,7 +82,7 @@ se.WindowGame.prototype.init = function(){
 /*
     Scene
 */
-se.Scene = function (width,height){
+se.Scene = function (width, height){
     this.width = width;
     this.height = height;
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
@@ -175,12 +175,12 @@ se.GameObject.prototype.update = function(){
 };
 se.GameObject.prototype.addComponent = function(component){
     this.components.push(component);
-    component.parent = this;
+    component.setParent(this);
     return this;
 };
 se.GameObject.prototype.addCollider = function(collider){
     this.colliders.push(collider);
-    collider.parent = this;
+    collider.setParent(this);
     return this;
 };
 se.GameObject.prototype.move = function(x,y){
@@ -197,14 +197,28 @@ se.GameObject.prototype.sum = function(x,y){
         this.y = yb;        
     }
 };
-se.GameObject.prototype.checkCollision = function(x,y){
+se.GameObject.prototype.checkCollision = function(){
     var scene = this.parent;
     var objs = scene.getObjs();    
     for(var i in objs){
         var obj = objs[i];        
-        if(this.name != obj.name){
-            if( se.checkColliders( this.getColliders(), obj.getColliders() ) )
+        if(this != obj){
+            if( this.isColliding( obj.getColliders() ) )
                 return true;
+        }
+    }
+    return false;
+}
+se.GameObject.prototype.isColliding = function(colliders){
+	var cols1 = this.getColliders();
+	var cols2 = colliders;
+	for(var i in cols1){
+        for(var j in cols2){
+            var col1 = cols1[i];
+            var col2 = cols2[j];
+            if(col1.checkContido(col2)){
+                return true;
+            }
         }
     }
     return false;
@@ -265,7 +279,9 @@ se.Joystick.prototype.getAxis = function (name){
 se.ComponentScript = function (function_update){
     this.update = function_update;
 };
-
+se.ComponentScript.prototype.setParent = function(obj){
+	this.parent = obj;
+}
 
 /*
     ComponentPlayer
@@ -283,6 +299,9 @@ se.ComponentPlayer.prototype.update = function(obj){
         obj.sum(0, -1 * this.speed * 2);
     }
 };
+se.ComponentPlayer.prototype.setParent = function(obj){
+	this.parent = obj;
+}
 
 
 /*
@@ -301,6 +320,9 @@ se.ComponentFollowPlayer.prototype.update = function(obj){
 
     obj.move(posx,posy);
 }
+se.ComponentFollowPlayer.prototype.setParent = function(obj){
+	this.parent = obj;
+}
 
 
 /*
@@ -309,61 +331,50 @@ se.ComponentFollowPlayer.prototype.update = function(obj){
 se.ComponentRigidBody = function (gravity){
     this.gravity = gravity;
 }
-
 se.ComponentRigidBody.prototype.update = function(obj){
     obj.sum(0, this.gravity);
+}
+se.ComponentRigidBody.prototype.setParent = function(obj){
+	this.parent = obj;
 }
 
 
 /*
     Collider
 */
-se.Collider = function (x1,y1,x2,y2){
-    this.x1 = x1;
-    this.x2 = x2;
-    this.y1 = y1;
-    this.y2 = y2;
+se.BoxCollider = function (x, y, width, height){
+	this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+}
+se.BoxCollider.prototype.setParent = function(obj){
+	this.parent = obj;
+}
+se.BoxCollider.prototype.getPoints = function(){
+	var obj = this.parent;
+	var x = obj.getX() + this.x;
+	var y = obj.getY() + this.y;
+	var width = this.width;
+	var height = this.height;
+	
+	var points = [];
+    points.push([x, y]);
+    points.push([x + width, y]);
+    points.push([x, y + height]);
+    points.push([x + width, y + height]);	
+	return points;
 }
 
-se.Collider.prototype.getPoints = function(obj){
-    var pai = this.parent;
-    var lista = [];
-
-    lista.push([pai.x, pai.y]);
-    lista.push([pai.x + pai.width, pai.y]);
-    lista.push([pai.x, pai.y + pai.height]);
-    lista.push([pai.x + pai.width, pai.y + pai.height]);
-
-    return lista;
-}
-
-
-/*
-    Functions utils 
-*/
-
-se.checkColliders = function (cols1, cols2){
-    for(var i in cols1){
-        for(var j in cols2){
-            var col1 = cols1[i];
-            var col2 = cols2[j];
-            var ps1 = col1.getPoints();
-            var ps2 = col2.getPoints();
-            if(se.checkPolygonContido(ps1,ps2)){
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-se.checkPolygonContido = function (ps1, ps2){
-    var min = ps2[0];
+se.BoxCollider.prototype.checkContido = function(collider){
+	var ps1 = this.getPoints();
+	var ps2 = collider.getPoints();
+	var min = ps2[0];
     var max = ps2[3];
-
-    for(var i in ps1){
+	for(var i in ps1){
         if(ps1[i][0] >= min[0] && ps1[i][0] <= max[0] && ps1[i][1] >= min[1] && ps1[i][1] <= max[1])
             return true;
     }
-    return false;
+	return false;
 }
+
