@@ -10,11 +10,11 @@
         $(document).ready(function(){
             game = new se.WindowGame('canvas');
 
-            var scene = new se.Scene(game.getWidth(),game.getHeight());
+            var scene = new se.Scene();
             game.addScene(scene);
 
             var obj_player = new se.GameObject('Player',20,20,50,50);
-			obj_player.addComponent( new se.ComponentPlayer(game, 6) );
+			obj_player.addComponent( new se.ComponentPlayerController(game, 6) );
 			obj_player.addComponent( new se.ComponentRigidBody(5) );
 			obj_player.addCollider( new se.BoxCollider(0, 0, 50, 50) );
 			obj_player.setRenderer( new se.BoxRenderer('#cccccc') );			

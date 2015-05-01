@@ -82,9 +82,7 @@ se.WindowGame.prototype.init = function(){
 /*
     Scene
 */
-se.Scene = function (width, height){
-    this.width = width;
-    this.height = height;
+se.Scene = function (){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.parent = this;
     this.camX = 0;
@@ -92,10 +90,10 @@ se.Scene = function (width, height){
     this.objs = [this.camera];
 };
 se.Scene.prototype.getWidth = function(){
-    return this.width
+    return this.parent.getWidth();
 };
 se.Scene.prototype.getHeight = function(){
-    return this.height
+    return this.parent.getHeight();
 };
 se.Scene.prototype.getCamera = function(){
     return this.camera;
@@ -289,13 +287,13 @@ se.ComponentScript.prototype.setParent = function(obj){
 }
 
 /*
-    ComponentPlayer
+    ComponentPlayerController
 */
-se.ComponentPlayer = function (game,speed,gravity){
+se.ComponentPlayerController = function (game,speed,gravity){
     this.window = game;
     this.speed = speed;
 };
-se.ComponentPlayer.prototype.update = function(obj){
+se.ComponentPlayerController.prototype.update = function(obj){
     var x = game.joystick.getAxis('horizontal') * this.speed;
     if(x)
         obj.sum(x,0);
@@ -304,7 +302,7 @@ se.ComponentPlayer.prototype.update = function(obj){
         obj.sum(0, -1 * this.speed * 2);
     }
 };
-se.ComponentPlayer.prototype.setParent = function(obj){
+se.ComponentPlayerController.prototype.setParent = function(obj){
 	this.parent = obj;
 }
 
@@ -352,7 +350,6 @@ se.BoxRenderer = function(color){
 }
 se.BoxRenderer.prototype.render = function(ctx){
     var obj = this.parent;
-	console.debug(this.color);
     var cbkp = ctx.fillStyle; // Backup
     ctx.fillStyle = this.color;
     ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
