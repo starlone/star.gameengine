@@ -23,10 +23,7 @@ function WindowGame(elementID){
         this.ctx = canvas.getContext('2d');
     }
     this.scenes = [];
-    this.key = null;
-    $(document).keypress(function(e){
-        self.key = e.key;
-    });
+    this.joystick = new Joystick();
 };
 WindowGame.prototype.getWidth = function(){
     return this.element.width
@@ -57,11 +54,6 @@ WindowGame.prototype.getContext = function(){
 };
 WindowGame.prototype.addScene = function(scene){
     this.scenes.push(scene);
-};
-WindowGame.prototype.getKeyPress = function(){
-    var key = this.key;
-    this.key = null;
-    return key;
 };
 WindowGame.prototype.render = function(){
     this.getSceneCurrent().render(this.ctx);
@@ -158,6 +150,39 @@ GameObject.prototype.move = function(x,y){
 };
 
 
+function Joystick(){
+	this.key = null;
+	var self = this;
+	$(document).keypress(function(e){
+        self.key = e.charCode;
+    });
+}
+Joystick.prototype.getKeyPress = function(){
+    var key = this.key;
+    this.key = null;
+    return key;
+};
+
+Joystick.prototype.getAxis = function (name){
+	var key = this.getKeyPress();
+	var val = 0;
+	if(name == 'horizontal'){		
+		if (key == '97'){ // Left
+			val =  -1;
+		} else if (key == '100'){ // 'right'
+			val = 1;			
+		}
+	} else if(name == 'vertical'){
+		if (key == '119'){ // up
+			val = 1;
+		} else if (key == '115'){ // down
+			val = -1;
+		}
+	}
+	return val;
+}
+
+
 function ComponentScript(function_update){
 	this.update = function_update;
 };
@@ -170,18 +195,9 @@ function ComponentPlayer(game,speed){
 		this.speed = speed;
 };
 ComponentPlayer.prototype.update = function(obj){
-	var key = game.getKeyPress();
-	if (key){
-		key = key.toLowerCase();
-		if (key == 'left' || key == 'a'){
-			obj.x -= this.speed;
-		} else if (key == 'right' || key == 'd'){
-			obj.x += this.speed;
-		} else if (key == 'up' || key == 'w'){
-			obj.y -= this.speed;
-		} else if (key == 'down' || key == 's'){
-			obj.y += this.speed;
-		}
+	var hor = game.joystick.getAxis('horizontal');	
+	if (hor){
+		obj.x += hor * this.speed;
 	}
 };
 
