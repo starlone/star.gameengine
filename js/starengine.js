@@ -17,9 +17,9 @@ window.animationFrame = (function(){
 
 var windowGameMain = null;
 
-function updateFrame(){
+se.updateFrame = function (){
     windowGameMain.update();
-    animationFrame(updateFrame);
+    animationFrame(se.updateFrame);
 }
 
 se.WindowGame = function (elementID){
@@ -71,7 +71,7 @@ se.WindowGame.prototype.update = function(){
 };
 se.WindowGame.prototype.init = function(){
     windowGameMain = this;
-    animationFrame(updateFrame);
+    animationFrame(se.updateFrame);
 };
 
 
