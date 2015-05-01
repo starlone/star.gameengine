@@ -13,16 +13,16 @@
             var scene = new Scene(game.getWidth(),game.getHeight());
             game.addScene(scene);
 
-            var obj_player = new GameObject(20,20,50,50);
-			obj_player.addComponent( new ComponentPlayer(game, 4) );
-			obj_player.addComponent( new ComponentRigidBody(0) );
+            var obj_player = new GameObject('Player',20,20,50,50);
+			obj_player.addComponent( new ComponentPlayer(game, 5) );
+			obj_player.addComponent( new ComponentRigidBody(4) );
 			obj_player.addCollider( new Collider(20,20,50,50) );
             scene.add(obj_player);
 
 			scene.getCamera().addComponent( new ComponentFollowPlayer(obj_player));
 
-			var chao = new GameObject(30,250,340,10);
-			chao.addCollider( new Collider(30,250,340,10) );
+			var chao = new GameObject('chao', -100,250,600,100);
+			chao.addCollider( new Collider(30,250,400,10) );
             scene.add(chao);
 
 			game.updateSize();
