@@ -406,7 +406,7 @@ se.BoxCollider.prototype.checkContido = function(collider){
 	var min = ps2[0];
     var max = ps2[3];
 	for(var i in ps1){
-        if(ps1[i][0] >= min[0] && ps1[i][0] <= max[0] && ps1[i][1] >= min[1] && ps1[i][1] <= max[1])
+        if(ps1[i][0] > min[0] && ps1[i][0] < max[0] && ps1[i][1] > min[1] && ps1[i][1] < max[1])
             return true;
     }
 	return false;
