@@ -153,8 +153,7 @@ se.Scene.prototype.resetCamera = function(){
 */
 se.GameObject = function (name, x, y, width, height){
     this.name = name;
-    this.x = x;
-    this.y = y;
+    this.transform = new se.Transform(x, y);
     this.width = width;
     this.height = height;
     this.components = [];
@@ -162,10 +161,10 @@ se.GameObject = function (name, x, y, width, height){
     this.renderer = null;
 };
 se.GameObject.prototype.getX = function(){
-    return this.x;
+    return this.transform.position.x;
 };
 se.GameObject.prototype.getY = function(){
-    return this.y;
+    return this.transform.position.y;
 };
 se.GameObject.prototype.getWidth = function(){
     return this.width;
@@ -200,17 +199,17 @@ se.GameObject.prototype.addCollider = function(collider){
     return this;
 };
 se.GameObject.prototype.move = function(x,y){
-    this.x = x;
-    this.y = y;
+    this.transform.position.x = x;
+    this.transform.position.y = y;
 };
 se.GameObject.prototype.sum = function(x,y){
-    var xb = this.x;
-    var yb = this.y;
-    this.x += x;
-    this.y += y;
+    var xb = this.getX();
+    var yb = this.getY();
+    this.transform.position.x += x;
+    this.transform.position.y += y;
     if(this.checkCollision()){
-        this.x = xb;
-        this.y = yb;        
+        this.transform.position.x = xb;
+        this.transform.position.y = yb;        
     }
 };
 se.GameObject.prototype.checkCollision = function(){
@@ -238,6 +237,23 @@ se.GameObject.prototype.isColliding = function(colliders){
         }
     }
     return false;
+}
+
+
+/*
+    Position
+*/
+se.Position = function(x, y){
+	this.x = x;
+	this.y = y;
+}
+
+
+/*
+    Transform
+*/
+se.Transform = function(x , y){
+	this.position = new se.Position(x, y);
 }
 
 
@@ -329,10 +345,10 @@ se.ComponentFollowPlayer = function (obj_player){
 se.ComponentFollowPlayer.prototype.update = function(obj){
 	var scene = this.parent.parent;
 	
-    var posx = scene.getWidth() / 2 - this.obj_player.width / 2;
-    posx = this.obj_player.x + (this.obj_player.width / 2) - posx;
-    var posy = scene.getHeight() / 2 - this.obj_player.height / 2;
-    posy = this.obj_player.y + (this.obj_player.height / 2) - posy;
+    var posx = scene.getWidth() / 2 - this.obj_player.getWidth() / 2;
+    posx = this.obj_player.getX() + (this.obj_player.getWidth() / 2) - posx;
+    var posy = scene.getHeight() / 2 - this.obj_player.getHeight() / 2;
+    posy = this.obj_player.getY() + (this.obj_player.getHeight() / 2) - posy;
 
     obj.move(posx,posy);
 }
@@ -363,11 +379,9 @@ se.BoxRenderer = function(color){
 }
 se.BoxRenderer.prototype.render = function(ctx){
     var obj = this.parent;
-    var cbkp = ctx.fillStyle; // Backup
+    var position = obj.transform.position;
     ctx.fillStyle = this.color;
-    ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-    ctx.fillStyle = cbkp; // Restore backup
-    
+    ctx.fillRect(position.x, position.y, obj.width, obj.height);
 }
 se.BoxRenderer.prototype.setParent = function(obj){
 	this.parent = obj;
