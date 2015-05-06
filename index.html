@@ -33,6 +33,19 @@
             scene.add(chao2);
 			
             game.init();
+            
+            $('#b1 button').mousedown(function(){
+            	game.joystick.setAxis('horizontal',-1);
+            });
+            $('#b2 button').mousedown(function(){
+            	game.joystick.setAxis('horizontal',1);
+            });
+            $('#b3 button').mousedown(function(){
+            	game.joystick.setAxis('jump',true);
+            });
+            $('.se-joy-buttons button').mouseup(function(){
+            	game.joystick.resetAxis();
+            });
         });
     </script>
     <style type="text/css">
@@ -47,10 +60,38 @@
 		}
 		canvas { 
 		    border: 1px solid black; 
-	    }	   
+	    }
+	    .se-joy-buttons{
+	        display: block;
+            position: absolute;            	    
+	    }
+	    .se-joy-buttons button{
+	        padding: 20px;
+	    }
+        #b1{            
+            left: 30px;
+            bottom: 10px;
+        }
+        #b2{            
+            left: 100px;
+            bottom: 10px;
+        }
+        #b3{            
+            right: 30px;
+            bottom: 10px;
+        }
     </style>
   </head>
   <body>      
       <canvas id="canvas" width="600" height="600"></canvas>
+      <div id="b1" class="se-joy-buttons">
+          <button>B1</button>
+      </div>
+      <div id="b2" class="se-joy-buttons">
+          <button>B2</button>
+      </div>
+      <div id="b3" class="se-joy-buttons">
+          <button>B3</button>
+      </div>
   </body>
 </html>
