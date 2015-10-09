@@ -231,7 +231,7 @@ se.GameObject.prototype.isColliding = function(colliders){
         for(var j in cols2){
             var col1 = cols1[i];
             var col2 = cols2[j];
-            if(col1.checkContido(col2)){
+            if(col1.isIntersect(col2)){
                 return true;
             }
         }
@@ -424,7 +424,7 @@ se.BoxCollider.prototype.getPoints = function(){
 	return points;
 }
 
-se.BoxCollider.prototype.checkContido = function(collider){
+se.BoxCollider.prototype.isIntersect = function(collider){
 	var ps1 = this.getPoints();
 	var ps2 = collider.getPoints();
 	var min = ps2[0];
