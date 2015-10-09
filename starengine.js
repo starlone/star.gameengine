@@ -36,7 +36,7 @@ se.WindowGame = function (elementID){
     this.joystick = new se.Joystick();
     self.updateSize();
     $(window).resize(function(){
-    	var scene = self.getSceneCurrent().resetCamera();
+    	self.getSceneCurrent().resetCamera();
     	self.updateSize();    	    	
     });
 };
@@ -50,7 +50,6 @@ se.WindowGame.prototype.getSceneCurrent = function(){
     return this.scenes[0];
 };
 se.WindowGame.prototype.setSize = function(width, height){
-    var elem = this.element;
     this.element.width = width;
     this.element.height = height;
 }
@@ -59,9 +58,6 @@ se.WindowGame.prototype.updateSize = function(){
 	var parent = ele.parent();
 	this.setSize(parent.width(), parent.height());
 }
-se.WindowGame.prototype.clrscr = function(){
-    this.ctx.clearRect(0,0,this.getWidth(), this.getHeight());
-};
 se.WindowGame.prototype.getContext = function(){
     return this.ctx;
 };
@@ -73,7 +69,6 @@ se.WindowGame.prototype.render = function(){
     this.getSceneCurrent().render(this.ctx);
 };
 se.WindowGame.prototype.update = function(){
-    // this.updateSize();
     this.render();
 };
 se.WindowGame.prototype.init = function(){
@@ -85,12 +80,17 @@ se.WindowGame.prototype.init = function(){
 /*
     Scene
 */
-se.Scene = function (){
+se.Scene = function (backgroundcolor){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.parent = this;
     this.camX = 0;
     this.camY = 0;
     this.objs = [this.camera];
+	this.backcolor = 'rgba(135, 206, 250,1)';
+	if(backgroundcolor)
+		this.backcolor = backgroundcolor;
+	
+	
 };
 se.Scene.prototype.getWidth = function(){
     return this.parent.getWidth();
@@ -110,14 +110,14 @@ se.Scene.prototype.add = function(obj){
 };
 se.Scene.prototype.render = function(ctx){
     this.check_move_cam(ctx);
-    this.clear(ctx);
+    this.clearframe(ctx);
     this.renderBackground(ctx);
     for(var i in this.objs){
         this.objs[i].render(ctx);
     }
 };
 se.Scene.prototype.renderBackground = function(ctx){
-	ctx.fillStyle = 'rgba(135, 206, 250,1)';
+	ctx.fillStyle = this.backcolor;
 	ctx.fillRect(
         this.camera.getX(),
         this.camera.getY(),
@@ -125,7 +125,7 @@ se.Scene.prototype.renderBackground = function(ctx){
         this.getHeight()
     );
 }
-se.Scene.prototype.clear = function(ctx){
+se.Scene.prototype.clearframe = function(ctx){
     ctx.clearRect(
         this.camera.getX(),
         this.camera.getY(),
