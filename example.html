@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8"/>
     <title>Star Engine</title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+
+    <script type="text/javascript" src="cordova.js"></script>
+
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="starengine.js"></script>
     <script type="text/javascript">
@@ -17,7 +23,7 @@
 			obj_player.addComponent( new se.ComponentPlayerController(game, 6) );
 			obj_player.addComponent( new se.ComponentRigidBody(5) );
 			obj_player.addCollider( new se.BoxCollider(0, 0, 50, 50) );
-			obj_player.setRenderer( new se.BoxRenderer('#dddddd') );			
+			obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);
 
 			scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
@@ -26,26 +32,35 @@
 			chao.addCollider( new se.BoxCollider(0, 0, 1000, 25) );
 			chao.setRenderer( new se.BoxRenderer('green') );
             scene.add(chao);
-            
+
             var chao2 = new se.GameObject('chao', 1000, 250, 1000, 25);
             chao2.addCollider( new se.BoxCollider(0, 0, 1000, 25) );
             chao2.setRenderer( new se.BoxRenderer('green') );
             scene.add(chao2);
-			
+
             game.init();
 
             $('#b1 span').on('mousedown touchstart',function(){
             	game.joystick.setAxis('horizontal',-1);
             });
+            $('#b1 span').on('mouseup touchend',function(){
+            	game.joystick.setAxis('horizontal',0);
+            });
             $('#b2 span').on('mousedown touchstart',function(){
             	game.joystick.setAxis('horizontal',1);
+            });
+            $('#b2 span').on('mouseup touchend',function(){
+            	game.joystick.setAxis('horizontal',0);
             });
             $('#b3 span').on('mousedown touchstart',function(){
             	game.joystick.setAxis('jump',true);
             });
-            $('.se-joy-buttons span').mouseup(function(){
-            	game.joystick.resetAxis();
+            $('#b3 span').on('mouseup touchend',function(){
+            	game.joystick.setAxis('jump',false);
             });
+            /*$('.se-joy-buttons span').on('mouseup touchend', function(){
+            	game.joystick.resetAxis();
+            });*/
         });
     </script>
     <style type="text/css">
@@ -63,7 +78,7 @@
 	    }
 	    .se-joy-buttons{
 	        display: block;
-            position: absolute;            	    
+            position: absolute;
 			bottom: 40px;
 	    }
 	    .se-joy-buttons span{
@@ -71,27 +86,30 @@
 			border: 1px solid black;
 			background-color: #CCC;
 	    }
-        #b1{            
+        #b1{
             left: 30px;
         }
-        #b2{            
+        #b2{
             left: 100px;
         }
-        #b3{            
+        #b3{
             right: 30px;
         }
+		html {
+			-webkit-user-select: none;
+		}
     </style>
   </head>
   <body>      
       <canvas id="canvas" width="600" height="600"></canvas>
       <div id="b1" class="se-joy-buttons">
-          <span href="#">B1</span>
+          <span href="#">&nbsp;</span>
       </div>
       <div id="b2" class="se-joy-buttons">
-          <span href="#">B2</span>
+          <span href="#">&nbsp;</span>
       </div>
       <div id="b3" class="se-joy-buttons">
-          <span href="#">B3</span>
+          <span href="#">&nbsp;</span>
       </div>
   </body>
 </html>
