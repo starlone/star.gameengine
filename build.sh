@@ -1,3 +1,4 @@
-closure=~/apps/compiler/compiler.jar
-java -jar $closure --js src/starengine.js --js_output_file starengine.min.js
+closure=~/apps/compiler/compiler.jar;
+files=`find src -type f`;
+java -jar $closure --js $files --js_output_file starengine.min.js;
 
