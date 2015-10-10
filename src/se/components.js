@@ -18,10 +18,10 @@ se.ComponentPlayerController = function (game,speed,gravity){
 se.ComponentPlayerController.prototype.update = function(obj){
     var x = game.joystick.getAxis('horizontal') * this.speed;
     if(x)
-        obj.sum(x,0);
+        obj.transform.move(x,0);
     //var y = game.joystick.getAxis('vertical') * this.speed;
     if(game.joystick.getAxis('jump')){
-        obj.sum(0, -1 * this.speed * 2);
+        obj.transform.move(0, -1 * this.speed * 2);
     }
 };
 se.ComponentPlayerController.prototype.setParent = function(obj){
@@ -43,7 +43,7 @@ se.ComponentFollowPlayer.prototype.update = function(obj){
     var posy = scene.getHeight() / 2 - this.obj_player.getHeight() / 2;
     posy = this.obj_player.getY() + (this.obj_player.getHeight() / 2) - posy;
 
-    obj.move(posx,posy);
+    obj.transform.change(posx, posy);
 }
 se.ComponentFollowPlayer.prototype.setParent = function(obj){
 	this.parent = obj;
@@ -57,7 +57,7 @@ se.ComponentRigidBody = function (gravity){
     this.gravity = gravity;
 }
 se.ComponentRigidBody.prototype.update = function(obj){
-    obj.sum(0, this.gravity);
+    obj.transform.move(0, this.gravity);
 }
 se.ComponentRigidBody.prototype.setParent = function(obj){
 	this.parent = obj;
