@@ -27,7 +27,7 @@ se.Scene.prototype.getObjs = function(){
 };
 se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
-    obj.parent = this;
+    obj.setParent(this);
 };
 se.Scene.prototype.render = function(ctx){
     this.check_move_cam(ctx);
