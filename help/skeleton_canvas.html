@@ -4,10 +4,12 @@
     <meta charset="utf-8"/>
     <title>Canvas tutorial</title>
     <script type="text/javascript">
+      var canvas;
+      var ctx;
       function draw(){
-        var canvas = document.getElementById('tutorial');
+        canvas = document.getElementById('tutorial');
         if (canvas.getContext){
-          var ctx = canvas.getContext('2d');
+          ctx = canvas.getContext('2d');
         }
       }
     </script>
@@ -16,6 +18,6 @@
     </style>
   </head>
   <body onload="draw();">
-    <canvas id="tutorial" width="150" height="150"></canvas>
+    <canvas id="tutorial" width="600" height="500"></canvas>
   </body>
 </html>
