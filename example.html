@@ -17,15 +17,19 @@
             var scene = new se.Scene();
             game.addScene(scene);
 
-            var obj_player = new se.GameObject('Player',20,20,50,50);
+            var obj_player = new se.GameObject('Player',20,20,0,0);
             obj_player.addComponent( new se.ComponentPlayerController(game, 6, 6) );
             obj_player.addCollider( new se.BoxCollider(0, 0, 50, 50) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);
 
-            var obj_eye = new se.GameObject('PlayerHead', 35, 10, 10, 10);
-            obj_eye.setRenderer( new se.BoxRenderer('blue') );
-            obj_player.addChild(obj_eye);
+            var player_body = new se.GameObject('PlayerBody',0,0,50,50);
+            player_body.setRenderer( new se.BoxRenderer('#dddddd') );
+            obj_player.addChild(player_body);
+
+            var player_eye = new se.GameObject('PlayerEye', 35, 10, 10, 10);
+            player_eye.setRenderer( new se.BoxRenderer('blue') );
+            obj_player.addChild(player_eye);
 
             scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
 

@@ -40,10 +40,24 @@ se.GameObject.prototype.setRenderer = function(renderer){
 
 se.GameObject.prototype.render = function(ctx){
     this.update();
+
+    var obj = this;
+    var pos = obj.transform.position;
+    var r = obj.transform.rotate;
+
+    ctx.translate(pos.x, pos.y);
+    ctx.rotate(r.y*Math.PI/180);
+    ctx.scale(r.x, 1);
+
     if(this.renderer) this.renderer.render(ctx);
     for(var i in this.children){
         this.children[i].render(ctx);
     }
+
+    // Reset
+    ctx.scale(r.x, 1);
+    ctx.rotate(-r.y*Math.PI/180);
+    ctx.translate(-pos.x, -pos.y);
 };
 
 se.GameObject.prototype.update = function(){
@@ -81,8 +95,16 @@ se.GameObject.prototype.addChild = function(child){
     Position
 */
 se.Position = function(x, y){
-	this.x = x;
-	this.y = y;
+    this.x = x;
+    this.y = y;
+}
+
+/*
+    Rotate
+*/
+se.Rotate = function(x, y){
+    this.x = x;
+    this.y = y;
 }
 
 
@@ -90,8 +112,9 @@ se.Position = function(x, y){
     Transform
 */
 se.Transform = function(parent, x, y){
-	this.parent = parent;
-	this.position = new se.Position(x, y);
+    this.parent = parent;
+    this.position = new se.Position(x, y);
+    this.rotate = new se.Rotate(1, 0);
 }
 
 se.Transform.prototype.change = function(x,y){

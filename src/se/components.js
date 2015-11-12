@@ -23,8 +23,14 @@ se.ComponentPlayerController = function (game,speed,gravity){
 
 se.ComponentPlayerController.prototype.update = function(obj){
     var x = game.joystick.getAxis('horizontal') * this.speed;
-    if(x)
+    if(x){
         obj.transform.move(x, 0);
+		if(x > 0)
+			obj.transform.rotate.x = 1;
+		else if (x < 0)
+		    obj.transform.rotate.x = -1;
+
+	}
 	if(this.isjump){
 		if(this.jumptime < this.jumptimeend){
 			obj.transform.move(0, -1 * this.jumpspeed);
