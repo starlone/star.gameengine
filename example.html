@@ -33,15 +33,23 @@
 
             scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
 
-            var chao = new se.GameObject('chao', -100, 250, 1000, 80);
-            chao.addCollider( new se.BoxCollider(0, 0, 1000, 80) );
-            chao.setRenderer( new se.BoxRenderer('green') );
-            scene.add(chao);
+            var ground = new se.GameObject('ground', -1500, 250, 2400, 450);
+            ground.addCollider( new se.BoxCollider(0, 0, 2400, 80) );
+            ground.setRenderer( new se.BoxRenderer('#6B4226') );
+            scene.add(ground);
 
-            var chao2 = new se.GameObject('chao', 1000, 250, 1000, 80);
-            chao2.addCollider( new se.BoxCollider(0, 0, 1000, 80) );
-            chao2.setRenderer( new se.BoxRenderer('green') );
-            scene.add(chao2);
+            var grass = new se.GameObject('grass', 0, 0, 2400, 10);
+            grass.setRenderer( new se.BoxRenderer('green') );
+            ground.addChild(grass);
+
+            var ground2 = new se.GameObject('ground2', 1000, 250, 3000, 450);
+            ground2.addCollider( new se.BoxCollider(0, 0, 3000, 80) );
+            ground2.setRenderer( new se.BoxRenderer('#6B4226') );
+            scene.add(ground2);
+
+            var grass2 = new se.GameObject('grass2', 0, 0, 3000, 10);
+            grass2.setRenderer( new se.BoxRenderer('green') );
+            ground2.addChild(grass2);
 
             game.init();
 
