@@ -11,8 +11,8 @@ se.ComponentScript.prototype.setParent = function(obj){
 /*
     ComponentPlayerController
 */
-se.ComponentPlayerController = function (game, speed, jumpspeed, gravity){
-    this.window = game;
+se.ComponentPlayerController = function (joystick, speed, jumpspeed, gravity){
+    this.joystick = joystick;
     this.speed = speed;
 	this.gravity = gravity;
 	this.jumpspeed = jumpspeed;
@@ -22,7 +22,7 @@ se.ComponentPlayerController = function (game, speed, jumpspeed, gravity){
 };
 
 se.ComponentPlayerController.prototype.update = function(obj){
-    var x = game.joystick.getAxis('horizontal') * this.speed;
+    var x = this.joystick.getAxis('horizontal') * this.speed;
     if(x){
         obj.transform.move(x, 0);
 		if(x > 0)
@@ -42,7 +42,7 @@ se.ComponentPlayerController.prototype.update = function(obj){
 		}
 	} else {
 		if(this.isgrounded()){
-			if(game.joystick.getAxis('jump')){
+			if(this.joystick.getAxis('jump')){
 				obj.transform.move(0, -1 * this.jumpspeed);
 				this.isjump = true;
 			}
