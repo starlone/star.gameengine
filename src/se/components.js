@@ -11,11 +11,11 @@ se.ComponentScript.prototype.setParent = function(obj){
 /*
     ComponentPlayerController
 */
-se.ComponentPlayerController = function (game,speed,gravity){
+se.ComponentPlayerController = function (game, speed, jumpspeed, gravity){
     this.window = game;
     this.speed = speed;
 	this.gravity = gravity;
-	this.jumpspeed = this.speed * 1.5;
+	this.jumpspeed = jumpspeed;
 	this.jumptime = 0;
 	this.jumptimeend = 25;
 	this.isjump = false;
