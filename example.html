@@ -33,16 +33,21 @@
 
             scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
 
-            var ground = new se.GameObject('ground', -1500, 250, 2400, 450);
-            ground.addCollider( new se.BoxCollider(0, 0, 2400, 80) );
+            var ground = new se.GameObject('ground', -1500, 250, 2800, 450);
+            ground.addCollider( new se.BoxCollider(0, 0, 2800, 80) );
             ground.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground);
 
-            var grass = new se.GameObject('grass', 0, 0, 2400, 10);
+            var grass = new se.GameObject('grass', 0, 0, 2800, 10);
             grass.setRenderer( new se.BoxRenderer('green') );
             ground.addChild(grass);
 
-            var ground2 = new se.GameObject('ground2', 1000, 250, 3000, 450);
+            var wall1 = new se.GameObject('wall1', -1000, -100, 40, 360);
+            wall1.addCollider( new se.BoxCollider(0, 0, 40, 370) );
+            wall1.setRenderer( new se.BoxRenderer('#A68064') );
+            scene.add(wall1);
+
+            var ground2 = new se.GameObject('ground2', 1400, 250, 3000, 450);
             ground2.addCollider( new se.BoxCollider(0, 0, 3000, 80) );
             ground2.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground2);
