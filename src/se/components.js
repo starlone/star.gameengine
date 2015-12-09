@@ -5,7 +5,7 @@ se.ComponentScript = function (function_update){
     this.update = function_update;
 };
 se.ComponentScript.prototype.setParent = function(obj){
-	this.parent = obj;
+    this.parent = obj;
 }
 
 /*
@@ -14,51 +14,51 @@ se.ComponentScript.prototype.setParent = function(obj){
 se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gravity){
     this.joystick = joystick;
     this.speed = speed;
-	this.gravity = gravity;
-	this.jumpspeed = jumpspeed;
-	this.jumptime = 0;
-	this.jumptimeend = 25;
-	this.isjump = false;
+    this.gravity = gravity;
+    this.jumpspeed = jumpspeed;
+    this.jumptime = 0;
+    this.jumptimeend = 25;
+    this.isjump = false;
 };
 
 se.ComponentPlatformPlayerController.prototype.update = function(obj){
     var x = this.joystick.getAxis('horizontal') * this.speed;
     if(x){
         obj.transform.move(x, 0);
-		if(x > 0)
-			obj.transform.rotate.x = 1;
-		else if (x < 0)
-		    obj.transform.rotate.x = -1;
+        if(x > 0)
+            obj.transform.rotate.x = 1;
+        else if (x < 0)
+            obj.transform.rotate.x = -1;
 
-	}
-	if(this.isjump){
-		if(this.jumptime < this.jumptimeend){
-			obj.transform.move(0, -1 * this.jumpspeed);
-			this.jumptime += 1;
-		} else {
-			obj.transform.move(0, this.gravity);
-			this.jumptime = 0;
-			this.isjump = false;
-		}
-	} else {
-		if(this.isgrounded()){
-			if(this.joystick.getAxis('jump')){
-				obj.transform.move(0, -1 * this.jumpspeed);
-				this.isjump = true;
-			}
-		} else
-			obj.transform.move(0, this.gravity);
-	}
+    }
+    if(this.isjump){
+        if(this.jumptime < this.jumptimeend){
+            obj.transform.move(0, -1 * this.jumpspeed);
+            this.jumptime += 1;
+        } else {
+            obj.transform.move(0, this.gravity);
+            this.jumptime = 0;
+            this.isjump = false;
+        }
+    } else {
+        if(this.isgrounded()){
+            if(this.joystick.getAxis('jump')){
+                obj.transform.move(0, -1 * this.jumpspeed);
+                this.isjump = true;
+            }
+        } else
+            obj.transform.move(0, this.gravity);
+    }
 };
 
 se.ComponentPlatformPlayerController.prototype.isgrounded = function(){
-	var obj = this.parent;
-	var can = obj.transform.canMove(0, this.gravity);
-	return !can;
+    var obj = this.parent;
+    var can = obj.transform.canMove(0, this.gravity);
+    return !can;
 }
 
 se.ComponentPlatformPlayerController.prototype.setParent = function(obj){
-	this.parent = obj;
+    this.parent = obj;
 }
 
 
@@ -69,8 +69,8 @@ se.ComponentFollowPlayer = function (obj_player){
     this.obj_player = obj_player;
 }
 se.ComponentFollowPlayer.prototype.update = function(obj){
-	var scene = this.parent.parent;
-	
+    var scene = this.parent.parent;
+    
     var posx = scene.getWidth() / 2 - this.obj_player.getWidth() / 2;
     posx = this.obj_player.getX() + (this.obj_player.getWidth() / 2) - posx;
     var posy = scene.getHeight() / 2 - this.obj_player.getHeight() / 2;
@@ -79,7 +79,7 @@ se.ComponentFollowPlayer.prototype.update = function(obj){
     obj.transform.change(posx, posy);
 }
 se.ComponentFollowPlayer.prototype.setParent = function(obj){
-	this.parent = obj;
+    this.parent = obj;
 }
 
 
@@ -93,6 +93,6 @@ se.ComponentRigidBody.prototype.update = function(obj){
     obj.transform.move(0, this.gravity);
 }
 se.ComponentRigidBody.prototype.setParent = function(obj){
-	this.parent = obj;
+    this.parent = obj;
 }
 

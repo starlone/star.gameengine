@@ -34,7 +34,7 @@ se.GameObject.prototype.getColliders = function(){
 };
 
 se.GameObject.prototype.setRenderer = function(renderer){
-	renderer.setParent(this);
+    renderer.setParent(this);
     this.renderer = renderer;
 };
 
@@ -118,15 +118,15 @@ se.Transform = function(parent, x, y){
 }
 
 se.Transform.prototype.change = function(x,y){
-	this.position.x = x;
-	this.position.y = y;
+    this.position.x = x;
+    this.position.y = y;
 }
 
 se.Transform.prototype.move = function(x,y){
-	if(this.canMove(x, y)){
-		this.position.x += x;
-		this.position.y += y;
-	}
+    if(this.canMove(x, y)){
+        this.position.x += x;
+        this.position.y += y;
+    }
 };
 
 se.Transform.prototype.canMove = function(x, y){
@@ -134,19 +134,19 @@ se.Transform.prototype.canMove = function(x, y){
     var scene = gameobj.parent;
     var objs = scene.getObjs();
 
-	var cols = gameobj.getColliders();
-	for(var i in cols){
-		var col = cols[i].clone();
-		col.setParent(gameobj);
-		col.x += x;
-		col.y += y;
-		for(var j in objs){
-			var obj = objs[j];
-			if(col.isIntersect(obj.getColliders()))
-				return false;
-		}
-	}
-	return true;
+    var cols = gameobj.getColliders();
+    for(var i in cols){
+        var col = cols[i].clone();
+        col.setParent(gameobj);
+        col.x += x;
+        col.y += y;
+        for(var j in objs){
+            var obj = objs[j];
+            if(col.isIntersect(obj.getColliders()))
+                return false;
+        }
+    }
+    return true;
 }
 
 se.Transform.prototype.getXY = function(){

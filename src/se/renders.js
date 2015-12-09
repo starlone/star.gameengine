@@ -2,7 +2,7 @@
 BoxRender
 */
 se.BoxRenderer = function(color){
-	this.color = color;
+    this.color = color;
 }
 
 se.BoxRenderer.prototype.render = function(ctx){
@@ -12,6 +12,6 @@ se.BoxRenderer.prototype.render = function(ctx){
 }
 
 se.BoxRenderer.prototype.setParent = function(obj){
-	this.parent = obj;
+    this.parent = obj;
 }
 
