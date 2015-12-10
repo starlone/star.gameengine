@@ -33,6 +33,12 @@ se.Scene.prototype.add = function(obj){
     obj.setParent(this);
 };
 
+se.Scene.prototype.update = function(){
+    for(var i in this.objs){
+        this.objs[i].update();
+    }
+};
+
 se.Scene.prototype.render = function(ctx){
     this.check_move_cam(ctx);
     this.clearframe(ctx);

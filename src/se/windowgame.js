@@ -48,12 +48,10 @@ se.WindowGame.prototype.addScene = function(scene){
     scene.parent = this;
 };
 
-se.WindowGame.prototype.render = function(){
-    this.getSceneCurrent().render(this.ctx);
-};
-
 se.WindowGame.prototype.update = function(){
-    this.render();
+	var scene = this.getSceneCurrent();
+    scene.update();
+    scene.render(this.ctx);
 };
 
 se.WindowGame.prototype.init = function(){

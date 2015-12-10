@@ -39,8 +39,6 @@ se.GameObject.prototype.setRenderer = function(renderer){
 };
 
 se.GameObject.prototype.render = function(ctx){
-    this.update();
-
     var obj = this;
     var pos = obj.transform.position;
     var r = obj.transform.rotate;
