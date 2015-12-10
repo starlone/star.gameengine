@@ -33,9 +33,9 @@ se.Scene.prototype.add = function(obj){
     obj.setParent(this);
 };
 
-se.Scene.prototype.update = function(){
+se.Scene.prototype.update = function(deltaTime){
     for(var i in this.objs){
-        this.objs[i].update();
+        this.objs[i].update(deltaTime);
     }
 };
 

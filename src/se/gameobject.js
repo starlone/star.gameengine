@@ -38,6 +38,15 @@ se.GameObject.prototype.setRenderer = function(renderer){
     this.renderer = renderer;
 };
 
+se.GameObject.prototype.update = function(deltaTime){
+    for(var i in this.components){
+        this.components[i].update(this, deltaTime);
+    }
+    for(var i in this.children){
+        this.children[i].update(deltaTime);
+    }
+};
+
 se.GameObject.prototype.render = function(ctx){
     var obj = this;
     var pos = obj.transform.position;
@@ -56,15 +65,6 @@ se.GameObject.prototype.render = function(ctx){
     ctx.scale(r.x, 1);
     ctx.rotate(-r.y*Math.PI/180);
     ctx.translate(-pos.x, -pos.y);
-};
-
-se.GameObject.prototype.update = function(){
-    for(var i in this.components){
-        this.components[i].update(this);
-    }
-    for(var i in this.children){
-        this.children[i].update();
-    }
 };
 
 se.GameObject.prototype.addComponent = function(component){

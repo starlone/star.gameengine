@@ -19,10 +19,12 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gra
     this.jumptime = 0;
     this.jumptimeend = 25;
     this.isjump = false;
+    this.maxH = 200;
 };
 
-se.ComponentPlatformPlayerController.prototype.update = function(obj){
-    var x = this.joystick.getAxis('horizontal') * this.speed;
+se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
+    this.deltaTime = deltaTime;
+    var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
     if(x){
         obj.transform.move(x, 0);
         if(x > 0)
@@ -31,29 +33,27 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj){
             obj.transform.rotate.x = -1;
 
     }
+    var y = obj.transform.getXY().y;
     if(this.isjump){
-        if(this.jumptime < this.jumptimeend){
-            obj.transform.move(0, -1 * this.jumpspeed);
-            this.jumptime += 1;
-        } else {
-            obj.transform.move(0, this.gravity);
-            this.jumptime = 0;
+        if(y > this.jumptimeend)
+            obj.transform.move(0, -1 * this.jumpspeed * deltaTime);
+        else
             this.isjump = false;
-        }
     } else {
         if(this.isgrounded()){
             if(this.joystick.getAxis('jump')){
-                obj.transform.move(0, -1 * this.jumpspeed);
                 this.isjump = true;
+                this.jumptimeend = y - this.maxH;
+                obj.transform.move(0, -1 * this.jumpspeed * deltaTime);
             }
         } else
-            obj.transform.move(0, this.gravity);
+            obj.transform.move(0, this.gravity * deltaTime);
     }
 };
 
 se.ComponentPlatformPlayerController.prototype.isgrounded = function(){
     var obj = this.parent;
-    var can = obj.transform.canMove(0, this.gravity);
+    var can = obj.transform.canMove(0, this.gravity * this.deltaTime);
     return !can;
 }
 
@@ -89,8 +89,8 @@ se.ComponentFollowPlayer.prototype.setParent = function(obj){
 se.ComponentRigidBody = function (gravity){
     this.gravity = gravity;
 }
-se.ComponentRigidBody.prototype.update = function(obj){
-    obj.transform.move(0, this.gravity);
+se.ComponentRigidBody.prototype.update = function(obj, deltaTime){
+    obj.transform.move(0, this.gravity * deltaTime);
 }
 se.ComponentRigidBody.prototype.setParent = function(obj){
     this.parent = obj;

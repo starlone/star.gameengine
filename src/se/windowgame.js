@@ -7,6 +7,7 @@ se.WindowGame = function (elementID){
     if (this.element.getContext){
         this.ctx = canvas.getContext('2d');
     }
+    this.lastTime = Date.now();
     this.scenes = [];
     this.joystick = new se.Joystick();
     self.updateSize();
@@ -49,9 +50,12 @@ se.WindowGame.prototype.addScene = function(scene){
 };
 
 se.WindowGame.prototype.update = function(){
-	var scene = this.getSceneCurrent();
-    scene.update();
+    var now = Date.now();
+    var deltaTime = (now - this.lastTime) / 1000.0;
+    var scene = this.getSceneCurrent();
+    scene.update(deltaTime);
     scene.render(this.ctx);
+    this.lastTime = now;
 };
 
 se.WindowGame.prototype.init = function(){
