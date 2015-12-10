@@ -11,7 +11,6 @@
     <script type="text/javascript" src="starengine.min.js"></script>
     <script type="text/javascript">
         var game = null;
-        var tmp;
         $(document).ready(function(){
             game = new se.WindowGame('canvas');
 
@@ -23,7 +22,6 @@
             obj_player.addCollider( new se.BoxCollider(-25, 0, 50, 50) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);
-            tmp = obj_player;
 
             var player_body = new se.GameObject('PlayerBody', -25, 0, 50, 50);
             player_body.setRenderer( new se.BoxRenderer('#dddddd') );
@@ -44,7 +42,7 @@
             grass.setRenderer( new se.BoxRenderer('green') );
             ground.addChild(grass);
 
-            var wall1 = new se.GameObject('wall1', -100, -100, 40, 360);
+            var wall1 = new se.GameObject('wall1', -1000, -100, 40, 360);
             wall1.addCollider( new se.BoxCollider(0, 0, 40, 370) );
             wall1.setRenderer( new se.BoxRenderer('#A68064') );
             scene.add(wall1);
