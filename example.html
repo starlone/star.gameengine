@@ -18,7 +18,7 @@
             game.addScene(scene);
 
             var obj_player = new se.GameObject('Player', 20, 195, 0, 0);
-            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 500, 500, 500) );
+            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 400, 400, 400) );
             obj_player.addCollider( new se.BoxCollider(-25, 0, 50, 50) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);

@@ -15,14 +15,22 @@ function help(){
     echo -e $help_msg;
 }
 
+function concatfiles(){
+	cat $files > $fileout;
+}
+
 case $1 in
 	'min')
 		java -jar $closure --js $files --js_output_file $fileout;
 		;;
 	'dev')
-		cat $files > $fileout;
+		concatfiles;
 		;;
 	'server')
+		python -m SimpleHTTPServer;
+		;;
+	'devfg')
+		concatfiles;
 		python -m SimpleHTTPServer;
 		;;
 	'help')
