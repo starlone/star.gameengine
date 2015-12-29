@@ -11,10 +11,10 @@ se.WindowGame = function (elementID){
     this.scenes = [];
     this.joystick = new se.Joystick();
     self.updateSize();
-    $(window).resize(function(){
+	window.addEventListener('resize',function(){
         self.getSceneCurrent().resetCamera();
         self.updateSize();
-    });
+	});
 };
 
 se.WindowGame.prototype.getWidth = function(){
@@ -35,9 +35,9 @@ se.WindowGame.prototype.setSize = function(width, height){
 }
 
 se.WindowGame.prototype.updateSize = function(){
-    var ele = $(this.element);
-    var parent = ele.parent();
-    this.setSize(parent.width(), parent.height());
+    var ele = this.element;
+    var parent = ele.parentElement;
+    this.setSize(parent.offsetWidth, parent.offsetHeight);
 }
 
 se.WindowGame.prototype.getContext = function(){

@@ -38,18 +38,18 @@ se.Joystick.prototype.resetAxis = function (){
 se.KeyboardHandler = function (joystick){
     var self = this;
     this.joy = joystick;
-    $(document).keydown(function(e){
+    document.addEventListener('keydown', function(e){
         self.keydown(e.keyCode);
     });
-    $(document).keyup(function(e){
+    document.addEventListener('keyup', function(e){
         self.keyup(e.keyCode);
     });
 }
 
 se.KeyboardHandler.prototype.keydown = function(key){
-    if (key == '65'){ // Left
+    if (key == '65' || key == '37'){ // Left
         this.joy.setAxis('horizontal',-1);
-    } else if (key == '68'){ // 'right'
+    } else if (key == '68' || key == '39'){ // 'right'
         this.joy.setAxis('horizontal',1);
     } else if (key == '87'){ // Up
         this.joy.setAxis('vertical', -1);
@@ -61,7 +61,7 @@ se.KeyboardHandler.prototype.keydown = function(key){
 }
 
 se.KeyboardHandler.prototype.keyup = function(key){
-    if (key == '65' || key == '68'){ 
+    if (key == '65' || key == '68' || key == '37' || key == '39'){
         this.joy.setAxis('horizontal',0);
     } else if (key == '87' || key == '83'){
         this.joy.setAxis('vertical', 0);
