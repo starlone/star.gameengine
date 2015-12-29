@@ -46,7 +46,7 @@ se.WindowGame.prototype.getContext = function(){
 
 se.WindowGame.prototype.addScene = function(scene){
     this.scenes.push(scene);
-    scene.parent = this;
+    scene.setParent(this);
 };
 
 se.WindowGame.prototype.update = function(){

@@ -28,6 +28,10 @@ se.Scene.prototype.getObjs = function(){
     return this.objs;
 };
 
+se.Scene.prototype.setParent = function(parent){
+	this.parent = parent;
+};
+
 se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
     obj.setParent(this);
