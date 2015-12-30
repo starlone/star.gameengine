@@ -29,7 +29,7 @@
             player_eye.setRenderer( new se.BoxRenderer('blue') );
             obj_player.addChild(player_eye);
 
-            scene.getCamera().addComponent( new se.ComponentFollowPlayer(obj_player));
+            scene.getCamera().addComponent( new se.ComponentFollowObject(obj_player));
 
             var ground = new se.GameObject('ground', -1500, 250, 2800, 450);
             ground.addCollider( new se.BoxCollider(0, 0, 2800, 200) );

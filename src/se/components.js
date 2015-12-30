@@ -65,14 +65,14 @@ se.ComponentPlatformPlayerController.prototype.setParent = function(obj){
 /*
     ComponentFollowPlayer
 */
-se.ComponentFollowPlayer = function (obj_player){
-    this.obj_player = obj_player;
+se.ComponentFollowObject = function (obj_target){
+    this.obj_target = obj_target;
 }
-se.ComponentFollowPlayer.prototype.update = function(obj){
-    obj.transform.position.x = this.obj_player.transform.position.x;
-    obj.transform.position.y = this.obj_player.transform.position.y;
+se.ComponentFollowObject.prototype.update = function(obj){
+    obj.transform.position.x = this.obj_target.transform.position.x;
+    obj.transform.position.y = this.obj_target.transform.position.y;
 }
-se.ComponentFollowPlayer.prototype.setParent = function(obj){
+se.ComponentFollowObject.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
