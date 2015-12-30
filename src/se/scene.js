@@ -3,7 +3,8 @@
 */
 se.Scene = function (backgroundcolor){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
-    this.camera.parent = this;
+    this.camera.setParent(this);
+    this.lastPosition = this.camera.transform.position.clone();
     this.camX = 0;
     this.camY = 0;
     this.objs = [this.camera];
@@ -29,7 +30,7 @@ se.Scene.prototype.getObjs = function(){
 };
 
 se.Scene.prototype.setParent = function(parent){
-	this.parent = parent;
+    this.parent = parent;
 };
 
 se.Scene.prototype.add = function(obj){
@@ -72,16 +73,16 @@ se.Scene.prototype.clearframe = function(ctx){
 }
 
 se.Scene.prototype.check_move_cam = function(ctx){
-    if(this.camX != this.camera.getX() || this.camY != this.camera.getY()){
-        var x = this.camX - this.camera.getX();
-        var y = this.camY - this.camera.getY();
+    var position = this.camera.transform.position;
+    if(!this.lastPosition.equals(position)){
+        var x = this.lastPosition.x - position.x;
+        var y = this.lastPosition.y - position.y;
         ctx.translate(x,y);
-        this.camX = this.camera.getX();
-        this.camY = this.camera.getY();
+        this.lastPosition.x = position.x;
+        this.lastPosition.y = position.y;
     }
 }
 
 se.Scene.prototype.resetCamera = function(){
-    this.camX = 0;
-    this.camY = 0;
+    this.lastPosition = new se.Position(0, 0);
 }

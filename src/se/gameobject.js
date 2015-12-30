@@ -97,6 +97,14 @@ se.Position = function(x, y){
     this.y = y;
 }
 
+se.Position.prototype.equals = function(position){
+    return (this.x == position.x && this.y == position.y);
+}
+
+se.Position.prototype.clone = function(){
+    return new se.Position(this.x, this.y);
+}
+
 /*
     Rotate
 */
