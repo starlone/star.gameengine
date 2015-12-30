@@ -69,14 +69,8 @@ se.ComponentFollowPlayer = function (obj_player){
     this.obj_player = obj_player;
 }
 se.ComponentFollowPlayer.prototype.update = function(obj){
-    var scene = this.parent.parent;
-    
-    var posx = scene.getWidth() / 2 - this.obj_player.getWidth() / 2;
-    posx = this.obj_player.getX() + (this.obj_player.getWidth() / 2) - posx;
-    var posy = scene.getHeight() / 2 - this.obj_player.getHeight() / 2;
-    posy = this.obj_player.getY() + (this.obj_player.getHeight() / 2) - posy;
-
-    obj.transform.change(posx, posy);
+    obj.transform.position.x = this.obj_player.transform.position.x;
+    obj.transform.position.y = this.obj_player.transform.position.y;
 }
 se.ComponentFollowPlayer.prototype.setParent = function(obj){
     this.parent = obj;

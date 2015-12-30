@@ -4,9 +4,7 @@
 se.Scene = function (backgroundcolor){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.setParent(this);
-    this.lastPosition = this.camera.transform.position.clone();
-    this.camX = 0;
-    this.camY = 0;
+    this.pivot = this.camera.transform.position.clone();
     this.objs = [this.camera];
     this.backcolor = 'rgba(135, 206, 250,1)';
     if(backgroundcolor)
@@ -45,7 +43,7 @@ se.Scene.prototype.update = function(deltaTime){
 };
 
 se.Scene.prototype.render = function(ctx){
-    this.check_move_cam(ctx);
+    this.updatePivot(ctx);
     this.clearframe(ctx);
     this.renderBackground(ctx);
     for(var i in this.objs){
@@ -56,8 +54,8 @@ se.Scene.prototype.render = function(ctx){
 se.Scene.prototype.renderBackground = function(ctx){
     ctx.fillStyle = this.backcolor;
     ctx.fillRect(
-        this.camera.getX(),
-        this.camera.getY(),
+        this.pivot.x,
+        this.pivot.y,
         this.getWidth(),
         this.getHeight()
     );
@@ -65,22 +63,23 @@ se.Scene.prototype.renderBackground = function(ctx){
 
 se.Scene.prototype.clearframe = function(ctx){
     ctx.clearRect(
-        this.camera.getX(),
-        this.camera.getY(),
+        this.pivot.x,
+        this.pivot.y,
         this.getWidth(),
         this.getHeight()
     );
 }
 
-se.Scene.prototype.check_move_cam = function(ctx){
+se.Scene.prototype.updatePivot = function(ctx){
+    // Reset draw
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     var position = this.camera.transform.position;
-    if(!this.lastPosition.equals(position)){
-        var x = this.lastPosition.x - position.x;
-        var y = this.lastPosition.y - position.y;
-        ctx.translate(x,y);
-        this.lastPosition.x = position.x;
-        this.lastPosition.y = position.y;
-    }
+
+    var x = position.x - (this.getWidth() / 2);
+    var y = position.y - (this.getHeight() / 2);
+    this.pivot.x = x;
+    this.pivot.y = y;
+    ctx.translate(-this.pivot.x, -this.pivot.y);
 }
 
 se.Scene.prototype.resetCamera = function(){
