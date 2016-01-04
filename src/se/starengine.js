@@ -1,7 +1,7 @@
 /*
-    Windows Game
+    Star Engine
 */
-se.WindowGame = function (elementID){
+se.StarEngine = function (elementID){
     var self = this;
     this.element = document.getElementById(elementID);
     if (this.element.getContext){
@@ -17,39 +17,39 @@ se.WindowGame = function (elementID){
 	});
 };
 
-se.WindowGame.prototype.getWidth = function(){
+se.StarEngine.prototype.getWidth = function(){
     return this.element.width;
 };
 
-se.WindowGame.prototype.getHeight = function(){
+se.StarEngine.prototype.getHeight = function(){
     return this.element.height;
 };
 
-se.WindowGame.prototype.getSceneCurrent = function(){
+se.StarEngine.prototype.getSceneCurrent = function(){
     return this.scenes[0];
 };
 
-se.WindowGame.prototype.setSize = function(width, height){
+se.StarEngine.prototype.setSize = function(width, height){
     this.element.width = width;
     this.element.height = height;
 }
 
-se.WindowGame.prototype.updateSize = function(){
+se.StarEngine.prototype.updateSize = function(){
     var ele = this.element;
     var parent = ele.parentElement;
     this.setSize(parent.offsetWidth, parent.offsetHeight);
 }
 
-se.WindowGame.prototype.getContext = function(){
+se.StarEngine.prototype.getContext = function(){
     return this.ctx;
 };
 
-se.WindowGame.prototype.addScene = function(scene){
+se.StarEngine.prototype.addScene = function(scene){
     this.scenes.push(scene);
     scene.setParent(this);
 };
 
-se.WindowGame.prototype.update = function(){
+se.StarEngine.prototype.update = function(){
     var now = Date.now();
     var deltaTime = (now - this.lastTime) / 1000.0;
     var scene = this.getSceneCurrent();
@@ -58,7 +58,7 @@ se.WindowGame.prototype.update = function(){
     this.lastTime = now;
 };
 
-se.WindowGame.prototype.init = function(){
+se.StarEngine.prototype.init = function(){
     se.windowGameMain = this;
     animationFrame(se.updateFrame);
 };
