@@ -1,1 +1,1 @@
-# starlone.canvas.gameengine
+# Star Game Engine
