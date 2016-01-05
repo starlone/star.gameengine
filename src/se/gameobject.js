@@ -95,15 +95,20 @@ se.GameObject.prototype.addChild = function(child){
 se.Position = function(x, y){
     this.x = x;
     this.y = y;
-}
+};
 
 se.Position.prototype.equals = function(position){
     return (this.x == position.x && this.y == position.y);
-}
+};
 
 se.Position.prototype.clone = function(){
     return new se.Position(this.x, this.y);
-}
+};
+
+se.Position.prototype.change = function(x, y){
+    this.x = x;
+    this.y = y;
+};
 
 /*
     Rotate
@@ -111,7 +116,7 @@ se.Position.prototype.clone = function(){
 se.Rotate = function(x, y){
     this.x = x;
     this.y = y;
-}
+};
 
 
 /*
@@ -121,12 +126,11 @@ se.Transform = function(parent, x, y){
     this.parent = parent;
     this.position = new se.Position(x, y);
     this.rotate = new se.Rotate(1, 0);
-}
+};
 
 se.Transform.prototype.change = function(x,y){
-    this.position.x = x;
-    this.position.y = y;
-}
+    this.position.change(x, y);
+};
 
 se.Transform.prototype.move = function(x,y){
     if(this.canMove(x, y)){
@@ -153,7 +157,7 @@ se.Transform.prototype.canMove = function(x, y){
         }
     }
     return true;
-}
+};
 
 se.Transform.prototype.getXY = function(){
     var x = this.position.x;
@@ -167,4 +171,4 @@ se.Transform.prototype.getXY = function(){
     }
 
     return {x: x, y: y};
-}
+};
