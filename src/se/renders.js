@@ -15,3 +15,22 @@ se.BoxRenderer.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
+
+/*
+ImageRender
+*/
+
+se.ImageRenderer = function(image_src){
+    this.img = new Image();
+    this.is_load = false;
+    this.img.src = image_src;
+}
+
+se.ImageRenderer.prototype.render = function(ctx){
+    var obj = this.parent;
+    ctx.drawImage(this.img, 0, 0, obj.width, obj.height);
+}
+
+se.ImageRenderer.prototype.setParent = function(obj){
+    this.parent = obj;
+}
