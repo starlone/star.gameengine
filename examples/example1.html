@@ -38,12 +38,12 @@
             grass2.setRenderer( new se.BoxRenderer('green') );
             ground2.addChild(grass2);
 
-            var box = new se.GameObject('box', 520, 195, 50, 50);
+            var box = new se.GameObject('box', 520, 200, 50, 50);
             box.addCollider( new se.BoxCollider(0, 0, 50, 50) );
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
 
-            var obj_player = new se.GameObject('Player', 20, 195, 0, 0);
+            var obj_player = new se.GameObject('Player', 20, 200, 0, 0);
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 400, 400, 400) );
             obj_player.addCollider( new se.BoxCollider(-25, 0, 50, 50) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
