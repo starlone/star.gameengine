@@ -12,19 +12,13 @@ se.BoxCollider.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
-se.BoxCollider.prototype.getPoints = function(){
+se.BoxCollider.prototype.getExtent = function(){
     var obj = this.parent;
     var x = obj.getX() + this.x;
     var y = obj.getY() + this.y;
     var width = this.width;
     var height = this.height;
-    
-    var points = [];
-    points.push([x, y]);
-    points.push([x + width, y]);
-    points.push([x, y + height]);
-    points.push([x + width, y + height]);
-    return points;
+    return new se.Extent(x, y, x + width, y + height);
 }
 
 se.BoxCollider.prototype.isIntersect = function(collider){
@@ -40,15 +34,9 @@ se.BoxCollider.prototype.isIntersect = function(collider){
 }
 
 se.BoxCollider.prototype._isIntersect = function(collider){
-    var ps1 = this.getPoints();
-    var ps2 = collider.getPoints();
-    var min = ps2[0];
-    var max = ps2[3];
-    for(var i in ps1){
-        if(ps1[i][0] > min[0] && ps1[i][0] < max[0] && ps1[i][1] > min[1] && ps1[i][1] < max[1])
-            return true;
-    }
-    return false;
+    var extent1 = this.getExtent();
+    var extent2 = collider.getExtent();
+    return extent2.intersects(extent1);
 }
 
 se.BoxCollider.prototype.clone = function(){

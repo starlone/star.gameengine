@@ -152,7 +152,7 @@ se.Transform.prototype.canMove = function(x, y){
         col.y += y;
         for(var j in objs){
             var obj = objs[j];
-            if(col.isIntersect(obj.getColliders()))
+            if(gameobj != obj && col.isIntersect(obj.getColliders()))
                 return false;
         }
     }
