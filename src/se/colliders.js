@@ -36,7 +36,25 @@ se.BoxCollider.prototype.isIntersect = function(collider){
 se.BoxCollider.prototype._isIntersect = function(collider){
     var extent1 = this.getExtent();
     var extent2 = collider.getExtent();
-    return extent2.intersects(extent1);
+    return extent1.intersects(extent2);
+}
+
+se.BoxCollider.prototype.getIntersection = function(collider){
+    if(collider instanceof Array){
+        for(var i in collider){
+            var c = collider[i];
+            if(this._isIntersect(c))
+                return this._getIntersection(c);
+        }
+    } else
+        return this._getIntersection(collider);
+    return null;
+}
+
+se.BoxCollider.prototype._getIntersection = function(collider){
+    var extent1 = this.getExtent();
+    var extent2 = collider.getExtent();
+    return extent1.getIntersection(extent2);
 }
 
 se.BoxCollider.prototype.clone = function(){

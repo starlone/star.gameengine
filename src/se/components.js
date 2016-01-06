@@ -45,7 +45,8 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
                 this.isjump = true;
                 this.jumptimeend = y - this.maxH;
                 obj.transform.move(0, -1 * this.jumpspeed * deltaTime);
-            }
+            } else 
+                obj.transform.move(0, this.gravity * deltaTime);
         } else
             obj.transform.move(0, this.gravity * deltaTime);
     }
