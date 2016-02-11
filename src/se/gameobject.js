@@ -1,7 +1,7 @@
 /*
     GameObject
 */
-se.GameObject = function (name, x, y, width, height){
+se.GameObject = function (name, x, y, width, height, options){
     this.name = name;
     this.transform = new se.Transform(this, x, y);
     this.width = width;
@@ -11,6 +11,10 @@ se.GameObject = function (name, x, y, width, height){
     this.renderer = null;
     this.parent = null;
     this.children = [];
+    this.rigidbody = new se.RigidBody(this);
+
+    options = options || {};
+    this.isStatic = options.isStatic || false;
 };
 
 se.GameObject.prototype.getX = function(){
@@ -79,41 +83,50 @@ se.GameObject.prototype.addCollider = function(collider){
     return this;
 };
 
-se.GameObject.prototype.setParent = function(parent){
+se.GameObject.prototype.setParent = function (parent){
     this.parent = parent;
 };
 
-se.GameObject.prototype.addChild = function(child){
+se.GameObject.prototype.addChild = function (child){
     this.children.push(child);
     child.setParent(this);
 };
 
 
 /*
-    Position
+   Rigid Body
 */
-se.Position = function(x, y){
-    this.x = x;
-    this.y = y;
+se.RigidBody = function (parent, options){
+    this.parent = parent;
+    options = options || {};
+    this.mass = options.mass || 1;
+    this.force = {x: 0, y: 0};
 };
 
-se.Position.prototype.equals = function(position){
-    return (this.x == position.x && this.y == position.y);
-};
-
-se.Position.prototype.clone = function(){
-    return new se.Position(this.x, this.y);
-};
-
-se.Position.prototype.change = function(x, y){
-    this.x = x;
-    this.y = y;
+se.RigidBody.prototype.update = function(deltaTime){
+    var obj = this.parent;
+    if(!obj.isStatic){
+        obj.transform.move(0, 300 * deltaTime);
+    }
 };
 
 /*
-    Rotate
+   Vector
 */
-se.Rotate = function(x, y){
+se.Vector = function (x, y){
+    this.x = x;
+    this.y = y;
+};
+
+se.Vector.prototype.equals = function(other){
+    return (this.x == other.x && this.y == other.y);
+};
+
+se.Vector.prototype.clone = function(){
+    return new se.Vector(this.x, this.y);
+};
+
+se.Vector.prototype.change = function (x, y){
     this.x = x;
     this.y = y;
 };
@@ -124,8 +137,8 @@ se.Rotate = function(x, y){
 */
 se.Transform = function(parent, x, y){
     this.parent = parent;
-    this.position = new se.Position(x, y);
-    this.rotate = new se.Rotate(1, 0);
+    this.position = new se.Vector(x, y);
+    this.rotate = new se.Vector(1, 0);
 };
 
 se.Transform.prototype.change = function(x,y){
@@ -152,16 +165,16 @@ se.Transform.prototype.resolveCollision = function(x, y){
             if(gameobj != obj){
                 var inter = col.getIntersection(obj.getColliders())
                 if(inter){
-					if(x != 0)
-						if(x < 0) 
-							this.position.x += inter.getWidth() + 0.01;
-						else
-							this.position.x -= inter.getWidth() + 0.01;
-					if(y !=0)
-						if(y < 0) 
-							this.position.y += inter.getHeight() + 0.01;
-						else
-							this.position.y -= inter.getHeight() + 0.01;
+                    if(x != 0)
+                        if(x < 0) 
+                            this.position.x += inter.getWidth() + 0.01;
+                        else
+                            this.position.x -= inter.getWidth() + 0.01;
+                    if(y !=0)
+                        if(y < 0) 
+                            this.position.y += inter.getHeight() + 0.01;
+                        else
+                            this.position.y -= inter.getHeight() + 0.01;
                 }
             }
         }

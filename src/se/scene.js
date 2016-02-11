@@ -1,12 +1,13 @@
 /*
     Scene
 */
-se.Scene = function (backgroundcolor){
+se.Scene = function (backgroundcolor, gravityScale){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.setParent(this);
     this.pivot = new se.Transform(this, 0, 0);
     this.objs = [this.camera];
     this.backcolor = backgroundcolor || 'rgba(135, 206, 250,1)';
+    this.gravityScale = gravityScale || 0.001;
 };
 
 se.Scene.prototype.getWidth = function(){
@@ -36,7 +37,17 @@ se.Scene.prototype.add = function(obj){
 
 se.Scene.prototype.update = function(deltaTime){
     for(var i in this.objs){
-        this.objs[i].update(deltaTime);
+        var obj = this.objs[i];
+        this._applyGravity(obj, deltaTime);
+        obj.update(deltaTime);
+        obj.rigidbody.update(deltaTime);
+    }
+};
+
+se.Scene.prototype._applyGravity = function(obj, deltaTime){
+    if(!obj.isStatic){
+        var rb = obj.rigidbody;
+        rb.force.y += rb.mass * this.gravityScale;
     }
 };
 

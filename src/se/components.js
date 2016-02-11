@@ -14,7 +14,6 @@ se.ComponentScript.prototype.setParent = function(obj){
 se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gravity){
     this.joystick = joystick;
     this.speed = speed;
-    this.gravity = gravity;
     this.jumpspeed = jumpspeed;
     this.jumptime = 0;
     this.jumptimeend = 25;
@@ -47,8 +46,7 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
                 obj.transform.move(0, -1 * this.jumpspeed * deltaTime);
             } else 
                 obj.transform.move(0, this.gravity * deltaTime);
-        } else
-            obj.transform.move(0, this.gravity * deltaTime);
+        }
     }
 };
 

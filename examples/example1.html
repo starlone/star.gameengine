@@ -15,7 +15,7 @@
             var scene = new se.Scene();
             game.addScene(scene);
 
-            var ground = new se.GameObject('ground', -1500, 250, 2800, 450);
+            var ground = new se.GameObject('ground', -1500, 250, 2800, 450, {isStatic: true});
             ground.addCollider( new se.BoxCollider(0, 0, 2800, 200) );
             ground.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground);
@@ -24,12 +24,12 @@
             grass.setRenderer( new se.BoxRenderer('green') );
             ground.addChild(grass);
 
-            var wall1 = new se.GameObject('wall1', -1000, -100, 40, 360);
+            var wall1 = new se.GameObject('wall1', -1000, -100, 40, 360, {isStatic: true});
             wall1.addCollider( new se.BoxCollider(0, 0, 40, 370) );
             wall1.setRenderer( new se.BoxRenderer('#A68064') );
             scene.add(wall1);
 
-            var ground2 = new se.GameObject('ground2', 1400, 250, 3000, 450);
+            var ground2 = new se.GameObject('ground2', 1400, 250, 3000, 450, {isStatic: true});
             ground2.addCollider( new se.BoxCollider(0, 0, 3000, 200) );
             ground2.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground2);
@@ -38,7 +38,7 @@
             grass2.setRenderer( new se.BoxRenderer('green') );
             ground2.addChild(grass2);
 
-            var box = new se.GameObject('box', 520, 170, 80, 80);
+            var box = new se.GameObject('box', 520, 70, 80, 80);
             box.addCollider( new se.BoxCollider(0, 0, 80, 80) );
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
