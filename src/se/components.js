@@ -25,7 +25,7 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
     this.deltaTime = deltaTime;
     var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
     if(x){
-        obj.transform.move(x, 0);
+        obj.rigidbody.setVelocity(x,0);
         if(x > 0)
             obj.transform.rotate.x = 1;
         else if (x < 0)
