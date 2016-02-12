@@ -17,7 +17,7 @@ window.animationFrame = (function(){
 
 se.windowGameMain = null;
 
-se.updateFrame = function (){
+se.updateFrame = function (time){
     se.windowGameMain.update();
     animationFrame(se.updateFrame);
 }

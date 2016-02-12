@@ -11,10 +11,10 @@ se.StarEngine = function (elementID){
     this.scenes = [];
     this.joystick = new se.Joystick();
     self.updateSize();
-	window.addEventListener('resize',function(){
+    window.addEventListener('resize',function(){
         self.getSceneCurrent().resetCamera();
         self.updateSize();
-	});
+    });
 };
 
 se.StarEngine.prototype.getWidth = function(){

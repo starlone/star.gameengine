@@ -1,13 +1,17 @@
 /*
     Scene
 */
-se.Scene = function (backgroundcolor, gravityScale){
+se.Scene = function (backgroundcolor){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.setParent(this);
     this.pivot = new se.Transform(this, 0, 0);
     this.objs = [this.camera];
     this.backcolor = backgroundcolor || 'rgba(135, 206, 250,1)';
-    this.gravityScale = gravityScale || 0.001;
+    this.gravity = {
+        x: 0,
+        y: 1,
+        scale: 0.001
+    }
 };
 
 se.Scene.prototype.getWidth = function(){
@@ -36,18 +40,32 @@ se.Scene.prototype.add = function(obj){
 };
 
 se.Scene.prototype.update = function(deltaTime){
+    this._applyGravity(this.objs, this.gravity);
     for(var i in this.objs){
         var obj = this.objs[i];
-        this._applyGravity(obj, deltaTime);
         obj.update(deltaTime);
         obj.rigidbody.update(deltaTime);
     }
 };
 
-se.Scene.prototype._applyGravity = function(obj, deltaTime){
-    if(!obj.isStatic){
+se.Scene.prototype._applyGravity = function(objs, gravity){
+    var gravityScale = typeof gravity.scale !== 'undefined' ? gravity.scale : 0.001;
+
+    if ((gravity.x === 0 && gravity.y === 0) || gravityScale === 0) {
+        return;
+    }
+    
+    for (var i in objs) {
+        var obj = objs[i];
+
+        if (obj.isStatic || obj.isSleeping)
+            continue;
+
         var rb = obj.rigidbody;
-        rb.force.y += rb.mass * this.gravityScale;
+
+        // apply gravity
+        rb.force.y += rb.mass * gravity.y * gravityScale;
+        rb.force.x += rb.mass * gravity.x * gravityScale;
     }
 };
 
