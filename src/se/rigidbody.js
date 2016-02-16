@@ -14,6 +14,11 @@ se.RigidBody = function (parent, options){
     this.mass = options.mass || 6.4;
     this.timeScale = 1;
 
+    this.angularVelocity = 0;
+    this.angle = 0;
+    this.anglePrev = this.angle;
+    this.torque = 0;
+
 };
 
 se.RigidBody.prototype.update = function(deltaTime){
@@ -39,13 +44,13 @@ se.RigidBody.prototype.update = function(deltaTime){
     position.y += this.velocity.y;
 
     // update angular velocity with Verlet integration
-    //body.angularVelocity = ((body.angle - body.anglePrev) * frictionAir * correction) + (body.torque / body.inertia) * deltaTimeSquared;
-    //body.anglePrev = body.angle;
-    //body.angle += body.angularVelocity;
+    //this.angularVelocity = ((this.angle - this.anglePrev) * frictionAir * correction) + (this.torque / this.inertia) * deltaTimeSquared;
+    //this.anglePrev = this.angle;
+    //this.angle += this.angularVelocity;
 
     // track speed and acceleration
     this.speed = this.velocity.getMagnitude(); 
-    //body.angularSpeed = Math.abs(body.angularVelocity);
+    //this.angularSpeed = Math.abs(this.angularVelocity);
 
 };
 

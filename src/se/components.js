@@ -23,6 +23,7 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gra
 
 se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
     this.deltaTime = deltaTime;
+    /*
     var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
     if(x){
         obj.rigidbody.setVelocity(x,0);
@@ -48,6 +49,7 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
                 obj.transform.move(0, this.gravity * deltaTime);
         }
     }
+   */
 };
 
 se.ComponentPlatformPlayerController.prototype.isgrounded = function(){

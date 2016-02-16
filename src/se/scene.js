@@ -46,6 +46,7 @@ se.Scene.prototype.update = function(deltaTime){
         obj.update(deltaTime);
         obj.rigidbody.update(deltaTime);
     }
+    this._resolveColliders(this.objs);
 };
 
 se.Scene.prototype._applyGravity = function(objs, gravity){
@@ -67,6 +68,41 @@ se.Scene.prototype._applyGravity = function(objs, gravity){
         rb.force.y += rb.mass * gravity.y * gravityScale;
         rb.force.x += rb.mass * gravity.x * gravityScale;
     }
+};
+
+se.Scene.prototype._resolveColliders = function(objs){
+    var collisions = [];
+    for(var i = 0; i < objs.length; i++){
+        var objA = objs[i];
+        if (objA.isStatic || objA.isSleeping)
+            continue;
+
+        //for(var j = i + 1; j < objs.length; j ++){
+        for(var j = 0; j < objs.length; j ++){
+            if(i == j)
+                continue;
+            var objB = objs[j];
+            var c = this._checkCollision(objA, objB);
+            if(c)
+                collisions.push(c);
+        }   
+    }
+    for(var i in collisions){
+        var c = collisions[i];  
+    }
+};
+
+se.Scene.prototype._checkCollision = function(objA, objB){
+    var colsA = objA.getColliders();
+    var colsB = objB.getColliders();
+    for(var i in colsA){
+        var col = colsA[i];
+        if(col.isIntersect(colsB)){
+            console.log(objA, objB);
+            return new se.Collision(objA, objB);
+        }
+    }
+
 };
 
 se.Scene.prototype.render = function(ctx){

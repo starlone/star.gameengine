@@ -177,3 +177,13 @@ se.Transform.prototype.getXY = function(){
     return {x: x, y: y};
 };
 
+
+/*
+   Collision
+*/
+se.Collision = function(objA, objB){
+    this.objA = objA;
+    this.objB = objB;
+};
+
+
