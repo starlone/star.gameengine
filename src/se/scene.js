@@ -47,6 +47,7 @@ se.Scene.prototype.update = function(deltaTime){
         obj.rigidbody.update(deltaTime);
     }
     this._resolveColliders(this.objs);
+    this._clearForces(this.objs);
 };
 
 se.Scene.prototype._applyGravity = function(objs, gravity){
@@ -118,6 +119,15 @@ se.Scene.prototype._checkCollision = function(objA, objB){
     }
 
 };
+
+se.Scene.prototype._clearForces = function(objs){
+    for (var i in objs) {
+        var rb = objs[i].rigidbody;
+        rb.force.x = 0;
+        rb.force.y = 0;
+        rb.torque = 0;
+    }
+}
 
 se.Scene.prototype.render = function(ctx){
     this.updatePivot(ctx);

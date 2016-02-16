@@ -51,7 +51,7 @@ se.StarEngine.prototype.addScene = function(scene){
 
 se.StarEngine.prototype.update = function(){
     var now = Date.now();
-    var deltaTime = (now - this.lastTime) / 1000.0;
+    var deltaTime = (now - this.lastTime);
     var scene = this.getSceneCurrent();
     scene.update(deltaTime);
     scene.render(this.ctx);

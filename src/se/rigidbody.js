@@ -27,7 +27,6 @@ se.RigidBody.prototype.update = function(deltaTime){
     var correction = 1;
     var timeScale = 1;
 
-    deltaTime *= 100;
     var deltaTimeSquared = Math.pow(deltaTime * timeScale * this.timeScale, 2);
 
     var frictionAir = 1 - this.frictionAir * deltaTime * this.timeScale,
