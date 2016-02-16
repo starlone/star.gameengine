@@ -21,18 +21,27 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gra
     this.maxH = 200;
 };
 
-se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
-    this.deltaTime = deltaTime;
-    /*
-    var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
-    if(x){
-        obj.rigidbody.setVelocity(x,0);
-        if(x > 0)
-            obj.transform.rotate.x = 1;
-        else if (x < 0)
-            obj.transform.rotate.x = -1;
+var tmp;
 
+se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
+        tmp = obj;
+    this.deltaTime = deltaTime;
+    var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
+    var jump = this.joystick.getAxis('jump')
+    if(x || jump){
+        var y =0;
+        if(x){
+            if(x > 0)
+                obj.transform.rotate.x = 1;
+            else if (x < 0)
+                obj.transform.rotate.x = -1;
+        }
+        if(jump)
+            y = -10;
+        obj.rigidbody.setVelocity(x, y);
     }
+
+    /*
     var y = obj.transform.getXY().y;
     if(this.isjump){
         if(y > this.jumptimeend)

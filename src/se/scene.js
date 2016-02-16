@@ -89,6 +89,21 @@ se.Scene.prototype._resolveColliders = function(objs){
     }
     for(var i in collisions){
         var c = collisions[i];  
+        if(c.objB.isStatic || objB.isSleeping){
+            var velA = c.objA.rigidbody.velocity;
+            var posA = c.objA.transform.position;
+            var posB = c.objB.transform.position;
+            //if(velA.x > 0)
+            //    posA.x -= c.intersection.getWidth() + 0.01;
+            //else
+            //    posA.x += c.intersection.getWidth() + 0.01;
+            if(velA.y > 0)
+                posA.y -= c.intersection.getHeight() + 0.01;
+            else
+                posA.y += c.intersection.getHeight() + 0.01;
+            velA.x =0;
+            velA.y =0;
+        }
     }
 };
 
@@ -98,8 +113,7 @@ se.Scene.prototype._checkCollision = function(objA, objB){
     for(var i in colsA){
         var col = colsA[i];
         if(col.isIntersect(colsB)){
-            console.log(objA, objB);
-            return new se.Collision(objA, objB);
+            return new se.Collision(objA, objB, col.getIntersection(colsB));
         }
     }
 

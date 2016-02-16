@@ -23,4 +23,24 @@ se.Vector.prototype.getMagnitude = function (){
     return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
+se.Vector.prototype.sub = function (other, is_self){
+    var out;
+    if(is_self)
+        out = this;
+    else
+        out = new se.Vector(0, 0);
+    out.x = this.x - other.x;
+    out.y = this.y - other.y;
+    return out;
+};
 
+se.Vector.prototype.add = function (other, is_self){
+    var out;
+    if(is_self)
+        out = this;
+    else
+        out = new se.Vector(0, 0);
+    out.x = this.x + other.x;
+    out.y = this.y + other.y;
+    return out;
+}
