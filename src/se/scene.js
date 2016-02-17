@@ -10,7 +10,8 @@ se.Scene = function (backgroundcolor){
     this.gravity = {
         x: 0,
         y: 1,
-        scale: 0.001
+        //scale: 0.001
+        scale: 0.003
     }
 };
 

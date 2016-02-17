@@ -23,7 +23,8 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gra
 
 se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
     this.deltaTime = deltaTime;
-    var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime / 1000;
+    var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
+    x = x || 0;
     var jump = this.joystick.getAxis('jump')
     if(x || jump){
         var y =0;
