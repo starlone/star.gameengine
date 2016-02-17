@@ -11,11 +11,14 @@ se.GameObject = function (name, x, y, width, height, options){
     this.renderer = null;
     this.parent = null;
     this.children = [];
-    this.rigidbody = new se.RigidBody(this);
-
+    //this.rigidbody = new se.RigidBody(this);
+	//
     options = options || {};
     this.isStatic = options.isStatic || false;
     this.isSleeping = options.isSleeping || false;
+	this.angle = 0;
+
+	this.rigidbody = options.rigidbody || null;
 };
 
 se.GameObject.prototype.getX = function(){
@@ -44,6 +47,9 @@ se.GameObject.prototype.setRenderer = function(renderer){
 };
 
 se.GameObject.prototype.update = function(deltaTime){
+	var rb = this.rigidbody;
+	if(rb) 
+		this.rigidbody.update(deltaTime);
     for(var i in this.components){
         this.components[i].update(this, deltaTime);
     }
@@ -58,7 +64,8 @@ se.GameObject.prototype.render = function(ctx){
     var r = obj.transform.rotate;
 
     ctx.translate(pos.x, pos.y);
-    ctx.rotate(r.y*Math.PI/180);
+    //ctx.rotate(r.y*Math.PI/180);
+	ctx.rotate(obj.angle);
     ctx.scale(r.x, 1);
 
     if(this.renderer) this.renderer.render(ctx);
@@ -68,7 +75,8 @@ se.GameObject.prototype.render = function(ctx){
 
     // Reset
     ctx.scale(r.x, 1);
-    ctx.rotate(-r.y*Math.PI/180);
+    //ctx.rotate(-r.y*Math.PI/180);
+	ctx.rotate(-obj.angle);
     ctx.translate(-pos.x, -pos.y);
 };
 
@@ -81,6 +89,14 @@ se.GameObject.prototype.addComponent = function(component){
 se.GameObject.prototype.addCollider = function(collider){
     this.colliders.push(collider);
     collider.setParent(this);
+    return this;
+};
+
+se.GameObject.prototype.setRigidBody = function(rigidbody){
+	this.rigidbody = rigidbody;
+	var engine = this.parent.matterengine;
+	Matter.World.add(engine.world, rigidbody.body);
+    rigidbody.setParent(this);
     return this;
 };
 

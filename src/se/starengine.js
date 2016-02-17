@@ -3,7 +3,11 @@
 */
 se.StarEngine = function (elementID){
     var self = this;
-    this.element = document.getElementById(elementID);
+	if(elementID)
+		this.element = document.getElementById(elementID);
+	else
+		this.element = document.body;
+
     if (this.element.getContext){
         this.ctx = canvas.getContext('2d');
     }

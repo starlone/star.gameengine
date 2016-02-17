@@ -8,7 +8,7 @@ se.BoxRenderer = function(color){
 se.BoxRenderer.prototype.render = function(ctx){
     var obj = this.parent;
     ctx.fillStyle = this.color;
-    ctx.fillRect(0, 0, obj.width, obj.height);
+    ctx.fillRect(-obj.width / 2, -obj.height / 2, obj.width, obj.height);
 }
 
 se.BoxRenderer.prototype.setParent = function(obj){
@@ -28,7 +28,7 @@ se.ImageRenderer = function(image_src){
 
 se.ImageRenderer.prototype.render = function(ctx){
     var obj = this.parent;
-    ctx.drawImage(this.img, 0, 0, obj.width, obj.height);
+    ctx.drawImage(this.img, -obj.width / 2, -obj.height / 2, obj.width, obj.height);
 }
 
 se.ImageRenderer.prototype.setParent = function(obj){

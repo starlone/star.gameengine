@@ -7,53 +7,42 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
 
+    <script type="text/javascript" src="../libs/matter.min.js"></script>
     <script type="text/javascript" src="../starengine.min.js"></script>
     <script type="text/javascript">
         window.onload = function(){
             var game = new se.StarEngine('canvas');
 
-            var scene = new se.Scene();
+            var scene = new se.Scene(parent);
             game.addScene(scene);
 
-            var ground = new se.GameObject('ground', -1500, 250, 2800, 450, {isStatic: true});
-            ground.addCollider( new se.BoxCollider(0, 0, 2800, 200) );
+            var ground = new se.GameObject('ground', 0, 650, 2800, 450, {isStatic: true});
             ground.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground);
+			ground.setRigidBody( new se.RigidBodyMatter(ground) );
 
-            var grass = new se.GameObject('grass', 0, 0, 2800, 10);
+            var grass = new se.GameObject('grass', 0, -220, 2800, 10);
             grass.setRenderer( new se.BoxRenderer('green') );
             ground.addChild(grass);
 
-            var wall1 = new se.GameObject('wall1', -1000, -100, 40, 360, {isStatic: true});
-            wall1.addCollider( new se.BoxCollider(0, 0, 40, 370) );
-            wall1.setRenderer( new se.BoxRenderer('#A68064') );
-            scene.add(wall1);
-
-            var ground2 = new se.GameObject('ground2', 1400, 250, 3000, 450, {isStatic: true});
-            ground2.addCollider( new se.BoxCollider(0, 0, 3000, 200) );
-            ground2.setRenderer( new se.BoxRenderer('#6B4226') );
-            scene.add(ground2);
-
-            var grass2 = new se.GameObject('grass2', 0, 0, 3000, 10);
-            grass2.setRenderer( new se.BoxRenderer('green') );
-            ground2.addChild(grass2);
-
-            var box = new se.GameObject('box', 520, 70, 80, 80);
-            box.addCollider( new se.BoxCollider(0, 0, 80, 80) );
+            var box = new se.GameObject('box', 480, 80, 80, 80);
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
+			box.setRigidBody( new se.RigidBodyMatter(box) );
 
-            var obj_player = new se.GameObject('Player', 20, 0, 0, 0);
+			var box = new se.GameObject('box2', 520, 250, 80, 80);
+            box.setRenderer( new se.ImageRenderer('box.jpg') );
+            scene.add(box);
+			box.setRigidBody( new se.RigidBodyMatter(box) );
+
+            var obj_player = new se.GameObject('Player', 20, 0, 50, 50);
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 1, 400, 400) );
-            obj_player.addCollider( new se.BoxCollider(-25, 0, 50, 50) );
+            //obj_player.addCollider( new se.BoxCollider(-25, 0, 50, 50) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);
+			obj_player.setRigidBody( new se.RigidBodyMatter(obj_player) );
 
-            var player_body = new se.GameObject('PlayerBody', -25, 0, 50, 50);
-            player_body.setRenderer( new se.BoxRenderer('#dddddd') );
-            obj_player.addChild(player_body);
-
-            var player_eye = new se.GameObject('PlayerEye', 10, 10, 15, 10);
+            var player_eye = new se.GameObject('PlayerEye', 10, -8, 15, 10);
             player_eye.setRenderer( new se.BoxRenderer('blue') );
             obj_player.addChild(player_eye);
 

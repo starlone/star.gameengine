@@ -1,7 +1,8 @@
 /*
     Scene
 */
-se.Scene = function (backgroundcolor){
+se.Scene = function (parent, backgroundcolor){
+	this.parent = parent;
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.setParent(this);
     this.pivot = new se.Transform(this, 0, 0);
@@ -13,6 +14,11 @@ se.Scene = function (backgroundcolor){
         //scale: 0.001
         scale: 0.003
     }
+
+	// Matter
+	// create a Matter.js engine
+	this.matterengine = Matter.Engine.create(this.parent.element);
+	Matter.Engine.run(this.matterengine);
 };
 
 se.Scene.prototype.getWidth = function(){
@@ -41,14 +47,14 @@ se.Scene.prototype.add = function(obj){
 };
 
 se.Scene.prototype.update = function(deltaTime){
-    this._applyGravity(this.objs, this.gravity);
+    //this._applyGravity(this.objs, this.gravity);
     for(var i in this.objs){
         var obj = this.objs[i];
         obj.update(deltaTime);
-        obj.rigidbody.update(deltaTime);
+        //obj.rigidbody.update(deltaTime);
     }
-    this._resolveColliders(this.objs);
-    this._clearForces(this.objs);
+    //this._resolveColliders(this.objs);
+    //this._clearForces(this.objs);
 };
 
 se.Scene.prototype._applyGravity = function(objs, gravity){
