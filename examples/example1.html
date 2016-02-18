@@ -13,34 +13,30 @@
         window.onload = function(){
             var game = new se.StarEngine('canvas');
 
-            var scene = new se.Scene(parent);
+            var renderer = new se.GradientRenderer('#004CB3','#8ED6FF');
+            var scene = new se.Scene(parent, renderer);
             game.addScene(scene);
 
-            var ground = new se.GameObject('ground', 0, 650, 2800, 450, {isStatic: true});
+            var ground = new se.GameObject('ground', 0, 200, 2800, 10, {isStatic: true});
             ground.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground);
-			ground.setRigidBody( new se.RigidBodyMatter(ground) );
+            ground.setRigidBody( new se.RigidBodyMatter(ground) );
 
-            var grass = new se.GameObject('grass', 0, -220, 2800, 10);
-            grass.setRenderer( new se.BoxRenderer('green') );
-            ground.addChild(grass);
-
-            var box = new se.GameObject('box', 480, 80, 80, 80);
+            var box = new se.GameObject('box', 280, 100, 80, 80);
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
-			box.setRigidBody( new se.RigidBodyMatter(box) );
+            box.setRigidBody( new se.RigidBodyMatter(box) );
 
-			var box = new se.GameObject('box2', 520, 250, 80, 80);
+            var box = new se.GameObject('box2', 220, 150, 80, 80);
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
-			box.setRigidBody( new se.RigidBodyMatter(box) );
+            box.setRigidBody( new se.RigidBodyMatter(box) );
 
-            var obj_player = new se.GameObject('Player', 20, 0, 50, 50);
+            var obj_player = new se.GameObject('Player', 20, -50, 50, 50);
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 1, 400, 400) );
-            //obj_player.addCollider( new se.BoxCollider(-25, 0, 50, 50) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);
-			obj_player.setRigidBody( new se.RigidBodyMatter(obj_player) );
+            obj_player.setRigidBody( new se.RigidBodyMatter(obj_player) );
 
             var player_eye = new se.GameObject('PlayerEye', 10, -8, 15, 10);
             player_eye.setRenderer( new se.BoxRenderer('blue') );

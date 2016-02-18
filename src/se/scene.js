@@ -1,13 +1,12 @@
 /*
     Scene
 */
-se.Scene = function (parent, backgroundcolor){
-	this.parent = parent;
+se.Scene = function (parent, renderer){
+    this.parent = parent;
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.camera.setParent(this);
     this.pivot = new se.Transform(this, 0, 0);
     this.objs = [this.camera];
-    this.backcolor = backgroundcolor || 'rgba(135, 206, 250,1)';
     this.gravity = {
         x: 0,
         y: 1,
@@ -15,10 +14,15 @@ se.Scene = function (parent, backgroundcolor){
         scale: 0.003
     }
 
-	// Matter
-	// create a Matter.js engine
-	this.matterengine = Matter.Engine.create(this.parent.element);
-	Matter.Engine.run(this.matterengine);
+    if(!renderer){
+        this.renderer = new se.GradientRenderer('#8ED6FF','#004CB3');
+        this.renderer.setParent(this);
+    }
+
+    // Matter
+    // create a Matter.js engine
+    this.matterengine = Matter.Engine.create(this.parent.element);
+    Matter.Engine.run(this.matterengine);
 };
 
 se.Scene.prototype.getWidth = function(){
@@ -146,13 +150,12 @@ se.Scene.prototype.render = function(ctx){
 };
 
 se.Scene.prototype.renderBackground = function(ctx){
-    ctx.fillStyle = this.backcolor;
-    ctx.fillRect(
-        this.pivot.position.x,
-        this.pivot.position.y,
-        this.getWidth(),
-        this.getHeight()
-    );
+    this.renderer.render(ctx, {
+        x: this.pivot.position.x,
+        y: this.pivot.position.y,
+        width: this.getWidth(),
+        height: this.getHeight()
+    })
 };
 
 se.Scene.prototype.clearframe = function(ctx){
