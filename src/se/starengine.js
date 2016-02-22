@@ -9,7 +9,7 @@ se.StarEngine = function (elementID){
         this.element = document.body;
 
     if (this.element.getContext){
-        this.ctx = canvas.getContext('2d');
+        this.ctx = this.element.getContext('2d');
     }
     this.scenes = [];
     this.joystick = new se.Joystick();
