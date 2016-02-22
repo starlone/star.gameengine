@@ -33,7 +33,7 @@
             box.setRigidBody( new se.RigidBodyMatter(box) );
 
             var obj_player = new se.GameObject('Player', 20, -50, 50, 50);
-            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 1, 400, 400) );
+            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, 400, 400) );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
             scene.add(obj_player);
             obj_player.setRigidBody( new se.RigidBodyMatter(obj_player) );
@@ -44,7 +44,7 @@
 
             scene.getCamera().addComponent( new se.ComponentFollowObject(obj_player));
 
-            game.init();
+            game.run();
 
             // Buttons
             // B1

@@ -4,22 +4,20 @@
 
 var se = new Object();
 
-window.animationFrame = (function(){
-    return  window.requestAnimationFrame       ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        window.oRequestAnimationFrame      ||
-        window.msRequestAnimationFrame     ||
-        function(/* function */ callback, /* DOMElement */ element){
-            window.setTimeout(callback, 1000 / 60);
-        };
-})();
+if (typeof window !== 'undefined') {
+    window.requestAnimationFrame =  (function(){
+        return  window.requestAnimationFrame      ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            window.oRequestAnimationFrame      ||
+            window.msRequestAnimationFrame     ||
+            function(callback){ 
+                window.setTimeout(function() { callback(new Date.now());    }, 1000 / 60); 
+            };
+    })();
 
-se.windowGameMain = null;
-
-se.updateFrame = function (time){
-    se.windowGameMain.update();
-    animationFrame(se.updateFrame);
+    window.cancelAnimationFrame = window.cancelAnimationFrame || 
+                               window.mozCancelAnimationFrame 
 }
 
 

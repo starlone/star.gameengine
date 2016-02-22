@@ -51,11 +51,11 @@ se.Scene.prototype.add = function(obj){
     obj.setParent(this);
 };
 
-se.Scene.prototype.update = function(deltaTime){
+se.Scene.prototype.update = function(deltaTime, correction){
     //this._applyGravity(this.objs, this.gravity);
     for(var i in this.objs){
         var obj = this.objs[i];
-        obj.update(deltaTime);
+        obj.update(deltaTime, correction);
         //obj.rigidbody.update(deltaTime);
     }
     //this._resolveColliders(this.objs);
