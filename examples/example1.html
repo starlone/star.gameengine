@@ -14,7 +14,7 @@
             var game = new se.StarEngine('canvas');
 
             var renderer = new se.GradientRenderer('#004CB3','#8ED6FF');
-            var scene = new se.Scene(parent, renderer);
+            var scene = new se.Scene(game, renderer);
             game.addScene(scene);
 
             var ground = new se.GameObject('ground', 0, 200, 2800, 10, {isStatic: true});
