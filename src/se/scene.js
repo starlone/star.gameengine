@@ -4,15 +4,9 @@
 se.Scene = function (parent, renderer){
     this.parent = parent;
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
-    this.camera.setParent(this);
     this.pivot = new se.Transform(this, 0, 0);
-    this.objs = [this.camera];
-    this.gravity = {
-        x: 0,
-        y: 1,
-        //scale: 0.001
-        scale: 0.003
-    }
+    this.objs = [];
+    this.add(this.camera);
 
     if(!renderer){
         this.renderer = new se.GradientRenderer('#8ED6FF','#004CB3');
@@ -20,7 +14,6 @@ se.Scene = function (parent, renderer){
     } else
         this.renderer = renderer;
 
-    // Matter
     // create a Matter.js engine
     this.matterengine = Matter.Engine.create(this.parent.element);
 };
@@ -48,6 +41,11 @@ se.Scene.prototype.setParent = function(parent){
 se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
     obj.setParent(this);
+    if(obj.rigidbody){
+        var engine = this.matterengine;
+        Matter.World.add(engine.world, obj.rigidbody.body);
+    }
+
 };
 
 se.Scene.prototype.update = function(deltaTime, correction){

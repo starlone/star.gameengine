@@ -11,14 +11,14 @@ se.GameObject = function (name, x, y, width, height, options){
     this.renderer = null;
     this.parent = null;
     this.children = [];
-    //this.rigidbody = new se.RigidBody(this);
 
     options = options || {};
-    this.isStatic = options.isStatic || false;
+    this.isStatic = options.isStatic != null ? options.isStatic : false;
     this.isSleeping = options.isSleeping || false;
+    this.canRotate = options.canRotate != null ? options.canRotate : true;
+    this.rigidbody = options.rigidbody || null;
     this.angle = 0;
 
-    this.rigidbody = options.rigidbody || null;
 };
 
 se.GameObject.prototype.getX = function(){
@@ -94,8 +94,6 @@ se.GameObject.prototype.addCollider = function(collider){
 
 se.GameObject.prototype.setRigidBody = function(rigidbody){
     this.rigidbody = rigidbody;
-    var engine = this.parent.matterengine;
-    Matter.World.add(engine.world, rigidbody.body);
     rigidbody.setParent(this);
     return this;
 };
