@@ -17,11 +17,11 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gra
 };
 
 se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
-    this.deltaTime = deltaTime;
-    var x = this.joystick.getAxis('horizontal') * this.speed * deltaTime;
+    var x = this.joystick.getAxis('horizontal') * deltaTime / 1000;
     x = x || 0;
     var jump = this.joystick.getAxis('jump')
     if(x || jump){
+        var vel = obj.rigidbody.body.velocity;
         var y =0;
         if(x){
             if(x > 0)
@@ -29,17 +29,14 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
             else if (x < 0)
                 obj.transform.rotate.x = -1;
         }
-        if(jump)
-            y = -10;
-        obj.rigidbody.setVelocity(x, y);
+        if(vel.x > 10 || vel.x < -10)
+            x = 0
+        if(jump && vel.y < 1 && vel.y > -1){
+            y = -0.1;
+        }
+        obj.rigidbody.applyForce({x:0, y:0},{x: x, y: y});
     }
 };
-
-se.ComponentPlatformPlayerController.prototype.isgrounded = function(){
-    var obj = this.parent;
-    var can = obj.transform.canMove(0, this.gravity * this.deltaTime);
-    return !can;
-}
 
 se.ComponentPlatformPlayerController.prototype.setParent = function(obj){
     this.parent = obj;

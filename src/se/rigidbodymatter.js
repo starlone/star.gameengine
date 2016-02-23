@@ -34,6 +34,10 @@ se.RigidBodyMatter.prototype.setVelocity = function (x, y){
     Matter.Body.setVelocity(this.body, {x: x , y: y});
 };
 
+se.RigidBodyMatter.prototype.applyForce = function (position, force){
+    Matter.Body.applyForce(this.body, position, force);
+};
+
 Matter.Body.update = function(body, deltaTime, timeScale, correction) {
     var Bounds = Matter.Bounds;
     var Vector = Matter.Vector;
