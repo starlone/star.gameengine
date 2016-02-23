@@ -17,17 +17,17 @@
             var scene = new se.Scene(game, renderer);
             game.addScene(scene);
 
-            var ground = new se.GameObject('ground', 0, 200, 2800, 10, {isStatic: true});
+            var ground = new se.GameObject('ground', 0, 200, 2800, 100, {isStatic: true});
             ground.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground);
             ground.setRigidBody( new se.RigidBodyMatter(ground) );
 
-            var box = new se.GameObject('box', 280, 100, 80, 80);
+            var box = new se.GameObject('box', 280, -50, 80, 80);
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
             box.setRigidBody( new se.RigidBodyMatter(box) );
 
-            var box = new se.GameObject('box2', 220, 150, 80, 80);
+            var box = new se.GameObject('box2', 220, 50, 80, 80);
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
             box.setRigidBody( new se.RigidBodyMatter(box) );
