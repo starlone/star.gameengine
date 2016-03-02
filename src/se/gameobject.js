@@ -1,11 +1,9 @@
 /*
     GameObject
 */
-se.GameObject = function (name, x, y, width, height, options){
+se.GameObject = function (name, x, y, options){
     this.name = name;
     this.transform = new se.Transform(this, x, y);
-    this.width = width;
-    this.height = height;
     this.components = [];
     this.colliders = [];
     this.renderer = null;
@@ -127,56 +125,6 @@ se.Transform.prototype.move = function(x,y){
     this.resolveCollision(x, y);
 };
 
-
-se.Transform.prototype.resolveCollision = function(x, y){
-    var gameobj = this.parent;
-    var scene = gameobj.parent;
-    var objs = scene.getObjs();
-
-    var cols = gameobj.getColliders();
-    for(var i in cols){
-        var col = cols[i];
-        for(var j in objs){
-            var obj = objs[j];
-            if(gameobj != obj){
-                var inter = col.getIntersection(obj.getColliders())
-                if(inter){
-                    if(x != 0)
-                        if(x < 0) 
-                            this.position.x += inter.getWidth() + 0.01;
-                        else
-                            this.position.x -= inter.getWidth() + 0.01;
-                    if(y !=0)
-                        if(y < 0) 
-                            this.position.y += inter.getHeight() + 0.01;
-                        else
-                            this.position.y -= inter.getHeight() + 0.01;
-                }
-            }
-        }
-    }
-}
-
-se.Transform.prototype.canMove = function(x, y){
-    var gameobj = this.parent;
-    var scene = gameobj.parent;
-    var objs = scene.getObjs();
-
-    var cols = gameobj.getColliders();
-    for(var i in cols){
-        var col = cols[i].clone();
-        col.setParent(gameobj);
-        col.x += x;
-        col.y += y;
-        for(var j in objs){
-            var obj = objs[j];
-            if(gameobj != obj && col.isIntersect(obj.getColliders()))
-                return false;
-        }
-    }
-    return true;
-};
-
 se.Transform.prototype.getXY = function(){
     var x = this.position.x;
     var y = this.position.y;
@@ -190,15 +138,4 @@ se.Transform.prototype.getXY = function(){
 
     return {x: x, y: y};
 };
-
-
-/*
-   Collision
-*/
-se.Collision = function(objA, objB, intersection){
-    this.objA = objA;
-    this.objB = objB;
-    this.intersection = intersection;
-};
-
 

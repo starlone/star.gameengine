@@ -1,14 +1,15 @@
 /*
 BoxRender
 */
-se.BoxRenderer = function(color){
+se.BoxRenderer = function(color, width, height){
     this.color = color;
+    this.width = width;
+    this.height = height;
 }
 
 se.BoxRenderer.prototype.render = function(ctx){
-    var obj = this.parent;
     ctx.fillStyle = this.color;
-    ctx.fillRect(-obj.width / 2, -obj.height / 2, obj.width, obj.height);
+    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
 }
 
 se.BoxRenderer.prototype.setParent = function(obj){
@@ -20,15 +21,16 @@ se.BoxRenderer.prototype.setParent = function(obj){
 ImageRender
 */
 
-se.ImageRenderer = function(image_src){
+se.ImageRenderer = function(image_src, width, height){
     this.img = new Image();
     this.is_load = false;
     this.img.src = image_src;
+    this.width = width;
+    this.height = height;
 }
 
 se.ImageRenderer.prototype.render = function(ctx){
-    var obj = this.parent;
-    ctx.drawImage(this.img, -obj.width / 2, -obj.height / 2, obj.width, obj.height);
+    ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
 }
 
 se.ImageRenderer.prototype.setParent = function(obj){
