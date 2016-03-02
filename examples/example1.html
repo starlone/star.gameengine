@@ -17,22 +17,31 @@
             var scene = new se.Scene(game, renderer);
             game.addScene(scene);
 
-            var ground = new se.GameObject('ground', 0, 200, 2800, 100, {isStatic: true});
-            ground.setRigidBody( new se.RigidBodyMatter() );
+            var grass = new se.GameObject('grass', 0, 300, 2800, 30, {isStatic: true});
+            grass.setRigidBody( new se.RigidBodyMatter() );
+            grass.setRenderer( new se.BoxRenderer('green') );
+            scene.add(grass);
+
+            var ground = new se.GameObject('ground', 0, 600, 2800, 600, {isStatic: true});
             ground.setRenderer( new se.BoxRenderer('#6B4226') );
             scene.add(ground);
 
-            var box = new se.GameObject('box', 280, -50, 80, 80);
+            var wall = new se.GameObject('wall', 0, 0, 200, 600, {isStatic: true});
+            wall.setRigidBody( new se.RigidBodyMatter() );
+            wall.setRenderer( new se.BoxRenderer('#6B4226') );
+            scene.add(wall);
+
+            var box = new se.GameObject('box', 480, -50, 80, 80);
             box.setRigidBody( new se.RigidBodyMatter() );
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
 
-            var box = new se.GameObject('box2', 220, 50, 80, 80);
+            var box = new se.GameObject('box2', 420, 50, 80, 80);
             box.setRigidBody( new se.RigidBodyMatter() );
             box.setRenderer( new se.ImageRenderer('box.jpg') );
             scene.add(box);
 
-			var obj_player = new se.GameObject('Player', 20, -50, 50, 50, {canRotate: false});
+            var obj_player = new se.GameObject('Player', 200, -50, 50, 50, {canRotate: false});
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, 400, 400) );
             obj_player.setRigidBody( new se.RigidBodyMatter() );
             obj_player.setRenderer( new se.BoxRenderer('#dddddd') );
