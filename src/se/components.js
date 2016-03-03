@@ -17,24 +17,25 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gra
 };
 
 se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
-    var x = this.joystick.getAxis('horizontal') * deltaTime / 1000;
+    var x = this.joystick.getAxis('horizontal') * deltaTime / 1000 * 30;
     x = x || 0;
     var jump = this.joystick.getAxis('jump')
     if(x || jump){
         var vel = obj.rigidbody.body.velocity;
-        var y =0;
-        if(x){
-            if(x > 0)
-                obj.transform.rotate.x = 1;
-            else if (x < 0)
-                obj.transform.rotate.x = -1;
-        }
-        if(vel.x > 10 || vel.x < -10)
-            x = 0
+        var x = vel.x + x;
+        var y = vel.y;
+        if(x > 0)
+            obj.transform.rotate.x = 1;
+        else if (x < 0)
+            obj.transform.rotate.x = -1;
+        if(x > 16)
+            x = 16;
+        if(x < -16)
+            x = -16;
         if(jump && vel.y < 1 && vel.y > -1){
-            y = -0.1;
+            y = -13;
         }
-        obj.rigidbody.applyForce({x:0, y:0},{x: x, y: y});
+        obj.rigidbody.setVelocity({x: x, y: y});
     }
 };
 
@@ -58,16 +59,4 @@ se.ComponentFollowObject.prototype.setParent = function(obj){
 }
 
 
-/*
-    ComponentRigidBody
-*/
-se.ComponentRigidBody = function (gravity){
-    this.gravity = gravity;
-}
-se.ComponentRigidBody.prototype.update = function(obj, deltaTime){
-    obj.transform.move(0, this.gravity * deltaTime);
-}
-se.ComponentRigidBody.prototype.setParent = function(obj){
-    this.parent = obj;
-}
 

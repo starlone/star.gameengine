@@ -16,6 +16,35 @@ se.BoxRenderer.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
+/*
+CircleRender
+*/
+se.CircleRenderer = function(radius, fillStyle, strokeStyle, lineWidth){
+    this.radius = radius;
+    this.fillStyle = fillStyle;
+    this.strokeStyle = strokeStyle;
+    this.lineWidth = lineWidth || 1;
+}
+
+se.CircleRenderer.prototype.render = function(ctx){
+    ctx.beginPath();
+
+    ctx.fillStyle = this.fillStyle;
+    if(this.strokeStyle){
+        ctx.strokeStyle = this.strokeStyle;
+        ctx.lineWidth = this.lineWidth;
+    }
+
+    ctx.arc(0, 0, this.radius, 0, 2 * Math.PI);
+    ctx.fill();
+
+    if(this.strokeStyle)
+        ctx.stroke();
+}
+
+se.CircleRenderer.prototype.setParent = function(obj){
+    this.parent = obj;
+}
 
 /*
 ImageRender
@@ -99,8 +128,8 @@ se.RigidBodyRenderer.prototype.render = function(ctx){
     c.fillStyle = this.color;
     c.lineWidth = part.render.lineWidth;
     c.strokeStyle = part.render.strokeStyle;
-    c.fill();
 
+    c.fill();
     c.stroke();
 
 }

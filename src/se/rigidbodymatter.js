@@ -12,8 +12,8 @@ se.RigidBodyMatter.prototype.createBody = function (){
     options = this.options || {};
     var x = options.x || pos.x;
     var y = options.y || pos.y;
-    var w = options.width || obj.getWidth();
-    var h = options.height || obj.getHeight();
+    var w = options.width; 
+    var h = options.height;
 
     this.body = Matter.Bodies.rectangle(x, y, w, h, {isStatic: obj.isStatic, canRotate: obj.canRotate});
 };
