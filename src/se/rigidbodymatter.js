@@ -30,8 +30,8 @@ se.RigidBodyMatter.prototype.setParent = function (parent){
     this.createBody();
 };
 
-se.RigidBodyMatter.prototype.setVelocity = function (x, y){
-    Matter.Body.setVelocity(this.body, {x: x , y: y});
+se.RigidBodyMatter.prototype.setVelocity = function (velocity){
+    Matter.Body.setVelocity(this.body, velocity);
 };
 
 se.RigidBodyMatter.prototype.applyForce = function (position, force){
