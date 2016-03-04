@@ -15,7 +15,14 @@ se.CircleRigidBodyMatter.prototype.createBody = function (){
     var y = options.y || pos.y;
     var r = options.radius || radius;
 
-	this.body = Matter.Bodies.circle(x, y, r, {isStatic: obj.isStatic, canRotate: obj.canRotate});
+    delete options.x;
+    delete options.y;
+    delete options.radius;
+
+    options.isStatic = obj.isStatic;
+    options.canRotate = obj.canRotate;
+
+    this.body = Matter.Bodies.circle(x, y, r, options);
 };
 
 
@@ -31,7 +38,6 @@ se.CircleRigidBodyMatter.prototype.setParent = function (parent){
     this.createBody();
 };
 
-
 se.CircleRigidBodyMatter.prototype.setVelocity = function (velocity){
     Matter.Body.setVelocity(this.body, velocity);
 };
@@ -39,6 +45,11 @@ se.CircleRigidBodyMatter.prototype.setVelocity = function (velocity){
 se.CircleRigidBodyMatter.prototype.applyForce = function (position, force){
     Matter.Body.applyForce(this.body, position, force);
 };
+
+se.CircleRigidBodyMatter.prototype.setAngularVelocity = function (velocity){
+    Matter.Body.setAngularVelocity(this.body, velocity);
+};
+
 
 
 

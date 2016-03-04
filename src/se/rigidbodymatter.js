@@ -15,7 +15,15 @@ se.RigidBodyMatter.prototype.createBody = function (){
     var w = options.width; 
     var h = options.height;
 
-    this.body = Matter.Bodies.rectangle(x, y, w, h, {isStatic: obj.isStatic, canRotate: obj.canRotate});
+    delete options.x;
+    delete options.y;
+    delete options.width;
+    delete options.height;
+
+    options.isStatic = obj.isStatic;
+    options.canRotate = obj.canRotate;
+
+    this.body = Matter.Bodies.rectangle(x, y, w, h, options);
 };
 
 se.RigidBodyMatter.prototype.update = function (deltaTime){
@@ -36,6 +44,10 @@ se.RigidBodyMatter.prototype.setVelocity = function (velocity){
 
 se.RigidBodyMatter.prototype.applyForce = function (position, force){
     Matter.Body.applyForce(this.body, position, force);
+};
+
+se.RigidBodyMatter.prototype.setAngularVelocity = function (velocity){
+    Matter.Body.setAngularVelocity(this.body, velocity);
 };
 
 Matter.Body.update = function(body, deltaTime, timeScale, correction) {
