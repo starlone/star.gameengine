@@ -49,10 +49,10 @@ se.GameObject.prototype.update = function(deltaTime, correction){
     if(rb) 
         this.rigidbody.update(deltaTime, correction);
     for(var i in this.components){
-        this.components[i].update(this, deltaTime);
+        this.components[i].update(this, deltaTime, correction);
     }
     for(var i in this.children){
-        this.children[i].update(deltaTime);
+        this.children[i].update(deltaTime, correction);
     }
 };
 
