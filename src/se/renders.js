@@ -1,18 +1,18 @@
 /*
 BoxRender
 */
-se.BoxRenderer = function(color, width, height){
+se.RectRenderer = function(color, width, height){
     this.color = color;
     this.width = width;
     this.height = height;
 }
 
-se.BoxRenderer.prototype.render = function(ctx){
+se.RectRenderer.prototype.render = function(ctx){
     ctx.fillStyle = this.color;
     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
 }
 
-se.BoxRenderer.prototype.setParent = function(obj){
+se.RectRenderer.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
@@ -80,7 +80,7 @@ se.GradientRenderer.prototype.setParent = function(obj){
 
 se.GradientRenderer.prototype.render = function(ctx, params){
     var grd = ctx.createLinearGradient(150, 0, 150, 300);
-    grd.addColorStop(0, this.color1);   
+    grd.addColorStop(0, this.color1);
     grd.addColorStop(1, this.color2);
     ctx.fillStyle = grd;
     ctx.fillRect(params.x, params.y, params.width, params.height);
@@ -90,17 +90,19 @@ se.GradientRenderer.prototype.render = function(ctx, params){
 /*
    RigidBodyRenderer - Based in Matter JS
 */
-se.RigidBodyRenderer = function(color){
+se.MeshRenderer = function(fillColor, strokeColor, lineWidth){
     this.color = color;
+    this.strokeColor = strokeColor;
+    this.lineWidth = lineWidth;
 }
 
-se.RigidBodyRenderer.prototype.setParent = function(obj){
+se.MeshRenderer.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
-se.RigidBodyRenderer.prototype.render = function(ctx){
+se.MeshRenderer.prototype.render = function(ctx){
     var pos = this.parent.transform.position;
-    var part = this.parent.rigidbody.body;
+    var part = this.parent.mesh;
     var c = ctx;
 
     // part polygon
@@ -121,13 +123,15 @@ se.RigidBodyRenderer.prototype.render = function(ctx){
             c.moveTo(x, y);
         }
     }
-    
+
     c.lineTo(part.vertices[0].x - pos.x, part.vertices[0].y - pos.y);
     c.closePath();
 
     c.fillStyle = this.color;
-    c.lineWidth = part.render.lineWidth;
-    c.strokeStyle = part.render.strokeStyle;
+    if(this.strokeStyle){
+        c.lineWidth = this.lineWidth;
+        c.strokeStyle = this.strokeStyle;
+    }
 
     c.fill();
     c.stroke();

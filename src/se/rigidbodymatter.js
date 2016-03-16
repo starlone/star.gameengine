@@ -12,7 +12,7 @@ se.RigidBodyMatter.prototype.createBody = function (){
     options = this.options || {};
     var x = options.x || pos.x;
     var y = options.y || pos.y;
-    var w = options.width; 
+    var w = options.width;
     var h = options.height;
 
     delete options.x;
@@ -23,11 +23,16 @@ se.RigidBodyMatter.prototype.createBody = function (){
     options.isStatic = obj.isStatic;
     options.canRotate = obj.canRotate;
 
-    this.body = Matter.Bodies.rectangle(x, y, w, h, options);
+    var body = {
+        label: 'Rectangle Body',
+        position: { x: x, y: y },
+        vertices: obj.mesh.getVertices()
+    };
+    this.body = Matter.Body.create(Matter.Common.extend({}, body, options));
 };
 
 se.RigidBodyMatter.prototype.update = function (deltaTime){
-    var pos = this.parent.transform.position;   
+    var pos = this.parent.transform.position;
     pos.x = this.body.position.x;
     pos.y = this.body.position.y;
     this.parent.angle = this.body.angle;
@@ -91,7 +96,7 @@ Matter.Body.update = function(body, deltaTime, timeScale, correction) {
         var part = body.parts[i];
 
         Vertices.translate(part.vertices, body.velocity);
-        
+
         if (i > 0) {
             part.position.x += body.velocity.x;
             part.position.y += body.velocity.y;

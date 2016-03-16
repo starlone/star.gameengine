@@ -14,9 +14,10 @@ se.GameObject = function (name, x, y, options){
     this.isStatic = options.isStatic != null ? options.isStatic : false;
     this.isSleeping = options.isSleeping || false;
     this.canRotate = options.canRotate != null ? options.canRotate : true;
+
+    this.mesh = options.mesh || new se.Mesh({vertices: options.vertices});
     this.rigidbody = options.rigidbody || null;
     this.angle = 0;
-
 };
 
 se.GameObject.prototype.getX = function(){
@@ -46,7 +47,7 @@ se.GameObject.prototype.setRenderer = function(renderer){
 
 se.GameObject.prototype.update = function(deltaTime, correction){
     var rb = this.rigidbody;
-    if(rb) 
+    if(rb)
         this.rigidbody.update(deltaTime, correction);
     for(var i in this.components){
         this.components[i].update(this, deltaTime, correction);

@@ -13,42 +13,30 @@
         window.onload = function(){
             var game = new se.StarEngine('canvas');
 
-            var renderer = new se.GradientRenderer('#004CB3','#8ED6FF');
-            var scene = new se.Scene(game, renderer);
+            var scene = new se.Scene(game, new se.GradientRenderer('#004CB3','#8ED6FF'));
             game.addScene(scene);
 
-            var grass = new se.GameObject('grass', 0, 300, {isStatic: true});
-            grass.setRigidBody( new se.RigidBodyMatter({width: 2800, height: 30}) );
-            grass.setRenderer( new se.BoxRenderer('green', 2800, 30) );
+            var grass = se.factory.rect({x: 1000, y: 300, w: 3800, h: 30, fillColor: 'green', objoptions: { isStatic: true } });
             scene.add(grass);
 
-            var ground = new se.GameObject('ground', 0, 600, {isStatic: true});
-            ground.setRenderer( new se.BoxRenderer('#6B4226', 2800, 600) );
+            var ground = se.factory.rect({x: 1000, y: 600, w: 3800, h: 600, fillColor: '#6B4226', objoptions: { isStatic: true }});
             scene.add(ground);
 
-            var wall = new se.GameObject('wall', 0, 0, {isStatic: true});
-            wall.setRigidBody( new se.RigidBodyMatter({width: 200, height: 600}) );
-            wall.setRenderer( new se.BoxRenderer('#6B4226', 200, 600) );
+            var wall = se.factory.rect({x: 0, y:0, w: 200, h: 600, fillColor: '#6B4226', objoptions: { isStatic:true }});
             scene.add(wall);
 
-            var box = new se.GameObject('box', 480, -50);
-            box.setRigidBody( new se.RigidBodyMatter({width: 80, height: 80}) );
-            box.setRenderer( new se.ImageRenderer('box.jpg', 80, 80) );
+            var box = se.factory.rect({x: 480, y: -50, w: 80, h: 80, image_src: 'box.jpg'});
             scene.add(box);
 
-            var box = new se.GameObject('box2', 420, 50);
-            box.setRigidBody( new se.RigidBodyMatter({width: 80, height: 80}) );
-            box.setRenderer( new se.ImageRenderer('box.jpg', 80, 80) );
+            var box = se.factory.rect({x: 450, y: 50, w: 80, h: 80, image_src: 'box.jpg'});
             scene.add(box);
 
-            var obj_player = new se.GameObject('Player', 200, -50, {canRotate: false});
+            var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', objoptions: { canRotate: false }});
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, 400, 400) );
-            obj_player.setRigidBody( new se.RigidBodyMatter({width: 50, height: 50}) );
-            obj_player.setRenderer( new se.RigidBodyRenderer('#dddddd') );
             scene.add(obj_player);
 
             var player_eye = new se.GameObject('PlayerEye', 10, -8);
-            player_eye.setRenderer( new se.BoxRenderer('blue', 15, 10) );
+            player_eye.setRenderer( new se.RectRenderer('blue', 15, 10) );
             obj_player.addChild(player_eye);
 
             scene.getCamera().addComponent( new se.ComponentFollowObject(obj_player));
@@ -106,8 +94,8 @@
             width: 100%;
             height: 100%;
         }
-        canvas { 
-            border: 1px solid black; 
+        canvas {
+            border: 1px solid black;
         }
         .se-joy-buttons{
             display: block;
