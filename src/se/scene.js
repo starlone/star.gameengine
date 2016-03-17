@@ -16,6 +16,7 @@ se.Scene = function (parent, renderer){
 
     // create a Matter.js engine
     this.matterengine = Matter.Engine.create(this.parent.element);
+    this.matterengine.enableSleeping = true;
 };
 
 se.Scene.prototype.getWidth = function(){

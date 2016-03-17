@@ -15,6 +15,8 @@ se.factory.rect = function (options){
     var fillColor = opt.fillColor || '#6B4226';
     var objoptions = opt.objoptions || {};
 
+    opt.hasRigidbody == null ? hasRigidbody = true : hasRigidbody = opt.hasRigidbody;
+
     objoptions.vertices = [
         new se.Vector(0, 0),
         new se.Vector(w, 0),
@@ -24,7 +26,8 @@ se.factory.rect = function (options){
 
     var obj = new se.GameObject(name, x, y, objoptions);
 
-    obj.setRigidBody( new se.RigidBodyMatter({vertices: objoptions.vertices}) );
+    if(hasRigidbody)
+        obj.setRigidBody( new se.RigidBodyMatter({vertices: objoptions.vertices}) );
 
     // Render
     if(img)
@@ -39,24 +42,29 @@ se.factory.circle = function (options){
     var name = opt.name || '';
     var x = opt.x || 0;
     var y = opt.y || 0;
-    var radius = options.radius || 10;
+    var radius = opt.radius || 10;
     var objoptions = opt.objoptions || {};
-    var maxSides = options.maxSides || 25;
-    objoptions.vertices = se.factory.createCircleVertices(radius, maxSides);
+    var maxSides = opt.maxSides || 25;
+
+    opt.hasRigidbody == null ? hasRigidbody = true : hasRigidbody = opt.hasRigidbody;
 
     var fillColor = opt.fillColor;
     var strokeColor = opt.strokeColor;
     var lineWidth = opt.lineWidth;
 
+    objoptions.vertices = se.factory.createCircleVertices(radius, maxSides);
+
     var obj = new se.GameObject(name, x, y, objoptions);
-    obj.setRigidBody( new se.RigidBodyMatter(objoptions) );
+
+    if(hasRigidbody)
+        obj.setRigidBody( new se.RigidBodyMatter(objoptions) );
     obj.setRenderer( new se.CircleRenderer(radius, fillColor, strokeColor, lineWidth) );
     return obj;
 };
 
 se.factory.createCircleVertices = function (radius, maxSides){
     // approximate circles with polygons until true circles implemented in SAT
-    var maxSides = options.maxSides || 25;
+    var maxSides = maxSides || 25;
     var sides = Math.ceil(Math.max(10, Math.min(maxSides, radius)));
 
     // optimisation: always use even number of sides (half the number of unique axes)
