@@ -2,11 +2,11 @@
 /*
    Rigid Body based in matter
 */
-se.RigidBodyMatter = function (options){
+se.RigidBody = function (options){
     this.options = options;
 };
 
-se.RigidBodyMatter.prototype.createBody = function (){
+se.RigidBody.prototype.createBody = function (){
     var obj = this.parent;
     var pos = obj.transform.position;
     options = this.options || {};
@@ -31,27 +31,27 @@ se.RigidBodyMatter.prototype.createBody = function (){
     this.body = Matter.Body.create(Matter.Common.extend({}, body, options));
 };
 
-se.RigidBodyMatter.prototype.update = function (deltaTime){
+se.RigidBody.prototype.update = function (deltaTime){
     var pos = this.parent.transform.position;
     pos.x = this.body.position.x;
     pos.y = this.body.position.y;
     this.parent.angle = this.body.angle;
 };
 
-se.RigidBodyMatter.prototype.setParent = function (parent){
+se.RigidBody.prototype.setParent = function (parent){
     this.parent = parent;
     this.createBody();
 };
 
-se.RigidBodyMatter.prototype.setVelocity = function (velocity){
+se.RigidBody.prototype.setVelocity = function (velocity){
     Matter.Body.setVelocity(this.body, velocity);
 };
 
-se.RigidBodyMatter.prototype.applyForce = function (position, force){
+se.RigidBody.prototype.applyForce = function (position, force){
     Matter.Body.applyForce(this.body, position, force);
 };
 
-se.RigidBodyMatter.prototype.setAngularVelocity = function (velocity){
+se.RigidBody.prototype.setAngularVelocity = function (velocity){
     Matter.Body.setAngularVelocity(this.body, velocity);
 };
 
