@@ -42,11 +42,18 @@ se.Scene.prototype.setParent = function(parent){
 se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
     obj.setParent(this);
-    if(obj.rigidbody){
-        var engine = this.matterengine;
-        Matter.World.add(engine.world, obj.rigidbody.body);
-    }
+    if(obj.rigidbody)
+        this.addBody(obj.rigidbody.body)
+};
 
+se.Scene.prototype.addBody = function(body){
+    var engine = this.matterengine;
+    Matter.World.add(engine.world, body);
+};
+
+se.Scene.prototype.removeBody = function(body){
+    var engine = this.matterengine;
+    Matter.Composite.removeBody(engine.world, body);
 };
 
 se.Scene.prototype.update = function(deltaTime, correction){

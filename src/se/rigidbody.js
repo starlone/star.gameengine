@@ -12,16 +12,16 @@ se.RigidBody.prototype.createBody = function (){
     options = this.options || {};
     var x = options.x || pos.x;
     var y = options.y || pos.y;
-    var w = options.width;
-    var h = options.height;
+
+    this.isPermeable = options.isPermeable != null ? options.isPermeable : false;
 
     delete options.x;
     delete options.y;
-    delete options.width;
-    delete options.height;
+    delete options.isPermeable;
 
     options.isStatic = obj.isStatic;
     options.canRotate = obj.canRotate;
+
 
     var body = {
         label: 'Rectangle Body',
@@ -43,7 +43,17 @@ se.RigidBody.prototype.setParent = function (parent){
     this.createBody();
 };
 
+se.RigidBody.prototype.setPermeable = function (isPermeable){
+    var scene = this.parent.getScene();
+    if(isPermeable == true && this.isPermeable == false)
+        scene.removeBody(this.body);
+    else if(isPermeable == false && this.isPermeable == true)
+        scene.addBody(this.body);
+    this.isPermeable = isPermeable;
+};
+
 se.RigidBody.prototype.setVelocity = function (velocity){
+    Matter.Sleeping.set(this.body,false); // Wake up Object
     Matter.Body.setVelocity(this.body, velocity);
 };
 

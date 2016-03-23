@@ -36,6 +36,13 @@ se.GameObject.prototype.getHeight = function(){
     return this.height;
 };
 
+se.GameObject.prototype.getScene = function(){
+    var parent = this.parent;
+    while(parent != null && parent instanceof se.Scene == false)
+        parent = parent.parent;
+    return parent;
+};
+
 se.GameObject.prototype.getColliders = function(){
     return this.colliders;
 };
