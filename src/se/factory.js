@@ -27,7 +27,7 @@ se.factory.rect = function (options){
     var obj = new se.GameObject(name, x, y, objoptions);
 
     if(hasRigidbody)
-        obj.setRigidBody( new se.RigidBodyMatter({vertices: objoptions.vertices}) );
+        obj.setRigidBody( new se.RigidBody({vertices: objoptions.vertices}) );
 
     // Render
     if(img)
@@ -57,7 +57,7 @@ se.factory.circle = function (options){
     var obj = new se.GameObject(name, x, y, objoptions);
 
     if(hasRigidbody)
-        obj.setRigidBody( new se.RigidBodyMatter(objoptions) );
+        obj.setRigidBody( new se.RigidBody(objoptions) );
     obj.setRenderer( new se.CircleRenderer(radius, fillColor, strokeColor, lineWidth) );
     return obj;
 };
