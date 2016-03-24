@@ -45,6 +45,7 @@ se.Scene.prototype.add = function(obj){
     obj.setParent(this);
     if(obj.rigidbody)
         this.addBody(obj.rigidbody.body)
+    console.log(obj)
     this.addColliders(obj.getColliders());
 };
 
