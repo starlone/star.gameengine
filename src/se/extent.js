@@ -11,8 +11,44 @@ se.Extent.createEmpty = function() {
     return new se.Extent(Infinity, Infinity, -Infinity, -Infinity);
 };
 
-se.Extent.prototype.isEmpty = function(extent) {
-    return this.max.x < this.min.x || this.max.y < this.min.y;
+se.Extent.prototype.clone = function(){
+    return new se.Extent(
+        this.min.x, this.min.y, this.max.x, this.max.y);
+}
+
+se.Extent.prototype.move = function(vector){
+    this.min.x = vector.x;
+    this.min.y = vector.y;
+    this.max.x += vector.x;
+    this.max.y += vector.y;
+    return this;
+}
+
+se.Extent.prototype.extend = function(extent2) {
+    if (extent2.min.x < this.min.x)
+        this.min.x = extent2.min.x;
+    if (extent2.max.x > this.max.x)
+        this.max.x = extent2.max.x;
+    if (extent2.min.y < this.min.y)
+        this.min.y = extent2.min.y;
+    if (extent2.max.y > this.max.y)
+        this.max.y = extent2.max.y;
+};
+
+se.Extent.prototype.extendVector = function(vector) {
+    if (vector.x < this.min.x)
+        this.min.x = vector.x;
+    if (vector.x > this.max.x)
+        this.max.x = vector.x;
+    if (vector.y < this.min.y)
+        this.min.y = vector.y;
+    if (vector.y > this.max.y)
+        this.max.y = vector.y;
+};
+
+se.Extent.prototype.extendVectors = function(vectors) {
+    for(var i in vectors)
+        this.extendVector(vectors[i]);
 };
 
 se.Extent.prototype.intersects = function(extent) {
@@ -58,3 +94,4 @@ se.Extent.prototype.getWidth = function() {
 se.Extent.prototype.getHeight = function() {
     return this.max.y - this.min.y;
 }
+

@@ -1,3 +1,4 @@
+
 /*
     Collider
 */
@@ -8,32 +9,29 @@ se.RectCollider = function (x, y, width, height){
     this.height = height;
 }
 
+se.RectCollider.createByExtent = function(extent){
+    return new se.RectCollider(
+        extent.min.x, extent.min.y, extent.max.x, extent.max.y
+    );
+}
+
 se.RectCollider.prototype.setParent = function(obj){
     this.parent = obj;
+    this._computeExtent();
 }
+
+se.RectCollider.prototype._computeExtent = function(){
+    this.extent = new se.Extent(
+        this.x, this.y, this.x + this.width, this.y + this.height);
+}
+
 
 se.RectCollider.prototype.getExtent = function(){
     var obj = this.parent;
-    var x = obj.getX() + this.x;
-    var y = obj.getY() + this.y;
-    var width = this.width;
-    var height = this.height;
-    return new se.Extent(x, y, x + width, y + height);
+    return this.extent.clone().move(obj.transform.getXY());
 }
 
 se.RectCollider.prototype.isIntersect = function(collider){
-    if(collider instanceof Array){
-        for(var i in collider){
-            var c = collider[i];
-            if(this._isIntersect(c))
-                return true;
-        }
-    } else
-        return this._isIntersect(collider);
-    return false;
-}
-
-se.RectCollider.prototype._isIntersect = function(collider){
     var extent1 = this.getExtent();
     var extent2 = collider.getExtent();
     return extent1.intersects(extent2);

@@ -28,11 +28,13 @@
             var box = se.factory.rect({x: 480, y: -50, w: 80, h: 80, image_src: 'box.jpg'});
             scene.add(box);
 
-            var box = se.factory.rect({x: 450, y: 50, w: 80, h: 80, image_src: 'box.jpg'});
+            var box = se.factory.rect({x: 450, y: 50, w: 80, h: 80, image_src: 'box.jpg', hasRigidbody: false});
+            box.addCollider( se.RectCollider.createByExtent(box.mesh.getExtent()) );
             scene.add(box);
 
             var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', objoptions: { canRotate: false }});
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, 400, 400) );
+            obj_player.addCollider( se.RectCollider.createByExtent(obj_player.mesh.getExtent()) );
             scene.add(obj_player);
 
             var player_eye = new se.GameObject('PlayerEye', 10, -8);

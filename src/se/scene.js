@@ -6,6 +6,7 @@ se.Scene = function (parent, renderer){
     this.camera = new se.GameObject('MainCamera',0,0,0,0);
     this.pivot = new se.Transform(this, 0, 0);
     this.objs = [];
+    this.colliders = [];
     this.add(this.camera);
 
     if(!renderer){
@@ -44,6 +45,7 @@ se.Scene.prototype.add = function(obj){
     obj.setParent(this);
     if(obj.rigidbody)
         this.addBody(obj.rigidbody.body)
+    this.addColliders(obj.getColliders());
 };
 
 se.Scene.prototype.addBody = function(body){
@@ -56,11 +58,31 @@ se.Scene.prototype.removeBody = function(body){
     Matter.Composite.removeBody(engine.world, body);
 };
 
+se.Scene.prototype.addColliders = function(colliders){
+    this.colliders.concat(colliders);
+};
+
 se.Scene.prototype.update = function(deltaTime, correction){
     Matter.Engine.update(this.matterengine, deltaTime, correction);
+    this.checkColliders();
     for(var i in this.objs){
         var obj = this.objs[i];
         obj.update(deltaTime, correction);
+    }
+};
+
+se.Scene.prototype.checkColliders = function(){
+    var pairs = [];
+    for(var i = 0; i < this.colliders.length -1; i++){
+        var colA = this.colliders[i];
+        for(var j = 1; j < this.colliders.length; j++){
+            var colB = this.colliders[j];
+            if(colA.isIntersect(colB))
+                pairs.push([colA, colB]);
+        }
+    }
+    for(var i in pairs){
+        console.log(pairs[i])
     }
 };
 

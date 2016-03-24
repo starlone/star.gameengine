@@ -15,7 +15,7 @@ se.GameObject = function (name, x, y, options){
     this.isSleeping = options.isSleeping || false;
     this.canRotate = options.canRotate != null ? options.canRotate : true;
 
-    this.mesh = options.mesh || new se.Mesh({vertices: options.vertices});
+    this.mesh = options.mesh || new se.Mesh(this, {vertices: options.vertices});
     this.rigidbody = options.rigidbody || null;
     this.angle = 0;
 };
