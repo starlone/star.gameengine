@@ -1,18 +1,18 @@
 /*
     Collider
 */
-se.BoxCollider = function (x, y, width, height){
+se.RectCollider = function (x, y, width, height){
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
 }
 
-se.BoxCollider.prototype.setParent = function(obj){
+se.RectCollider.prototype.setParent = function(obj){
     this.parent = obj;
 }
 
-se.BoxCollider.prototype.getExtent = function(){
+se.RectCollider.prototype.getExtent = function(){
     var obj = this.parent;
     var x = obj.getX() + this.x;
     var y = obj.getY() + this.y;
@@ -21,7 +21,7 @@ se.BoxCollider.prototype.getExtent = function(){
     return new se.Extent(x, y, x + width, y + height);
 }
 
-se.BoxCollider.prototype.isIntersect = function(collider){
+se.RectCollider.prototype.isIntersect = function(collider){
     if(collider instanceof Array){
         for(var i in collider){
             var c = collider[i];
@@ -33,13 +33,13 @@ se.BoxCollider.prototype.isIntersect = function(collider){
     return false;
 }
 
-se.BoxCollider.prototype._isIntersect = function(collider){
+se.RectCollider.prototype._isIntersect = function(collider){
     var extent1 = this.getExtent();
     var extent2 = collider.getExtent();
     return extent1.intersects(extent2);
 }
 
-se.BoxCollider.prototype.getIntersection = function(collider){
+se.RectCollider.prototype.getIntersection = function(collider){
     if(collider instanceof Array){
         for(var i in collider){
             var c = collider[i];
@@ -51,13 +51,14 @@ se.BoxCollider.prototype.getIntersection = function(collider){
     return null;
 }
 
-se.BoxCollider.prototype._getIntersection = function(collider){
+se.RectCollider.prototype._getIntersection = function(collider){
     var extent1 = this.getExtent();
     var extent2 = collider.getExtent();
     return extent1.getIntersection(extent2);
 }
 
-se.BoxCollider.prototype.clone = function(){
-    return new se.BoxCollider(this.x, this.y, this.width, this.height);
+se.RectCollider.prototype.clone = function(){
+    return new se.RectCollider(this.x, this.y, this.width, this.height);
 }
+
 
