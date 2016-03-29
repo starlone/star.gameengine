@@ -45,7 +45,6 @@ se.Scene.prototype.add = function(obj){
     obj.setParent(this);
     if(obj.rigidbody)
         this.addBody(obj.rigidbody.body)
-    console.log(obj)
     this.addColliders(obj.getColliders());
 };
 
@@ -60,7 +59,8 @@ se.Scene.prototype.removeBody = function(body){
 };
 
 se.Scene.prototype.addColliders = function(colliders){
-    this.colliders.concat(colliders);
+    for(var i in colliders)
+        this.colliders.push(colliders[i]);
 };
 
 se.Scene.prototype.update = function(deltaTime, correction){

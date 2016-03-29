@@ -133,7 +133,7 @@ se.Transform.prototype.move = function(x,y){
     this.resolveCollision(x, y);
 };
 
-se.Transform.prototype.getXY = function(){
+se.Transform.prototype.getRealPosition = function(){
     var x = this.position.x;
     var y = this.position.y;
 

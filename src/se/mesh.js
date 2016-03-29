@@ -6,12 +6,10 @@ se.Mesh = function (parent, options){
     this.parent = parent;
     options = options || {};
     this.vertices = options.vertices || [];
-    this._computeExtent();
 };
 
 se.Mesh.prototype.setVertices = function(vertices){
     this.vertices = vertices;
-    this._computeExtent();
 };
 
 se.Mesh.prototype.getVertices = function(){
@@ -19,11 +17,8 @@ se.Mesh.prototype.getVertices = function(){
 };
 
 se.Mesh.prototype.getExtent = function(){
-    var obj = this.parent;
-    return this.extent.clone().move(obj.transform.getXY());
+    var extent = se.Extent.createEmpty();
+    extent.extendVectors(this.vertices);
+    return extent;
 };
 
-se.Mesh.prototype._computeExtent = function(){
-    this.extent = se.Extent.createEmpty();
-    this.extent.extendVectors(this.vertices);
-};

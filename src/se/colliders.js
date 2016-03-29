@@ -17,18 +17,13 @@ se.RectCollider.createByExtent = function(extent){
 
 se.RectCollider.prototype.setParent = function(obj){
     this.parent = obj;
-    this._computeExtent();
 }
-
-se.RectCollider.prototype._computeExtent = function(){
-    this.extent = new se.Extent(
-        this.x, this.y, this.x + this.width, this.y + this.height);
-}
-
 
 se.RectCollider.prototype.getExtent = function(){
     var obj = this.parent;
-    return this.extent.clone().move(obj.transform.getXY());
+    var vector = obj.transform.getRealPosition();
+    return new se.Extent(
+        vector.x, vector.y, vector.x + this.width, vector.y + this.height);
 }
 
 se.RectCollider.prototype.isIntersect = function(collider){
