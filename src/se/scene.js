@@ -8,6 +8,7 @@ se.Scene = function (parent, renderer){
     this.objs = [];
     this.colliders = [];
     this.add(this.camera);
+    this.collisionsActive = {};
 
     if(!renderer){
         this.renderer = new se.GradientRenderer('#8ED6FF','#004CB3');
@@ -47,6 +48,21 @@ se.Scene.prototype.add = function(obj){
         this.addBody(obj.rigidbody.body)
     this.addColliders(obj.getColliders());
 };
+se.Scene.prototype.remove = function(obj){
+    var cs = obj.getColliders();
+    for(var i in cs){
+        var c = cs[i];
+        var inx = this.colliders.indexOf(c);
+        if(inx != -1)
+            this.colliders.splice(inx, 1);
+    }
+    if(obj.rigidbody)
+        this.removeBody(obj.rigidbody.body);
+
+    var i = this.objs.indexOf(obj);
+    if(i != -1)
+        this.objs.splice(i, 1);
+};
 
 se.Scene.prototype.addBody = function(body){
     var engine = this.matterengine;
@@ -59,9 +75,16 @@ se.Scene.prototype.removeBody = function(body){
 };
 
 se.Scene.prototype.addColliders = function(colliders){
-    for(var i in colliders)
-        this.colliders.push(colliders[i]);
+    for(var i in colliders){
+        var col = colliders[i];
+        this.addCollider(col);
+    }
 };
+
+se.Scene.prototype.addCollider = function(collider){
+    this.colliders.push(collider);
+    collider.id = this.colliders.length - 1;
+}
 
 se.Scene.prototype.update = function(deltaTime, correction){
     Matter.Engine.update(this.matterengine, deltaTime, correction);
@@ -73,17 +96,26 @@ se.Scene.prototype.update = function(deltaTime, correction){
 };
 
 se.Scene.prototype.checkColliders = function(){
-    var pairs = [];
+    var old = this.collisionsActive;
+    this.collisionsActive = {};
+    var news = [];
     for(var i = 0; i < this.colliders.length -1; i++){
         var colA = this.colliders[i];
         for(var j = 1; j < this.colliders.length; j++){
             var colB = this.colliders[j];
-            if(colA.isIntersect(colB))
-                pairs.push([colA, colB]);
+            if(colA.isIntersect(colB)){
+                var id = colA.id + '-' + colB.id;
+                var c = {a: colA, b: colB};
+                this.collisionsActive[id] = c;
+                if(old[id] == null)
+                    news.push(c);
+            }
         }
     }
-    for(var i in pairs){
-        console.log(pairs[i])
+    for(var i in news){
+        var c = news[i];
+        c.a.resolveCollision(c.b);
+        c.b.resolveCollision(c.a);
     }
 };
 

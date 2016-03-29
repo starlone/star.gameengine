@@ -1,8 +1,9 @@
 /*
     ComponentScript
 */
-se.ComponentScript = function (function_update){
+se.ComponentScript = function (function_update, function_resolveCollision){
     this.update = function_update;
+    this.resolveCollision = function_resolveCollision;
 };
 se.ComponentScript.prototype.setParent = function(obj){
     this.parent = obj;
@@ -11,9 +12,10 @@ se.ComponentScript.prototype.setParent = function(obj){
 /*
     ComponentPlatformPlayerController
 */
-se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed, gravity){
+se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed){
     this.joystick = joystick;
-    this.speed = speed;
+    this.speed = speed || 0.5;
+    this.jumpspeed = jumpspeed || -13;
 };
 
 se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
@@ -22,7 +24,7 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
     var jump = this.joystick.getAxis('jump')
     if(x || jump){
         var vel = obj.rigidbody.body.velocity;
-        var x = vel.x + x;
+        var x = vel.x + x * this.speed;
         var y = vel.y;
         if(x > 0)
             obj.transform.rotate.x = 1;
@@ -33,7 +35,7 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
         if(x < -16)
             x = -16;
         if(jump && vel.y < 1 && vel.y > -1){
-            y = -13;
+            y = this.jumpspeed;
         }
         obj.rigidbody.setVelocity({x: x, y: y});
     }

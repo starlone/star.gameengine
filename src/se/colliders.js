@@ -7,6 +7,7 @@ se.RectCollider = function (x, y, width, height){
     this.y = y;
     this.width = width;
     this.height = height;
+    this.id = null;
 }
 
 se.RectCollider.createByExtent = function(extent){
@@ -17,6 +18,13 @@ se.RectCollider.createByExtent = function(extent){
 
 se.RectCollider.prototype.setParent = function(obj){
     this.parent = obj;
+    if(this.width == null){
+        var ext = obj.mesh.getExtent();
+        this.x = ext.min.x;
+        this.y = ext.min.y;
+        this.width = ext.max.x;
+        this.height = ext.max.y;
+    }
 }
 
 se.RectCollider.prototype.getExtent = function(){
@@ -50,8 +58,12 @@ se.RectCollider.prototype._getIntersection = function(collider){
     return extent1.getIntersection(extent2);
 }
 
+
+se.RectCollider.prototype.resolveCollision = function(other){
+    this.parent.resolveCollision(other);
+}
+
 se.RectCollider.prototype.clone = function(){
     return new se.RectCollider(this.x, this.y, this.width, this.height);
 }
-
 

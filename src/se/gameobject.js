@@ -64,6 +64,14 @@ se.GameObject.prototype.update = function(deltaTime, correction){
     }
 };
 
+se.GameObject.prototype.resolveCollision = function(other){
+    for(var i in this.components){
+        var c = this.components[i];
+        if(c.resolveCollision)
+            c.resolveCollision(other);
+    }
+}
+
 se.GameObject.prototype.render = function(ctx){
     var obj = this;
     var pos = obj.transform.position;
@@ -113,6 +121,16 @@ se.GameObject.prototype.addChild = function (child){
     child.setParent(this);
 };
 
+se.GameObject.prototype.removeChild = function (child){
+    this.children.remove(child);
+};
+
+se.GameObject.prototype.destroy = function (){
+    if(this.parent instanceof se.GameObject)
+       this.parent.removeChild(this); 
+    var scene = this.getScene().remove(this);
+};
+
 
 /*
     Transform
@@ -130,7 +148,6 @@ se.Transform.prototype.change = function(x,y){
 se.Transform.prototype.move = function(x,y){
     this.position.x += x;
     this.position.y += y;
-    this.resolveCollision(x, y);
 };
 
 se.Transform.prototype.getRealPosition = function(){

@@ -10,8 +10,9 @@
     <script type="text/javascript" src="../libs/matter.min.js"></script>
     <script type="text/javascript" src="../starengine.min.js"></script>
     <script type="text/javascript">
+        var game;
         window.onload = function(){
-            var game = new se.StarEngine('canvas');
+            game = new se.StarEngine('canvas');
 
             var scene = new se.Scene(game, new se.GradientRenderer('#004CB3','#8ED6FF'));
             game.addScene(scene);
@@ -28,13 +29,16 @@
             var box = se.factory.rect({x: 480, y: -50, w: 80, h: 80, image_src: 'box.jpg'});
             scene.add(box);
 
-            var box = se.factory.rect({x: 450, y: 50, w: 80, h: 80, image_src: 'box.jpg', hasRigidbody: false});
-            box.addCollider( se.RectCollider.createByExtent(box.mesh.getExtent()) );
-            scene.add(box);
+            var circle = se.factory.circle({x: 650, y: 50, radius: 20, fillColor: 'yellow', strokeColor: 'white', lineWidth: 1, hasRigidbody: false});
+            circle.addCollider( new se.RectCollider() );
+            circle.addComponent( new se.ComponentScript(function(){}, function(other){
+                circle.destroy();
+            }));
+            scene.add(circle);
 
             var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', objoptions: { canRotate: false }});
-            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, 400, 400) );
-            obj_player.addCollider( se.RectCollider.createByExtent(obj_player.mesh.getExtent()) );
+            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, -10) );
+            obj_player.addCollider( new se.RectCollider() );
             scene.add(obj_player);
 
             var player_eye = new se.GameObject('PlayerEye', 10, -8);
