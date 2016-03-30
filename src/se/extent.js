@@ -19,8 +19,8 @@ se.Extent.prototype.clone = function(){
 se.Extent.prototype.move = function(vector){
     this.min.x = vector.x;
     this.min.y = vector.y;
-    this.max.x += vector.x;
-    this.max.y += vector.y;
+    this.max.x = vector.x + this.getWidth();
+    this.max.y = vector.y + this.getHeight();
     return this;
 }
 
@@ -33,6 +33,7 @@ se.Extent.prototype.extend = function(extent2) {
         this.min.y = extent2.min.y;
     if (extent2.max.y > this.max.y)
         this.max.y = extent2.max.y;
+    return this;
 };
 
 se.Extent.prototype.extendVector = function(vector) {
@@ -44,11 +45,13 @@ se.Extent.prototype.extendVector = function(vector) {
         this.min.y = vector.y;
     if (vector.y > this.max.y)
         this.max.y = vector.y;
+    return this;
 };
 
 se.Extent.prototype.extendVectors = function(vectors) {
     for(var i in vectors)
         this.extendVector(vectors[i]);
+    return this;
 };
 
 se.Extent.prototype.intersects = function(extent) {

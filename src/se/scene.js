@@ -101,7 +101,7 @@ se.Scene.prototype.checkColliders = function(){
     var news = [];
     for(var i = 0; i < this.colliders.length -1; i++){
         var colA = this.colliders[i];
-        for(var j = 1; j < this.colliders.length; j++){
+        for(var j = i + 1; j < this.colliders.length; j++){
             var colB = this.colliders[j];
             if(colA.isIntersect(colB)){
                 var id = colA.id + '-' + colB.id;

@@ -15,9 +15,10 @@ se.Mesh.prototype.getVertices = function(){
 };
 
 se.Mesh.prototype.getExtent = function(){
+    var pos = this.parent.transform.getRealPosition();
     var extent = se.Extent.createEmpty();
     extent.extendVectors(this.vertices);
-    return extent;
+    return extent.move(pos);
 };
 
 se.Mesh.prototype.setParent = function(parent){

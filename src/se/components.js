@@ -2,7 +2,7 @@
     ComponentScript
 */
 se.ComponentScript = function (function_update, function_resolveCollision){
-    this.update = function_update;
+    this.update = function_update || function(){};
     this.resolveCollision = function_resolveCollision;
 };
 se.ComponentScript.prototype.setParent = function(obj){
