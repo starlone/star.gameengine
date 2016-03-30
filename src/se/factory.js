@@ -13,21 +13,21 @@ se.factory.rect = function (options){
     var h = opt.h || 10;
     var img = opt.image_src;
     var fillColor = opt.fillColor || '#6B4226';
-    var objoptions = opt.objoptions || {};
+    var rigidopts = opt.rigidopts || {};
 
     opt.hasRigidbody == null ? hasRigidbody = true : hasRigidbody = opt.hasRigidbody;
 
-    objoptions.vertices = [
+    var vertices = [
         new se.Vector(0, 0),
         new se.Vector(w, 0),
         new se.Vector(w, h),
         new se.Vector(0, h),
     ];
 
-    var obj = new se.GameObject(name, x, y, objoptions);
+    var obj = new se.GameObject(name, x, y, {vertices: vertices});
 
     if(hasRigidbody)
-        obj.setRigidBody( new se.RigidBody({vertices: objoptions.vertices}) );
+        obj.setRigidBody( new se.RigidBody(rigidopts) );
 
     // Render
     if(img)
@@ -43,7 +43,7 @@ se.factory.circle = function (options){
     var x = opt.x || 0;
     var y = opt.y || 0;
     var radius = opt.radius || 10;
-    var objoptions = opt.objoptions || {};
+    var rigidopts = opt.rigidopts || {};
     var maxSides = opt.maxSides || 25;
 
     opt.hasRigidbody == null ? hasRigidbody = true : hasRigidbody = opt.hasRigidbody;
@@ -52,12 +52,12 @@ se.factory.circle = function (options){
     var strokeColor = opt.strokeColor;
     var lineWidth = opt.lineWidth;
 
-    objoptions.vertices = se.factory.createCircleVertices(radius, maxSides);
+    var vertices = se.factory.createCircleVertices(radius, maxSides);
 
-    var obj = new se.GameObject(name, x, y, objoptions);
+    var obj = new se.GameObject(name, x, y, {vertices: vertices});
 
     if(hasRigidbody)
-        obj.setRigidBody( new se.RigidBody(objoptions) );
+        obj.setRigidBody( new se.RigidBody(rigidopts) );
     obj.setRenderer( new se.CircleRenderer(radius, fillColor, strokeColor, lineWidth) );
     return obj;
 };

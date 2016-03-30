@@ -9,19 +9,18 @@ se.RigidBody = function (options){
 se.RigidBody.prototype.createBody = function (){
     var obj = this.parent;
     var pos = obj.transform.position;
-    options = this.options || {};
+    var options = this.options || {};
     var x = options.x || pos.x;
     var y = options.y || pos.y;
 
     this.isPermeable = options.isPermeable != null ? options.isPermeable : false;
 
+    if(options.canRotate == null)
+        options.canRotate = true;
+
     delete options.x;
     delete options.y;
     delete options.isPermeable;
-
-    options.isStatic = obj.isStatic;
-    options.canRotate = obj.canRotate;
-
 
     var body = {
         label: 'Rectangle Body',

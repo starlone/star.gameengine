@@ -11,11 +11,10 @@ se.GameObject = function (name, x, y, options){
     this.children = [];
 
     options = options || {};
-    this.isStatic = options.isStatic != null ? options.isStatic : false;
-    this.isSleeping = options.isSleeping || false;
-    this.canRotate = options.canRotate != null ? options.canRotate : true;
 
-    this.mesh = options.mesh || new se.Mesh(this, {vertices: options.vertices});
+    var vertices = options.vertices || [];
+    this.setMesh( new se.Mesh(vertices) );
+
     this.rigidbody = options.rigidbody || null;
     this.angle = 0;
 };
@@ -127,8 +126,13 @@ se.GameObject.prototype.removeChild = function (child){
 
 se.GameObject.prototype.destroy = function (){
     if(this.parent instanceof se.GameObject)
-       this.parent.removeChild(this); 
+       this.parent.removeChild(this);
     var scene = this.getScene().remove(this);
+};
+
+se.GameObject.prototype.setMesh = function (mesh){
+    this.mesh = mesh;
+    mesh.setParent(this);
 };
 
 

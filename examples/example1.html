@@ -17,13 +17,13 @@
             var scene = new se.Scene(game, new se.GradientRenderer('#004CB3','#8ED6FF'));
             game.addScene(scene);
 
-            var grass = se.factory.rect({x: 1000, y: 300, w: 3800, h: 30, fillColor: 'green', objoptions: { isStatic: true } });
+            var grass = se.factory.rect({x: 1000, y: 300, w: 3800, h: 30, fillColor: 'green', rigidopts: { isStatic: true } });
             scene.add(grass);
 
-            var ground = se.factory.rect({x: 1000, y: 600, w: 3800, h: 600, fillColor: '#6B4226', objoptions: { isStatic: true }});
+            var ground = se.factory.rect({x: 1000, y: 600, w: 3800, h: 600, fillColor: '#6B4226', rigidopts: { isStatic: true }});
             scene.add(ground);
 
-            var wall = se.factory.rect({x: 0, y:0, w: 200, h: 600, fillColor: '#6B4226', objoptions: { isStatic:true }});
+            var wall = se.factory.rect({x: 0, y:0, w: 200, h: 600, fillColor: '#6B4226', rigidopts: { isStatic:true }});
             scene.add(wall);
 
             var box = se.factory.rect({x: 480, y: -50, w: 80, h: 80, image_src: 'box.jpg'});
@@ -36,7 +36,7 @@
             }));
             scene.add(circle);
 
-            var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', objoptions: { canRotate: false }});
+            var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', rigidopts: { canRotate: false }});
             obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, -10) );
             obj_player.addCollider( new se.RectCollider() );
             scene.add(obj_player);
