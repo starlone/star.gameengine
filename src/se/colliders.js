@@ -2,12 +2,14 @@
 /*
     Collider
 */
-se.RectCollider = function (x, y, width, height){
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+se.RectCollider = function (options){
+    options = options || {};
+    this.x = options.x;
+    this.y = options.y;
+    this.width = options.width;
+    this.height = options.height;
     this.id = null;
+    this.isStatic = options.isStatic != null ? options.isStatic : false;
 }
 
 se.RectCollider.createByExtent = function(extent){
@@ -61,6 +63,10 @@ se.RectCollider.prototype._getIntersection = function(collider){
 
 se.RectCollider.prototype.resolveCollision = function(other){
     this.parent.resolveCollision(other);
+}
+
+se.RectCollider.prototype.setStatic = function(isStatic){
+    this.isStatic = isStatic;
 }
 
 se.RectCollider.prototype.clone = function(){

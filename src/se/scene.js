@@ -103,6 +103,8 @@ se.Scene.prototype.checkColliders = function(){
         var colA = this.colliders[i];
         for(var j = i + 1; j < this.colliders.length; j++){
             var colB = this.colliders[j];
+            if(colA.isStatic && colB.isStatic)
+                continue;
             if(colA.isIntersect(colB)){
                 var id = colA.id + '-' + colB.id;
                 var c = {a: colA, b: colB};
