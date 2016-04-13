@@ -91,7 +91,7 @@ se.GradientRenderer.prototype.render = function(ctx, params){
    RigidBodyRenderer - Based in Matter JS
 */
 se.MeshRenderer = function(fillColor, strokeColor, lineWidth){
-    this.color = color;
+    this.color = fillColor;
     this.strokeColor = strokeColor;
     this.lineWidth = lineWidth;
 }
@@ -105,26 +105,14 @@ se.MeshRenderer.prototype.render = function(ctx){
     var part = this.parent.mesh;
     var c = ctx;
 
-    // part polygon
     c.beginPath();
+    c.moveTo(part.vertices[0].x, part.vertices[0]);
 
     for (var j = 1; j < part.vertices.length; j++) {
-        var x = part.vertices[j].x - pos.x;
-        var y = part.vertices[j].y - pos.y;
-        if (!part.vertices[j - 1].isInternal || showInternalEdges) {
-            c.lineTo(x, y);
-        } else {
-            c.moveTo(x, y);
-        }
-
-        if (part.vertices[j].isInternal && !showInternalEdges) {
-            x = part.vertices[(j + 1) % part.vertices.length].x - pos.x;
-            y = part.vertices[(j + 1) % part.vertices.length].y - pos.y;
-            c.moveTo(x, y);
-        }
+        c.lineTo(part.vertices[j].x, part.vertices[j].y);
     }
 
-    c.lineTo(part.vertices[0].x - pos.x, part.vertices[0].y - pos.y);
+    c.lineTo(part.vertices[0].x, part.vertices[0].y);
     c.closePath();
 
     c.fillStyle = this.color;
@@ -135,5 +123,4 @@ se.MeshRenderer.prototype.render = function(ctx){
 
     c.fill();
     c.stroke();
-
 }

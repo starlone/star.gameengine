@@ -99,7 +99,7 @@ se.StarEngine.prototype.update = function(time){
         runner.deltaHistory.push(delta);
         runner.deltaHistory = runner.deltaHistory.slice(-runner.deltaSampleSize);
         delta = Math.min.apply(null, runner.deltaHistory);
-        
+
         // limit delta
         delta = delta < runner.deltaMin ? runner.deltaMin : delta;
         delta = delta > runner.deltaMax ? runner.deltaMax : delta;

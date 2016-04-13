@@ -4,6 +4,8 @@
 */
 se.Mesh = function (vertices){
     this.vertices = vertices || [];
+    var centre = Matter.Vertices.centre(vertices);
+    Matter.Vertices.translate(vertices, centre, -1);
 };
 
 se.Mesh.prototype.setVertices = function(vertices){
