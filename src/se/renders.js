@@ -119,8 +119,8 @@ se.MeshRenderer.prototype.render = function(ctx){
     if(this.strokeStyle){
         c.lineWidth = this.lineWidth;
         c.strokeStyle = this.strokeStyle;
+        c.stroke();
     }
 
     c.fill();
-    c.stroke();
 }
