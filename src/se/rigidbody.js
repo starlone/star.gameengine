@@ -12,6 +12,7 @@ se.RigidBody.prototype.createBody = function (){
     var options = this.options || {};
     var x = options.x || pos.x;
     var y = options.y || pos.y;
+    var name = options.name || obj.name;
 
     this.isPermeable = options.isPermeable != null ? options.isPermeable : false;
 
@@ -23,7 +24,7 @@ se.RigidBody.prototype.createBody = function (){
     delete options.isPermeable;
 
     var body = {
-        label: 'Rectangle Body',
+        label: name,
         position: { x: x, y: y },
         vertices: obj.mesh.getVertices()
     };
