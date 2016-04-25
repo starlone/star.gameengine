@@ -146,7 +146,11 @@ se.Transform = function(parent, x, y){
 };
 
 se.Transform.prototype.change = function(x,y){
-    this.position.change(x, y);
+    var rb = this.parent.rigidbody;
+    if(rb)
+        rb.setPosition({x: x, y: y});
+    else
+        this.position.change(x, y);
 };
 
 se.Transform.prototype.move = function(x,y){

@@ -14,14 +14,11 @@ se.RigidBody.prototype.createBody = function (){
     var y = options.y || pos.y;
     var name = options.name || obj.name;
 
-    this.isPermeable = options.isPermeable != null ? options.isPermeable : false;
-
     if(options.canRotate == null)
         options.canRotate = true;
 
     delete options.x;
     delete options.y;
-    delete options.isPermeable;
 
     var body = {
         label: name,
@@ -43,15 +40,6 @@ se.RigidBody.prototype.setParent = function (parent){
     this.createBody();
 };
 
-se.RigidBody.prototype.setPermeable = function (isPermeable){
-    var scene = this.parent.getScene();
-    if(isPermeable == true && this.isPermeable == false)
-        scene.removeBody(this.body);
-    else if(isPermeable == false && this.isPermeable == true)
-        scene.addBody(this.body);
-    this.isPermeable = isPermeable;
-};
-
 se.RigidBody.prototype.setVelocity = function (velocity){
     Matter.Sleeping.set(this.body,false); // Wake up Object
     Matter.Body.setVelocity(this.body, velocity);
@@ -63,6 +51,10 @@ se.RigidBody.prototype.applyForce = function (position, force){
 
 se.RigidBody.prototype.setAngularVelocity = function (velocity){
     Matter.Body.setAngularVelocity(this.body, velocity);
+};
+
+se.RigidBody.prototype.setPosition = function (position){
+    Matter.Body.setPosition(this.body, position);
 };
 
 Matter.Body.update = function(body, deltaTime, timeScale, correction) {
