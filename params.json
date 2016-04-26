@@ -1,6 +1,0 @@
-{
-  "name": "Star.gameengine",
-  "tagline": "",
-  "body": "# Star Game Engine\r\n\r\nStar Game Engine é um motor de jogo feito em HTML5.\r\n\r\n## Dependencias\r\n* Physic 2D - [Matter.js](https://github.com/liabru/matter-js)\r\n\r\n## Install\r\n    <script type=\"text/javascript\" src=\"matter.min.js\"></script>\r\n    <script type=\"text/javascript\" src=\"starengine.min.js\"></script>\r\n\r\n",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}
