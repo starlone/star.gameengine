@@ -1,67 +1,123 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Star.gameengine : ">
+    <meta name="title" content="Starlone" />
+    <meta itemprop="name" content="Starlone" />
+    <meta property="og:title" content="Starlone" />
+    <meta name="description" content="Esta é uma pagina pessoal de Starlone" />
+    <meta itemprop="description" content="Esta é uma pagina pessoal de Starlone" />
+    <meta id="meta-tag-description" property="og:description" content="Esta é uma pagina pessoal de Starlone" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
 
-    <title>Star.gameengine</title>
-  </head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/materialize/js/materialize.min.js"></script>
 
-  <body>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/starlone/star.gameengine">View on GitHub</a>
+    <title>Starlone</title>
 
-          <h1 id="project_title">Star.gameengine</h1>
-          <h2 id="project_tagline"></h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/starlone/star.gameengine/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/starlone/star.gameengine/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+    <script type="text/javascript">
+        $(function(){
+            $('.button-collapse').sideNav();
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar-fixed">
+        <nav class="grey darken-4" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="/" class="brand-logo">Starlone</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#dependence">Dependências</a></li>
+                    <li><a href="#install">Instalação</a></li>
+                </ul>
+                <ul id="nav-mobile" class="side-nav">
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#dependence">Dependências</a></li>
+                    <li><a href="#install">Instalação</a></li>
+                </ul>
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a id="star-game-engine" class="anchor" href="#star-game-engine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Star Game Engine</h1>
-
-<p>Star Game Engine é um motor de jogo feito em HTML5.</p>
-
-<h2>
-<a id="dependencias" class="anchor" href="#dependencias" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencias</h2>
-
-<ul>
-<li>Physic 2D - <a href="https://github.com/liabru/matter-js">Matter.js</a>
-</li>
-</ul>
-
-<h2>
-<a id="install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install</h2>
-
-<pre><code>&lt;script type="text/javascript" src="matter.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="starengine.min.js"&gt;&lt;/script&gt;
-</code></pre>
-      </section>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 id="about" class="header center orange-text">Star Game Engine</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Star Game Engine é um motor de jogo feito em HTML5.</h5>
+            </div>
+            <br><br>
+        </div>
     </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 id="dependence">Dependência</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m4 s12">&nbsp;</div>
+                <div class="col m4 s12 center">
+                    <ul>
+                        <li>Physic 2D - <a href="https://github.com/liabru/matter-js">Matter.js</a>
+                    </li>
+                </div>
+                <div class="col m4 s12"></div>
+            </div>
+        </div>
+    </div>
+ 
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4 id="projects">Instalação</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m12 s12">
+                    <pre><code>
+                    &lt;script type="text/javascript" src="matter.min.js"&gt;&lt;/script&gt;
+                    &lt;script type="text/javascript" src="starengine.min.js"&gt;&lt;/script&gt;
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Star.gameengine maintained by <a href="https://github.com/starlone">starlone</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
+    <footer class="page-footer black white-text">
+        <div class="footer-copyright">
+            <div class="container">
+                Star.gameengine maintained by <a href="https://github.com/starlone">Starlone</a>
+                <span class="right">Published with <a href="https://pages.github.com">GitHub Pages</a></span>
+            </div>
+        </div>
+    </footer>
     
 
-  </body>
+</body>
 </html>
