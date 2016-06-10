@@ -2,7 +2,7 @@
 
 Star Game Engine é um motor de jogo feito em HTML5.
 
-http://starlone.github.com/star.gameengine
+http://starlone.github.io/star.gameengine
 
 ## Dependencias
 * Physic 2D - [Matter.js](https://github.com/liabru/matter-js)
