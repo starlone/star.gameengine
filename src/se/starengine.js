@@ -60,13 +60,13 @@ se.StarEngine.prototype.getSceneCurrent = function(){
 se.StarEngine.prototype.setSize = function(width, height){
     this.element.width = width;
     this.element.height = height;
-}
+};
 
 se.StarEngine.prototype.updateSize = function(){
     var ele = this.element;
     var parent = ele.parentElement;
     this.setSize(parent.offsetWidth, parent.offsetHeight);
-}
+};
 
 se.StarEngine.prototype.getContext = function(){
     return this.ctx;
@@ -148,7 +148,7 @@ se.StarEngine.prototype.run = function(){
 };
 
 se.StarEngine.prototype.pause = function(status){
-    if(status == null)
+    if(status === null)
         status = true;
     this.runner.enabled = !status;
 };

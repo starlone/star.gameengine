@@ -19,10 +19,10 @@ gulp.task('lint', function() {
 // Build
 gulp.task('dist', function() {
     gulp.src(files)
-        .pipe(concat('./build'))
+        .pipe(concat('./'))
         .pipe(rename(outfile))
         .pipe(uglify())
-        .pipe(gulp.dest('./build'));
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('default', function() {

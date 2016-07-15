@@ -5,16 +5,16 @@ se.RectRenderer = function(color, width, height){
     this.color = color;
     this.width = width;
     this.height = height;
-}
+};
 
 se.RectRenderer.prototype.render = function(ctx){
     ctx.fillStyle = this.color;
     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-}
+};
 
 se.RectRenderer.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 /*
 CircleRender
@@ -24,7 +24,7 @@ se.CircleRenderer = function(radius, fillStyle, strokeStyle, lineWidth){
     this.fillStyle = fillStyle;
     this.strokeStyle = strokeStyle;
     this.lineWidth = lineWidth || 1;
-}
+};
 
 se.CircleRenderer.prototype.render = function(ctx){
     ctx.beginPath();
@@ -40,11 +40,11 @@ se.CircleRenderer.prototype.render = function(ctx){
 
     if(this.strokeStyle)
         ctx.stroke();
-}
+};
 
 se.CircleRenderer.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 /*
 ImageRender
@@ -56,15 +56,15 @@ se.ImageRenderer = function(image_src, width, height){
     this.img.src = image_src;
     this.width = width;
     this.height = height;
-}
+};
 
 se.ImageRenderer.prototype.render = function(ctx){
     ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
-}
+};
 
 se.ImageRenderer.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 /*
    GradientRenderer
@@ -72,11 +72,11 @@ se.ImageRenderer.prototype.setParent = function(obj){
 se.GradientRenderer = function(color1, color2){
     this.color1 = color1 || '#004CB3';
     this.color2 = color2 || '#8ED6FF';
-}
+};
 
 se.GradientRenderer.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 se.GradientRenderer.prototype.render = function(ctx, params){
     var grd = ctx.createLinearGradient(150, 0, 150, 300);
@@ -84,7 +84,7 @@ se.GradientRenderer.prototype.render = function(ctx, params){
     grd.addColorStop(1, this.color2);
     ctx.fillStyle = grd;
     ctx.fillRect(params.x, params.y, params.width, params.height);
-}
+};
 
 
 /*
@@ -94,11 +94,11 @@ se.MeshRenderer = function(fillColor, strokeColor, lineWidth){
     this.color = fillColor;
     this.strokeColor = strokeColor;
     this.lineWidth = lineWidth;
-}
+};
 
 se.MeshRenderer.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 se.MeshRenderer.prototype.render = function(ctx){
     var pos = this.parent.transform.position;
@@ -123,4 +123,4 @@ se.MeshRenderer.prototype.render = function(ctx){
     }
 
     c.fill();
-}
+};

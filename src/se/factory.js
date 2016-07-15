@@ -2,7 +2,7 @@
 /*
     Factory
 */
-se.factory = new Object();
+se.factory = {};
 
 se.factory.rect = function (options){
     var opt = options || {};
@@ -15,7 +15,7 @@ se.factory.rect = function (options){
     var fillColor = opt.fillColor || '#6B4226';
     var rigidopts = opt.rigidopts || {};
 
-    opt.hasRigidbody == null ? hasRigidbody = true : hasRigidbody = opt.hasRigidbody;
+    var hasRigidbody = opt.hasRigidbody || true;
 
     var vertices = [
         new se.Vector(0, 0),
@@ -46,7 +46,7 @@ se.factory.circle = function (options){
     var rigidopts = opt.rigidopts || {};
     var maxSides = opt.maxSides || 25;
 
-    opt.hasRigidbody == null ? hasRigidbody = true : hasRigidbody = opt.hasRigidbody;
+    var hasRigidbody = opt.hasRigidbody || true;
 
     var fillColor = opt.fillColor;
     var strokeColor = opt.strokeColor;
@@ -64,7 +64,7 @@ se.factory.circle = function (options){
 
 se.factory.createCircleVertices = function (radius, maxSides){
     // approximate circles with polygons until true circles implemented in SAT
-    var maxSides = maxSides || 25;
+    maxSides = maxSides || 25;
     var sides = Math.ceil(Math.max(10, Math.min(maxSides, radius)));
 
     // optimisation: always use even number of sides (half the number of unique axes)
@@ -84,4 +84,4 @@ se.factory.createCircleVertices = function (radius, maxSides){
     }
     return Matter.Vertices.fromPath(path);
 
-}
+};

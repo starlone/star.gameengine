@@ -45,7 +45,7 @@ se.Scene.prototype.add = function(obj){
     this.objs.push(obj);
     obj.setParent(this);
     if(obj.rigidbody)
-        this.addBody(obj.rigidbody.body)
+        this.addBody(obj.rigidbody.body);
     this.addColliders(obj.getColliders());
 };
 se.Scene.prototype.remove = function(obj){
@@ -59,9 +59,9 @@ se.Scene.prototype.remove = function(obj){
     if(obj.rigidbody)
         this.removeBody(obj.rigidbody.body);
 
-    var i = this.objs.indexOf(obj);
-    if(i != -1)
-        this.objs.splice(i, 1);
+    var j = this.objs.indexOf(obj);
+    if(j != -1)
+        this.objs.splice(j, 1);
 };
 
 se.Scene.prototype.addBody = function(body){
@@ -84,7 +84,7 @@ se.Scene.prototype.addColliders = function(colliders){
 se.Scene.prototype.addCollider = function(collider){
     this.colliders.push(collider);
     collider.id = this.colliders.length - 1;
-}
+};
 
 se.Scene.prototype.update = function(deltaTime, correction){
     Matter.Engine.update(this.matterengine, deltaTime, correction);
@@ -109,15 +109,15 @@ se.Scene.prototype.checkColliders = function(){
                 var id = colA.id + '-' + colB.id;
                 var c = {a: colA, b: colB};
                 this.collisionsActive[id] = c;
-                if(old[id] == null)
+                if(old[id] === null)
                     news.push(c);
             }
         }
     }
-    for(var i in news){
-        var c = news[i];
-        c.a.resolveCollision(c.b);
-        c.b.resolveCollision(c.a);
+    for(var k in news){
+        var co = news[k];
+        co.a.resolveCollision(co.b);
+        co.b.resolveCollision(co.a);
     }
 };
 
@@ -136,7 +136,7 @@ se.Scene.prototype.renderBackground = function(ctx){
         y: this.pivot.position.y,
         width: this.getWidth(),
         height: this.getHeight()
-    })
+    });
 };
 
 se.Scene.prototype.clearframe = function(ctx){

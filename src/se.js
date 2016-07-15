@@ -2,7 +2,7 @@
     Star Game Engine
 */
 
-var se = new Object();
+var se = {};
 
 if (typeof window !== 'undefined') {
     window.requestAnimationFrame =  (function(){
@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
     })();
 
     window.cancelAnimationFrame = window.cancelAnimationFrame || 
-                               window.mozCancelAnimationFrame 
+                               window.mozCancelAnimationFrame;
 }
 
 

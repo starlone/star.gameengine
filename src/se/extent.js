@@ -14,7 +14,7 @@ se.Extent.createEmpty = function() {
 se.Extent.prototype.clone = function(){
     return new se.Extent(
         this.min.x, this.min.y, this.max.x, this.max.y);
-}
+};
 
 se.Extent.prototype.move = function(vector){
     this.min.x = vector.x;
@@ -22,7 +22,7 @@ se.Extent.prototype.move = function(vector){
     this.max.x = vector.x + this.getWidth();
     this.max.y = vector.y + this.getHeight();
     return this;
-}
+};
 
 se.Extent.prototype.extend = function(extent2) {
     if (extent2.min.x < this.min.x)
@@ -92,9 +92,9 @@ se.Extent.prototype.getIntersection = function(extent) {
 
 se.Extent.prototype.getWidth = function() {
     return this.max.x - this.min.x;
-}
+};
 
 se.Extent.prototype.getHeight = function() {
     return this.max.y - this.min.y;
-}
+};
 

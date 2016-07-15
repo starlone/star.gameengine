@@ -6,14 +6,14 @@ se.Joystick = function (){
     var y = 0;
     this.jump = false;
     this.keyhandler = new se.KeyboardHandler(this);
-}
+};
 
 se.Joystick.prototype.getAxis = function (name){
     if(name == 'horizontal') return this.x;
     if(name == 'vertical') return this.y;    
     if(name == 'jump') return this.jump;
     return 0;
-}
+};
 
 se.Joystick.prototype.setAxis = function (name, val){
     if(name == 'horizontal') 
@@ -22,13 +22,13 @@ se.Joystick.prototype.setAxis = function (name, val){
         this.y = val;    
     if(name == 'jump') 
         this.jump = val;
-}
+};
 
 se.Joystick.prototype.resetAxis = function (){
     this.x = 0;
     this.y = 0;    
     this.jump = false;
-}
+};
 
 
 
@@ -44,7 +44,7 @@ se.KeyboardHandler = function (joystick){
     document.addEventListener('keyup', function(e){
         self.keyup(e.keyCode);
     });
-}
+};
 
 se.KeyboardHandler.prototype.keydown = function(key){
     if (key == '65' || key == '37'){ // Left
@@ -58,7 +58,7 @@ se.KeyboardHandler.prototype.keydown = function(key){
     } else if (key == '32'){ // 'Space'
         this.joy.setAxis('jump', true);
     }
-}
+};
 
 se.KeyboardHandler.prototype.keyup = function(key){
     if (key == '65' || key == '68' || key == '37' || key == '39'){
@@ -68,4 +68,4 @@ se.KeyboardHandler.prototype.keyup = function(key){
     } else if (key == '32'){
         this.joy.setAxis('jump', false);
     }
-}
+};

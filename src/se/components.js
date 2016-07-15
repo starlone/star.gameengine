@@ -5,9 +5,10 @@ se.ComponentScript = function (function_update, function_resolveCollision){
     this.update = function_update || function(){};
     this.resolveCollision = function_resolveCollision;
 };
+
 se.ComponentScript.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 /*
     ComponentPlatformPlayerController
@@ -21,10 +22,10 @@ se.ComponentPlatformPlayerController = function (joystick, speed, jumpspeed){
 se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime){
     var x = this.joystick.getAxis('horizontal') * deltaTime / 10;
     x = x || 0;
-    var jump = this.joystick.getAxis('jump')
+    var jump = this.joystick.getAxis('jump');
     if(x || jump){
         var vel = obj.rigidbody.body.velocity;
-        var x = vel.x + x * this.speed;
+        x = vel.x + x * this.speed;
         var y = vel.y;
         if(x > 0)
             obj.transform.rotate.x = 1;
@@ -43,7 +44,7 @@ se.ComponentPlatformPlayerController.prototype.update = function(obj, deltaTime)
 
 se.ComponentPlatformPlayerController.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 
 /*
@@ -51,14 +52,16 @@ se.ComponentPlatformPlayerController.prototype.setParent = function(obj){
 */
 se.ComponentFollowObject = function (obj_target){
     this.obj_target = obj_target;
-}
+};
+
 se.ComponentFollowObject.prototype.update = function(obj){
     obj.transform.position.x = this.obj_target.transform.position.x;
     obj.transform.position.y = this.obj_target.transform.position.y;
-}
+};
+
 se.ComponentFollowObject.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 /*
     FreeController
@@ -66,11 +69,11 @@ se.ComponentFollowObject.prototype.setParent = function(obj){
 se.FreeController = function(joystick, speed){
     this.joystick = joystick;
     this.speed = speed || 1;
-}
+};
 
 se.FreeController.prototype.setParent = function(obj){
     this.parent = obj;
-}
+};
 
 se.FreeController.prototype.update = function(obj, deltaTime, correction){
     var x = this.joystick.getAxis('horizontal') || 0 ;
@@ -78,5 +81,5 @@ se.FreeController.prototype.update = function(obj, deltaTime, correction){
     if (x) x *= this.speed;
     if (y) y *= this.speed;
     this.parent.transform.move(x, y);
-}
+};
 

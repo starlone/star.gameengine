@@ -37,7 +37,7 @@ se.GameObject.prototype.getHeight = function(){
 
 se.GameObject.prototype.getScene = function(){
     var parent = this.parent;
-    while(parent != null && parent instanceof se.Scene == false)
+    while(parent !== null && parent instanceof se.Scene === false)
         parent = parent.parent;
     return parent;
 };
@@ -58,8 +58,8 @@ se.GameObject.prototype.update = function(deltaTime, correction){
     for(var i in this.components){
         this.components[i].update(this, deltaTime, correction);
     }
-    for(var i in this.children){
-        this.children[i].update(deltaTime, correction);
+    for(var j in this.children){
+        this.children[j].update(deltaTime, correction);
     }
 };
 
@@ -69,7 +69,7 @@ se.GameObject.prototype.resolveCollision = function(other){
         if(c.resolveCollision)
             c.resolveCollision(other);
     }
-}
+};
 
 se.GameObject.prototype.render = function(ctx){
     var obj = this;
