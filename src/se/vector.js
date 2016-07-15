@@ -43,4 +43,4 @@ se.Vector.prototype.add = function (other, is_self){
     out.x = this.x + other.x;
     out.y = this.y + other.y;
     return out;
-}
+};
