@@ -20,4 +20,8 @@ if (typeof window !== 'undefined') {
                                window.mozCancelAnimationFrame;
 }
 
-
+se.inherit = function(Parent, Child){
+    var obj = Object.create(Parent.prototype);
+    Child.prototype = obj;
+    Child.prototype.constructor = Child;
+};
