@@ -17,7 +17,7 @@ se.Scene = function (parent, renderer){
         this.renderer = renderer;
 
     // create a Matter.js engine
-    this.matterengine = Matter.Engine.create(this.parent.element);
+    this.matterengine = Matter.Engine.create();
     this.matterengine.enableSleeping = true;
 };
 
