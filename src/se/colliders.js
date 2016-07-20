@@ -22,7 +22,7 @@ se.RectCollider.createByExtent = function(extent){
 
 se.RectCollider.prototype.setParent = function(obj){
     this.parent = obj;
-    if(this.width === null){
+    if(this.width === undefined){
         var ext = obj.mesh.getExtent();
         this.x = ext.min.x;
         this.y = ext.min.y;
