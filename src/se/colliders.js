@@ -9,7 +9,9 @@ se.RectCollider = function (options){
     this.width = options.width;
     this.height = options.height;
     this.id = null;
-    this.isStatic = options.isStatic || false;
+    this.isStatic = false;
+    if(options.isStatic !== undefined)
+        this.isStatic = options.isStatic;
 };
 
 se.RectCollider.createByExtent = function(extent){

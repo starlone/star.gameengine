@@ -15,7 +15,8 @@ se.factory.rect = function (options){
     var fillColor = opt.fillColor || '#6B4226';
     var rigidopts = opt.rigidopts || {};
 
-    var hasRigidbody = opt.hasRigidbody || true;
+    if (opt.hasRigidbody === undefined)
+        opt.hasRigidbody = true;
 
     var vertices = [
         new se.Vector(0, 0),
@@ -26,7 +27,7 @@ se.factory.rect = function (options){
 
     var obj = new se.GameObject(name, x, y, {vertices: vertices});
 
-    if(hasRigidbody)
+    if(opt.hasRigidbody)
         obj.setRigidBody( new se.RigidBody(rigidopts) );
 
     // Render
@@ -46,7 +47,8 @@ se.factory.circle = function (options){
     var rigidopts = opt.rigidopts || {};
     var maxSides = opt.maxSides || 25;
 
-    var hasRigidbody = opt.hasRigidbody || true;
+    if (opt.hasRigidbody === undefined)
+        opt.hasRigidbody = true;
 
     var fillColor = opt.fillColor;
     var strokeColor = opt.strokeColor;
@@ -56,7 +58,7 @@ se.factory.circle = function (options){
 
     var obj = new se.GameObject(name, x, y, {vertices: vertices});
 
-    if(hasRigidbody)
+    if(opt.hasRigidbody)
         obj.setRigidBody( new se.RigidBody(rigidopts) );
     obj.setRenderer( new se.CircleRenderer(radius, fillColor, strokeColor, lineWidth) );
     return obj;

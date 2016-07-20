@@ -14,7 +14,7 @@ se.RigidBody.prototype.createBody = function (){
     var y = options.y || pos.y;
     var name = options.name || obj.name;
 
-    if(options.canRotate === null)
+    if(options.canRotate === undefined)
         options.canRotate = true;
 
     delete options.x;

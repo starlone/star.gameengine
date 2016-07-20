@@ -109,7 +109,7 @@ se.Scene.prototype.checkColliders = function(){
                 var id = colA.id + '-' + colB.id;
                 var c = {a: colA, b: colB};
                 this.collisionsActive[id] = c;
-                if(old[id] === null)
+                if(old[id] === undefined)
                     news.push(c);
             }
         }
