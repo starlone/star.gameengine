@@ -1,5 +1,5 @@
 /*
-CircleRender
+CircleRenderer
 */
 se.CircleRenderer = function(radius, fillStyle, strokeStyle, lineWidth){
     se.Renderer.call(this);
@@ -9,7 +9,7 @@ se.CircleRenderer = function(radius, fillStyle, strokeStyle, lineWidth){
     this.lineWidth = lineWidth || 1;
 };
 
-se.inherit(se.Renderer, se.CircleRender);
+se.inherit(se.Renderer, se.CircleRenderer);
 
 se.CircleRenderer.prototype.render = function(ctx){
     ctx.beginPath();

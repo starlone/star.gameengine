@@ -1,7 +1,6 @@
 /*
    GradientRenderer
 */
-
 se.GradientRenderer = function(color1, color2){
     se.Renderer.call(this);
     this.color1 = color1 || '#004CB3';

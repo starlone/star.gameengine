@@ -16,6 +16,21 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
+// Build Dev
+gulp.task('build-dev', function() {
+    gulp.src(files)
+        .pipe(concat('./'))
+        .pipe(rename(outfile))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('dev', function() {
+    gulp.run('lint', 'build-dev');
+    gulp.watch(files, function(evt) {
+        gulp.run('lint', 'build-dev');
+    });
+});
+
 // Build
 gulp.task('dist', function() {
     gulp.src(files)

@@ -3,10 +3,13 @@
    MeshRenderer - Based in Matter JS
 */
 se.MeshRenderer = function(fillColor, strokeColor, lineWidth){
+    se.Renderer.call(this);
     this.color = fillColor;
     this.strokeColor = strokeColor;
     this.lineWidth = lineWidth;
 };
+
+se.inherit(se.Renderer, se.MeshRenderer);
 
 se.MeshRenderer.prototype.render = function(ctx){
     var pos = this.parent.transform.position;
