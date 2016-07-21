@@ -148,7 +148,7 @@ se.StarEngine.prototype.run = function(){
 };
 
 se.StarEngine.prototype.pause = function(status){
-    if(status === null)
+    if(status === undefined)
         status = true;
     this.runner.enabled = !status;
 };
