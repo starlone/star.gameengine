@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 var jshint = require('gulp-jshint');
@@ -7,7 +6,7 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 
 var files = 'src/**/*.js';
-var outfile = 'starengine.min.js'
+var outfile = 'starengine.min.js';
 
 // Check sintaxe
 gulp.task('lint', function() {
@@ -24,15 +23,14 @@ gulp.task('build-dev', function() {
         .pipe(gulp.dest('./'));
 });
 
+// Watch Dev
 gulp.task('dev', function() {
-    gulp.run('lint', 'build-dev');
-    gulp.watch(files, function(evt) {
-        gulp.run('lint', 'build-dev');
-    });
+    gulp.start('lint', 'build-dev');
+    gulp.watch(files, ['lint', 'build-dev']);
 });
 
-// Build
-gulp.task('dist', function() {
+// Build Dist
+gulp.task('build-dist', function() {
     gulp.src(files)
         .pipe(concat('./'))
         .pipe(rename(outfile))
@@ -40,9 +38,11 @@ gulp.task('dist', function() {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('default', function() {
-    gulp.run('lint', 'dist');
-    gulp.watch(files, function(evt) {
-        gulp.run('lint', 'dist');
-    });
+gulp.task('dist', ['lint', 'build-dist']);
+
+gulp.task('watch-dist', function() {
+    gulp.start('dist');
+    gulp.watch(files, ['dist']);
 });
+
+gulp.task('default', ['lint', 'dist']);

@@ -7,20 +7,23 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp",
+    "dist": "gulp dist",
+    "build-dev": "gulp build-dev",
+    "lint": "gulp lint",
+    "dev": "gulp dev"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/starlone/star.gameengine.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Starlone Passos",
+  "license": "Apache License",
   "bugs": {
     "url": "https://github.com/starlone/star.gameengine/issues"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
-    "gulp-util": "~3.0.7",
     "gulp-uglify": "~1.5.4",
     "gulp-watch": "~4.3.8",
     "jshint": "~2.9.2",
