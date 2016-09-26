@@ -1,0 +1,17 @@
+{
+  "name": "star.gameengine",
+  "description": "Star Game Engine",
+  "main": "starengine.min.js",
+  "authors": [
+    "Starlone Passos"
+  ],
+  "license": "Apache License",
+  "homepage": "https://github.com/starlone/star.gameengine",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
