@@ -6,7 +6,8 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 
 var files = 'src/**/*.js';
-var outfile = 'starengine.min.js';
+var outfile = 'starengine.js';
+var outfile_min = 'starengine.min.js';
 
 // Check sintaxe
 gulp.task('lint', function() {
@@ -33,7 +34,7 @@ gulp.task('dev', function() {
 gulp.task('build-dist', function() {
     gulp.src(files)
         .pipe(concat('./'))
-        .pipe(rename(outfile))
+        .pipe(rename(outfile_min))
         .pipe(uglify())
         .pipe(gulp.dest('./'));
 });

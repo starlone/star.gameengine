@@ -1,7 +1,7 @@
 {
   "name": "star.gameengine",
   "description": "Star Game Engine",
-  "main": "starengine.min.js",
+  "main": "starengine.js",
   "authors": [
     "Starlone Passos"
   ],
