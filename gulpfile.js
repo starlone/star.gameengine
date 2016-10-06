@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
-var jshint = require('gulp-jshint');
+var eslint = require('gulp-eslint');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 
@@ -12,8 +12,9 @@ var outfile_min = 'starengine.min.js';
 // Check sintaxe
 gulp.task('lint', function() {
     gulp.src(files)
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 // Build Dev
@@ -46,4 +47,4 @@ gulp.task('watch-dist', function() {
     gulp.watch(files, ['dist']);
 });
 
-gulp.task('default', ['lint', 'dist']);
+gulp.task('default', ['lint', 'build-dev', 'dist']);

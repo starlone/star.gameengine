@@ -26,9 +26,20 @@
     "gulp": "~3.9.1",
     "gulp-uglify": "~1.5.4",
     "gulp-watch": "~4.3.8",
-    "jshint": "~2.9.2",
     "gulp-jshint": "~2.0.1",
     "gulp-concat": "~2.6.0",
-    "gulp-rename": "~1.2.2"
+    "gulp-rename": "~1.2.2",
+    "eslint": "^3.7.1",
+    "eslint-config-xo-space": "^0.12.0",
+    "gulp-eslint": "^2.1.0"
+  },
+  "eslintConfig": {
+    "globals": {
+      "expect": true
+    },
+    "root": true,
+    "extends": [
+      "xo-space"
+    ]
   }
 }

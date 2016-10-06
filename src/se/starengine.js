@@ -1,24 +1,12 @@
 /*
     Star Engine
-*/
+    */
 se.StarEngine = function (elementID){
     var self = this;
-    if(elementID)
-        this.element = document.getElementById(elementID);
-    else
-        this.element = document.body;
+    this.elementID = elementID;
 
-    if (this.element.getContext){
-        this.ctx = this.element.getContext('2d');
-    }
     this.scenes = [];
     this.joystick = new se.Joystick();
-    self.updateSize();
-
-    window.addEventListener('resize',function(){
-        self.getSceneCurrent().resetCamera();
-        self.updateSize();
-    });
 
     var defaults = {
         fps: 60,
@@ -43,6 +31,23 @@ se.StarEngine = function (elementID){
     runner.deltaMax = runner.deltaMax || 1000 / (runner.fps * 0.5);
     runner.fps = 1000 / runner.delta;
     this.runner = runner;
+};
+
+
+se.StarEngine.prototype.init = function(){
+    var self = this;
+    if(this.elementID)
+        this.element = document.getElementById(this.elementID);
+    else
+        this.element = document.body;
+    if (this.element.getContext){
+        this.ctx = this.element.getContext('2d');
+    }
+    window.addEventListener('resize',function(){
+        self.getSceneCurrent().resetCamera();
+        self.updateSize();
+    });
+    self.updateSize();
 };
 
 se.StarEngine.prototype.getWidth = function(){
@@ -138,6 +143,7 @@ se.StarEngine.prototype.update = function(time){
 se.StarEngine.prototype.run = function(){
     var runner = this.runner;
     var self = this;
+    self.init();
     (function render(time){
         runner.frameRequestId = window.requestAnimationFrame(render);
         if (time && runner.enabled)
