@@ -1,11 +1,13 @@
-/*
-    ComponentScript
-*/
+/* global se:true */
+/* eslint no-undef: 'error' */
 
-se.ComponentScript = function (function_update, function_resolveCollision){
-    se.Component.call(this);
-    this.update = function_update || function(){};
-    this.resolveCollision = function_resolveCollision;
+/*
+  ComponentScript
+*/
+se.ComponentScript = function (functionUpdate, functionResolveCollision) {
+  se.Component.call(this);
+  this.update = functionUpdate || function () {};
+  this.resolveCollision = functionResolveCollision;
 };
 
 se.inherit(se.Component, se.ComponentScript);

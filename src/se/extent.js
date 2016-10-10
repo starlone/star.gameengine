@@ -2,8 +2,8 @@
 /* eslint no-undef: 'error' */
 
 /*
-    Extent
-    */
+  Extent
+*/
 se.Extent = function (minx, miny, maxx, maxy) {
   this.min = {x: minx, y: miny};
   this.max = {x: maxx, y: maxy};

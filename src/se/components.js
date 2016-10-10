@@ -2,8 +2,8 @@
 /* eslint no-undef: 'error' */
 
 /*
-    Component
-    */
+  Component
+*/
 
 se.Component = function () {
 

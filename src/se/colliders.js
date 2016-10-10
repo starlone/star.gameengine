@@ -2,8 +2,8 @@
 /* eslint no-undef: 'error' */
 
 /*
-    Collider
-    */
+  Collider
+*/
 
 se.RectCollider = function (options) {
   options = options || {};
