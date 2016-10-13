@@ -1007,14 +1007,9 @@ se.StarEngine = function (elementID) {
 
 se.StarEngine.prototype.init = function () {
   var self = this;
-  if (this.elementID) {
-    this.element = window.document.getElementById(this.elementID);
-  } else {
-    this.element = window.document.body;
-  }
-  if (this.element.getContext) {
-    this.ctx = this.element.getContext('2d');
-  }
+
+  this.viewport = new se.ViewPort(this.elementID);
+
   window.addEventListener('resize', function () {
     self.getSceneCurrent().resetCamera();
     self.updateSize();
@@ -1023,11 +1018,11 @@ se.StarEngine.prototype.init = function () {
 };
 
 se.StarEngine.prototype.getWidth = function () {
-  return this.element.width;
+  return this.viewport.getWidth();
 };
 
 se.StarEngine.prototype.getHeight = function () {
-  return this.element.height;
+  return this.viewport.getHeight();
 };
 
 se.StarEngine.prototype.getSceneCurrent = function () {
@@ -1035,18 +1030,18 @@ se.StarEngine.prototype.getSceneCurrent = function () {
 };
 
 se.StarEngine.prototype.setSize = function (width, height) {
-  this.element.width = width;
-  this.element.height = height;
+  this.viewport.element.width = width;
+  this.viewport.element.height = height;
 };
 
 se.StarEngine.prototype.updateSize = function () {
-  var ele = this.element;
+  var ele = this.viewport.element;
   var parent = ele.parentElement;
   this.setSize(parent.offsetWidth, parent.offsetHeight);
 };
 
 se.StarEngine.prototype.getContext = function () {
-  return this.ctx;
+  return this.viewport.getContext();
 };
 
 se.StarEngine.prototype.addScene = function (scene) {
@@ -1107,7 +1102,7 @@ se.StarEngine.prototype.update = function (time) {
 
   var scene = this.getSceneCurrent();
   scene.update(delta, correction);
-  scene.render(this.ctx);
+  scene.render(this.getContext());
 };
 
 se.StarEngine.prototype.run = function () {
@@ -1182,6 +1177,44 @@ se.Vector.prototype.add = function (other, isSelf) {
   out.y = this.y + other.y;
   return out;
 };
+
+/* global se:true */
+/* global window:true */
+/* eslint no-undef: 'error' */
+
+/*
+  View Port
+*/
+se.ViewPort = function (elementID) {
+  this.elementID = elementID;
+  if (this.elementID) {
+    this.element = window.document.getElementById(this.elementID);
+  } else {
+    this.element = window.document.body;
+  }
+  if (this.element.nodeName !== 'CANVAS') {
+    var parent = this.element;
+    this.element = window.document.createElement('canvas');
+    parent.appendChild(this.element);
+  }
+
+  if (this.element.getContext) {
+    this.ctx = this.element.getContext('2d');
+  }
+};
+
+se.ViewPort.prototype.getContext = function () {
+  return this.ctx;
+};
+
+se.ViewPort.prototype.getWidth = function () {
+  return this.element.width;
+};
+
+se.ViewPort.prototype.getHeight = function () {
+  return this.element.height;
+};
+
 
 /* global se:true */
 /* eslint no-undef: 'error' */
