@@ -11,7 +11,8 @@
     "dist": "gulp dist",
     "build-dev": "gulp build-dev",
     "lint": "gulp lint",
-    "dev": "gulp dev"
+    "dev": "gulp dev",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",

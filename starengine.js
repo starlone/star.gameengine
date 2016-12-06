@@ -1099,10 +1099,6 @@ se.StarEngine.prototype.update = function (time) {
     runner.counterTimestamp = time;
     runner.frameCounter = 0;
   }
-
-  var scene = this.getSceneCurrent();
-  scene.update(delta, correction);
-  scene.render(this.getContext());
 };
 
 se.StarEngine.prototype.run = function () {
@@ -1111,9 +1107,14 @@ se.StarEngine.prototype.run = function () {
   self.init();
   (function render(time) {
     runner.frameRequestId = window.requestAnimationFrame(render);
-    if (time && runner.enabled) {
+    var scene = self.getSceneCurrent();
+    if (time) {
       self.update(time);
+      if (runner.enabled) {
+        scene.update(runner.delta, runner.correction);
+      }
     }
+    scene.render(self.getContext());
   })();
 
   return runner;
