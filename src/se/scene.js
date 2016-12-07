@@ -174,3 +174,9 @@ se.Scene.prototype.updatePivot = function (ctx) {
 se.Scene.prototype.resetCamera = function () {
   this.pivot.change(0, 0);
 };
+
+se.Scene.prototype.clone = function (parent) {
+  var scene = new se.Scene(parent, this.renderer);
+  return scene;
+};
+
