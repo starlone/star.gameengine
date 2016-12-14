@@ -177,6 +177,12 @@ se.Scene.prototype.resetCamera = function () {
 
 se.Scene.prototype.clone = function (parent) {
   var scene = new se.Scene(parent, this.renderer);
+  var objs = this.getObjs();
+  for (var i = 0; i < objs.length; i++) {
+    var obj = objs[i];
+    var newobj = obj.clone();
+    scene.add(newobj);
+  }
   return scene;
 };
 

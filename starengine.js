@@ -495,6 +495,18 @@ se.GameObject.prototype.setMesh = function (mesh) {
   mesh.setParent(this);
 };
 
+se.GameObject.prototype.clone = function () {
+  var options = {
+    vertices: this.mesh.vertices
+  };
+  var obj = new this.constructor(this.name, this.transform.x, this.transform.y, options);
+  if (this.renderer) {
+    var renderer = this.renderer.clone();
+    obj.setRenderer(renderer);
+  }
+  return obj;
+};
+
 /*
   Transform
 */
@@ -665,6 +677,16 @@ se.Renderer.prototype.render = function () {
 
 se.Renderer.prototype.setParent = function (obj) {
   this.parent = obj;
+};
+
+se.Renderer.prototype.clone = function () {
+  var copy = new this.constructor();
+  for (var attr in this) {
+    if ({}.hasOwnProperty.call(this, attr)) {
+      copy[attr] = this[attr];
+    }
+  }
+  return copy;
 };
 
 /* global se:true */
@@ -969,6 +991,12 @@ se.Scene.prototype.resetCamera = function () {
 
 se.Scene.prototype.clone = function (parent) {
   var scene = new se.Scene(parent, this.renderer);
+  var objs = this.getObjs();
+  for (var i = 0; i < objs.length; i++) {
+    var obj = objs[i];
+    var newobj = obj.clone();
+    scene.add(newobj);
+  }
   return scene;
 };
 
