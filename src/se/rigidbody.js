@@ -6,7 +6,7 @@
   Rigid Body based in matter
 */
 se.RigidBody = function (options) {
-  this.options = options;
+  this.options = options || {};
 };
 
 se.RigidBody.prototype.createBody = function () {

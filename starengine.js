@@ -499,7 +499,16 @@ se.GameObject.prototype.clone = function () {
   var options = {
     vertices: this.mesh.vertices
   };
-  var obj = new this.constructor(this.name, this.transform.x, this.transform.y, options);
+  var x = this.transform.position.x;
+  var y = this.transform.position.y;
+  var obj = new this.constructor(this.name, x, y, options);
+  if (this.rigidbody) {
+    var b = this.rigidbody.body;
+    var opt = {
+      isStatic: b.isStatic
+    };
+    obj.setRigidBody(new se.RigidBody(opt));
+  }
   if (this.renderer) {
     var renderer = this.renderer.clone();
     obj.setRenderer(renderer);
@@ -697,7 +706,7 @@ se.Renderer.prototype.clone = function () {
   Rigid Body based in matter
 */
 se.RigidBody = function (options) {
-  this.options = options;
+  this.options = options || {};
 };
 
 se.RigidBody.prototype.createBody = function () {
