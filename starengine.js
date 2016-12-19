@@ -370,7 +370,7 @@ se.GameObject = function (name, x, y, options) {
   this.setMesh(new se.Mesh(vertices));
 
   this.rigidbody = options.rigidbody || null;
-  this.angle = 0;
+  this.angle = options.angle || 0;
 };
 
 se.GameObject.prototype.getX = function () {
@@ -497,7 +497,8 @@ se.GameObject.prototype.setMesh = function (mesh) {
 
 se.GameObject.prototype.clone = function () {
   var options = {
-    vertices: this.mesh.vertices
+    vertices: this.mesh.vertices,
+    angle: this.angle
   };
   var x = this.transform.position.x;
   var y = this.transform.position.y;
@@ -727,7 +728,8 @@ se.RigidBody.prototype.createBody = function () {
   var body = {
     label: name,
     position: {x: x, y: y},
-    vertices: obj.mesh.getVertices()
+    vertices: obj.mesh.getVertices(),
+    angle: obj.angle
   };
   this.body = Matter.Body.create(Matter.Common.extend({}, body, options));
 };
