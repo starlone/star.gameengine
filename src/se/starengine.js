@@ -42,7 +42,7 @@ se.StarEngine.prototype.init = function () {
   this.viewport = new se.ViewPort(this.elementID);
 
   window.addEventListener('resize', function () {
-    self.getSceneCurrent().resetCamera();
+    self.viewport.resetPivot();
     self.updateSize();
   });
   self.updateSize();
@@ -145,7 +145,9 @@ se.StarEngine.prototype.run = function () {
         scene.update(runner.delta, runner.correction);
       }
     }
-    scene.render(self.getContext());
+    if (self.viewport) {
+      self.viewport.render(scene);
+    }
   })();
 
   return runner;
