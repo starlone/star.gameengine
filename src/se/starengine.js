@@ -36,39 +36,8 @@ se.StarEngine = function (elementID) {
   this.runner = runner;
 };
 
-se.StarEngine.prototype.init = function () {
-  var self = this;
-
-  this.viewport = new se.ViewPort(this.elementID);
-
-  window.addEventListener('resize', function () {
-    self.viewport.resetPivot();
-    self.updateSize();
-  });
-  self.updateSize();
-};
-
-se.StarEngine.prototype.getWidth = function () {
-  return this.viewport.getWidth();
-};
-
-se.StarEngine.prototype.getHeight = function () {
-  return this.viewport.getHeight();
-};
-
 se.StarEngine.prototype.getSceneCurrent = function () {
   return this.scenes[0];
-};
-
-se.StarEngine.prototype.setSize = function (width, height) {
-  this.viewport.element.width = width;
-  this.viewport.element.height = height;
-};
-
-se.StarEngine.prototype.updateSize = function () {
-  var ele = this.viewport.element;
-  var parent = ele.parentElement;
-  this.setSize(parent.offsetWidth, parent.offsetHeight);
 };
 
 se.StarEngine.prototype.getContext = function () {
@@ -135,7 +104,7 @@ se.StarEngine.prototype.update = function (time) {
 se.StarEngine.prototype.run = function () {
   var runner = this.runner;
   var self = this;
-  self.init();
+  this.viewport = new se.ViewPort(this.elementID);
   (function render(time) {
     runner.frameRequestId = window.requestAnimationFrame(render);
     var scene = self.getSceneCurrent();

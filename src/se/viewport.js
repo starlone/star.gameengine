@@ -6,6 +6,7 @@
   View Port
 */
 se.ViewPort = function (elementID) {
+  var self = this;
   this.elementID = elementID;
   if (this.elementID) {
     this.element = window.document.getElementById(this.elementID);
@@ -22,6 +23,11 @@ se.ViewPort = function (elementID) {
   if (this.element.getContext) {
     this.ctx = this.element.getContext('2d');
   }
+
+  window.addEventListener('resize', function () {
+    self.updateSize();
+  });
+  self.updateSize();
 };
 
 se.ViewPort.prototype.getContext = function () {
@@ -34,6 +40,18 @@ se.ViewPort.prototype.getWidth = function () {
 
 se.ViewPort.prototype.getHeight = function () {
   return this.element.height;
+};
+
+se.ViewPort.prototype.setSize = function (width, height) {
+  this.element.width = width;
+  this.element.height = height;
+};
+
+se.ViewPort.prototype.updateSize = function () {
+  this.resetPivot();
+  var ele = this.element;
+  var parent = ele.parentElement;
+  this.setSize(parent.offsetWidth, parent.offsetHeight);
 };
 
 se.ViewPort.prototype.updatePivot = function (position) {

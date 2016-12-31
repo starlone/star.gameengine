@@ -850,14 +850,6 @@ se.Scene = function (parent, renderer) {
   this.matterengine.enableSleeping = true;
 };
 
-se.Scene.prototype.getWidth = function () {
-  return this.parent.getWidth();
-};
-
-se.Scene.prototype.getHeight = function () {
-  return this.parent.getHeight();
-};
-
 se.Scene.prototype.getCamera = function () {
   return this.camera;
 };
@@ -1013,39 +1005,8 @@ se.StarEngine = function (elementID) {
   this.runner = runner;
 };
 
-se.StarEngine.prototype.init = function () {
-  var self = this;
-
-  this.viewport = new se.ViewPort(this.elementID);
-
-  window.addEventListener('resize', function () {
-    self.viewport.resetPivot();
-    self.updateSize();
-  });
-  self.updateSize();
-};
-
-se.StarEngine.prototype.getWidth = function () {
-  return this.viewport.getWidth();
-};
-
-se.StarEngine.prototype.getHeight = function () {
-  return this.viewport.getHeight();
-};
-
 se.StarEngine.prototype.getSceneCurrent = function () {
   return this.scenes[0];
-};
-
-se.StarEngine.prototype.setSize = function (width, height) {
-  this.viewport.element.width = width;
-  this.viewport.element.height = height;
-};
-
-se.StarEngine.prototype.updateSize = function () {
-  var ele = this.viewport.element;
-  var parent = ele.parentElement;
-  this.setSize(parent.offsetWidth, parent.offsetHeight);
 };
 
 se.StarEngine.prototype.getContext = function () {
@@ -1112,7 +1073,7 @@ se.StarEngine.prototype.update = function (time) {
 se.StarEngine.prototype.run = function () {
   var runner = this.runner;
   var self = this;
-  self.init();
+  this.viewport = new se.ViewPort(this.elementID);
   (function render(time) {
     runner.frameRequestId = window.requestAnimationFrame(render);
     var scene = self.getSceneCurrent();
@@ -1197,6 +1158,7 @@ se.Vector.prototype.add = function (other, isSelf) {
   View Port
 */
 se.ViewPort = function (elementID) {
+  var self = this;
   this.elementID = elementID;
   if (this.elementID) {
     this.element = window.document.getElementById(this.elementID);
@@ -1213,6 +1175,11 @@ se.ViewPort = function (elementID) {
   if (this.element.getContext) {
     this.ctx = this.element.getContext('2d');
   }
+
+  window.addEventListener('resize', function () {
+    self.updateSize();
+  });
+  self.updateSize();
 };
 
 se.ViewPort.prototype.getContext = function () {
@@ -1225,6 +1192,18 @@ se.ViewPort.prototype.getWidth = function () {
 
 se.ViewPort.prototype.getHeight = function () {
   return this.element.height;
+};
+
+se.ViewPort.prototype.setSize = function (width, height) {
+  this.element.width = width;
+  this.element.height = height;
+};
+
+se.ViewPort.prototype.updateSize = function () {
+  this.resetPivot();
+  var ele = this.element;
+  var parent = ele.parentElement;
+  this.setSize(parent.offsetWidth, parent.offsetHeight);
 };
 
 se.ViewPort.prototype.updatePivot = function (position) {

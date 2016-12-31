@@ -25,14 +25,6 @@ se.Scene = function (parent, renderer) {
   this.matterengine.enableSleeping = true;
 };
 
-se.Scene.prototype.getWidth = function () {
-  return this.parent.getWidth();
-};
-
-se.Scene.prototype.getHeight = function () {
-  return this.parent.getHeight();
-};
-
 se.Scene.prototype.getCamera = function () {
   return this.camera;
 };
