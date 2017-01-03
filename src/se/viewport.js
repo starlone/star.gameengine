@@ -8,6 +8,8 @@
 se.ViewPort = function (elementID) {
   var self = this;
   this.elementID = elementID;
+  this.interactions = [];
+
   if (this.elementID) {
     this.element = window.document.getElementById(this.elementID);
   } else {
@@ -93,3 +95,7 @@ se.ViewPort.prototype.renderBackground = function (scene) {
   });
 };
 
+se.ViewPort.prototype.addInteraction = function (interaction) {
+  this.interactions.push(interaction);
+  interaction.setParent(this);
+};
