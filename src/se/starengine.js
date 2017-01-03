@@ -40,10 +40,6 @@ se.StarEngine.prototype.getSceneCurrent = function () {
   return this.scenes[0];
 };
 
-se.StarEngine.prototype.getContext = function () {
-  return this.viewport.getContext();
-};
-
 se.StarEngine.prototype.addScene = function (scene) {
   this.scenes.push(scene);
   scene.setParent(this);
