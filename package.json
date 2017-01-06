@@ -12,7 +12,8 @@
     "build-dev": "gulp build-dev",
     "lint": "gulp lint",
     "dev": "gulp dev",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "start": "gulp watch"
   },
   "repository": {
     "type": "git",

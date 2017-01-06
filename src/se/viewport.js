@@ -9,7 +9,7 @@ se.ViewPort = function (elementID) {
   var self = this;
   this.elementID = elementID;
   this.interactions = [];
-  this.scale = 1;
+  this._scale = 1;
 
   if (this.elementID) {
     this.element = window.document.getElementById(this.elementID);
@@ -38,11 +38,11 @@ se.ViewPort.prototype.getContext = function () {
 };
 
 se.ViewPort.prototype.getWidth = function () {
-  return this.element.width / this.scale;
+  return this.element.width / this._scale;
 };
 
 se.ViewPort.prototype.getHeight = function () {
-  return this.element.height / this.scale;
+  return this.element.height / this._scale;
 };
 
 se.ViewPort.prototype.setSize = function (width, height) {
@@ -60,7 +60,7 @@ se.ViewPort.prototype.updateSize = function () {
 se.ViewPort.prototype.updatePivot = function (position) {
   // Reset draw
   this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-  this.ctx.scale(this.scale, this.scale);
+  this.ctx.scale(this._scale, this._scale);
 
   var x = position.x - (this.getWidth() / 2);
   var y = position.y - (this.getHeight() / 2);
@@ -100,4 +100,15 @@ se.ViewPort.prototype.renderBackground = function (scene) {
 se.ViewPort.prototype.addInteraction = function (interaction) {
   this.interactions.push(interaction);
   interaction.setParent(this);
+};
+
+// Get and Setter to scale
+se.ViewPort.prototype.scale = function (newscale) {
+  if (arguments.length) {
+    newscale = parseFloat(newscale, 0) || 0;
+    if (newscale) {
+      this._scale = newscale;
+    }
+  }
+  return this._scale;
 };
