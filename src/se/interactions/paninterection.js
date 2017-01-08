@@ -17,43 +17,52 @@ se.PanInteraction.prototype.init = function () {
   var y = 0;
   var isDown = false;
   var element = this.parent.element;
-  element.addEventListener('mousedown', function (e) {
-    x = e.offsetX;
-    y = e.offsetY;
+
+  function start(x2, y2) {
+    x = x2;
+    y = y2;
     isDown = true;
-  });
-  element.addEventListener('mouseup', function () {
+  }
+
+  function end() {
     isDown = false;
-  });
-  element.addEventListener('mousemove', function (e) {
+  }
+
+  function move(ex, ey) {
     if (!isDown) {
       return;
     }
     var x2 = x;
     var y2 = y;
-    x = e.offsetX;
-    y = e.offsetY;
+    x = ex;
+    y = ey;
     var x3 = x2 - x;
     var y3 = y2 - y;
     self.target.transform.move(x3, y3);
+  }
+
+  element.addEventListener('mousedown', function (e) {
+    start(e.offsetX, e.offsetY);
+  });
+  element.addEventListener('mouseup', function () {
+    end();
+  });
+  element.addEventListener('mousemove', function (e) {
+    move(e.offsetX, e.offsetY);
   });
   element.addEventListener('touchstart', function (e) {
     if (e.touches.length === 1) {
       var t = e.touches[0];
-      x = t.pageX;
-      y = t.pageY;
+      start(t.pageX, t.pageY);
     }
+  });
+  element.addEventListener('touchend', function () {
+    end();
   });
   element.addEventListener('touchmove', function (e) {
     if (e.touches.length === 1) {
       var t = e.touches[0];
-      var x2 = x;
-      var y2 = y;
-      x = t.pageX;
-      y = t.pageY;
-      var x3 = x2 - x;
-      var y3 = y2 - y;
-      self.target.transform.move(x3, y3);
+      move(t.pageX, t.pageY);
     }
   });
 };
