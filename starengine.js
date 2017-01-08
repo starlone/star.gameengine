@@ -559,41 +559,17 @@ se.Transform.prototype.getRealPosition = function () {
 /* eslint no-undef: 'error' */
 
 /*
-  Interaction Pan
-  */
-se.InteractionPan = function (target) {
-  this.target = target;
+  Interaction
+*/
+se.Interaction = function () {
+
 };
 
-se.InteractionPan.prototype.init = function () {
-  var self = this;
-  var x = 0;
-  var y = 0;
-  var isDown = false;
-  var element = this.parent.element;
-  element.addEventListener('mousedown', function (e) {
-    x = e.offsetX;
-    y = e.offsetY;
-    isDown = true;
-  });
-  element.addEventListener('mouseup', function () {
-    isDown = false;
-  });
-  element.addEventListener('mousemove', function (e) {
-    if (!isDown) {
-      return;
-    }
-    var x2 = x;
-    var y2 = y;
-    x = e.offsetX;
-    y = e.offsetY;
-    var x3 = x2 - x;
-    var y3 = y2 - y;
-    self.target.transform.move(x3, y3);
-  });
+se.Interaction.prototype.init = function () {
+
 };
 
-se.InteractionPan.prototype.setParent = function (obj) {
+se.Interaction.prototype.setParent = function (obj) {
   this.parent = obj;
   this.init();
 };
@@ -1406,6 +1382,72 @@ se.FreeController.prototype.update = function () {
   this.parent.transform.move(x, y);
 };
 
+
+/* global se:true */
+/* eslint no-undef: 'error' */
+
+/*
+  PanInteraction
+  */
+se.PanInteraction = function (target) {
+  se.Interaction.call(this);
+  this.target = target;
+};
+
+se.inherit(se.Interaction, se.PanInteraction);
+
+se.PanInteraction.prototype.init = function () {
+  var self = this;
+  var x = 0;
+  var y = 0;
+  var isDown = false;
+  var element = this.parent.element;
+  element.addEventListener('mousedown', function (e) {
+    x = e.offsetX;
+    y = e.offsetY;
+    isDown = true;
+  });
+  element.addEventListener('mouseup', function () {
+    isDown = false;
+  });
+  element.addEventListener('mousemove', function (e) {
+    if (!isDown) {
+      return;
+    }
+    var x2 = x;
+    var y2 = y;
+    x = e.offsetX;
+    y = e.offsetY;
+    var x3 = x2 - x;
+    var y3 = y2 - y;
+    self.target.transform.move(x3, y3);
+  });
+};
+
+/* global se:true */
+/* eslint no-undef: 'error' */
+
+/*
+  PanInteraction
+  */
+se.WheelZoomInteraction = function () {
+  se.Interaction.call(this);
+};
+
+se.inherit(se.Interaction, se.WheelZoomInteraction);
+
+se.WheelZoomInteraction.prototype.init = function () {
+  var viewport = this.parent;
+  viewport.element.addEventListener('wheel', function (e) {
+    var y = 0.05;
+    if (e.deltaY < 0) {
+      y *= -1;
+    }
+    var scale = viewport.scale();
+    scale += y;
+    viewport.scale(scale);
+  });
+};
 
 /* global se:true */
 /* eslint no-undef: 'error' */
