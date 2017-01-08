@@ -47,6 +47,7 @@ gulp.task('watch-dist', function () {
 });
 
 gulp.task('watch', function () {
+  gulp.start('lint', 'build-dev', 'dist');
   gulp.watch(files, ['lint', 'build-dev', 'dist']);
 });
 

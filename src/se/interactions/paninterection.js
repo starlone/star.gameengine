@@ -37,4 +37,23 @@ se.PanInteraction.prototype.init = function () {
     var y3 = y2 - y;
     self.target.transform.move(x3, y3);
   });
+  element.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 1) {
+      var t = e.touches[0];
+      x = t.pageX;
+      y = t.pageY;
+    }
+  });
+  element.addEventListener('touchmove', function (e) {
+    if (e.touches.length === 1) {
+      var t = e.touches[0];
+      var x2 = x;
+      var y2 = y;
+      x = t.pageX;
+      y = t.pageY;
+      var x3 = x2 - x;
+      var y3 = y2 - y;
+      self.target.transform.move(x3, y3);
+    }
+  });
 };
