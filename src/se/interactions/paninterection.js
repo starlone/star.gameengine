@@ -1,4 +1,6 @@
 /* global se:true */
+/* global Event:true */
+/* global document:true */
 /* eslint no-undef: 'error' */
 
 /*
@@ -10,6 +12,8 @@ se.PanInteraction = function (target) {
 };
 
 se.inherit(se.Interaction, se.PanInteraction);
+
+se.panEndEvent = new Event('sePanEnd');
 
 se.PanInteraction.prototype.init = function () {
   var self = this;
@@ -26,6 +30,7 @@ se.PanInteraction.prototype.init = function () {
 
   function end() {
     isDown = false;
+    document.dispatchEvent(se.panEndEvent);
   }
 
   function move(ex, ey) {
