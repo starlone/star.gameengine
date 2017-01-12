@@ -5,20 +5,15 @@
 /*
   Scene
 */
-se.Scene = function (parent, renderer) {
-  this.parent = parent;
+se.Scene = function (renderer) {
   this.camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
   this.objs = [];
   this.colliders = [];
   this.add(this.camera);
   this.collisionsActive = {};
 
-  if (renderer) {
-    this.renderer = renderer;
-  } else {
-    this.renderer = new se.GradientRenderer('#8ED6FF', '#004CB3');
-    this.renderer.setParent(this);
-  }
+  this.renderer = renderer || new se.GradientRenderer('#8ED6FF', '#004CB3');
+  this.renderer.setParent(this);
 
   // create a Matter.js engine
   this.matterengine = Matter.Engine.create();

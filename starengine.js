@@ -406,6 +406,10 @@ se.GameObject.prototype.setRenderer = function (renderer) {
   this.renderer = renderer;
 };
 
+se.GameObject.prototype.getRenderer = function () {
+  return this.renderer;
+};
+
 se.GameObject.prototype.update = function (deltaTime, correction) {
   var rb = this.rigidbody;
   if (rb) {
@@ -851,20 +855,15 @@ Matter.Body.update = function (body, deltaTime, timeScale, correction) {
 /*
   Scene
 */
-se.Scene = function (parent, renderer) {
-  this.parent = parent;
+se.Scene = function (renderer) {
   this.camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
   this.objs = [];
   this.colliders = [];
   this.add(this.camera);
   this.collisionsActive = {};
 
-  if (renderer) {
-    this.renderer = renderer;
-  } else {
-    this.renderer = new se.GradientRenderer('#8ED6FF', '#004CB3');
-    this.renderer.setParent(this);
-  }
+  this.renderer = renderer || new se.GradientRenderer('#8ED6FF', '#004CB3');
+  this.renderer.setParent(this);
 
   // create a Matter.js engine
   this.matterengine = Matter.Engine.create();
@@ -1569,10 +1568,10 @@ se.ImageRenderer.prototype.render = function (ctx) {
 /*
   MeshRenderer - Based in Matter JS
 */
-se.MeshRenderer = function (fillColor, strokeColor, lineWidth) {
+se.MeshRenderer = function (fillColor, strokeStyle, lineWidth) {
   se.Renderer.call(this);
   this.color = fillColor;
-  this.strokeColor = strokeColor;
+  this.strokeStyle = strokeStyle;
   this.lineWidth = lineWidth;
 };
 
