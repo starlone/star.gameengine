@@ -4,10 +4,10 @@
 /*
   MeshRenderer - Based in Matter JS
 */
-se.MeshRenderer = function (fillColor, strokeColor, lineWidth) {
+se.MeshRenderer = function (fillColor, strokeStyle, lineWidth) {
   se.Renderer.call(this);
   this.color = fillColor;
-  this.strokeColor = strokeColor;
+  this.strokeStyle = strokeStyle;
   this.lineWidth = lineWidth;
 };
 
