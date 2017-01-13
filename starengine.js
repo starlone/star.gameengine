@@ -1427,6 +1427,7 @@ se.FreeController.prototype.update = function () {
 se.PanInteraction = function (target) {
   se.Interaction.call(this);
   this.target = target;
+  this.inverse = true;
 };
 
 se.inherit(se.Interaction, se.PanInteraction);
@@ -1459,8 +1460,12 @@ se.PanInteraction.prototype.init = function () {
     var y2 = y;
     x = ex;
     y = ey;
-    var x3 = x2 - x;
-    var y3 = y2 - y;
+    var x3 = x - x2;
+    var y3 = y - y2;
+    if (self.inverse) {
+      x3 *= -1;
+      y3 *= -1;
+    }
     self.target.transform.move(x3, y3);
   }
 
