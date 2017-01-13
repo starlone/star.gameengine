@@ -125,8 +125,8 @@ se.Scene.prototype.render = function (ctx) {
   }
 };
 
-se.Scene.prototype.clone = function (parent) {
-  var scene = new se.Scene(parent, this.renderer);
+se.Scene.prototype.clone = function () {
+  var scene = new se.Scene(this.renderer);
   var objs = this.getObjs();
   for (var i = 0; i < objs.length; i++) {
     var obj = objs[i];
