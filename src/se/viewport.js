@@ -112,3 +112,8 @@ se.ViewPort.prototype.scale = function (newscale) {
   }
   return this._scale;
 };
+
+se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
+  var coor = new se.Vector(x, y);
+  return coor.add(this.pivot.position, true);
+};

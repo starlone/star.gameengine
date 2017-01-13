@@ -136,3 +136,13 @@ se.Scene.prototype.clone = function () {
   return scene;
 };
 
+se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
+  var objs = this.getObjs();
+  for (var i = objs.length - 1; i >= 0; i--) {
+    var obj = objs[i];
+    if (obj.mesh.getExtent().containsXY(coordinate.x, coordinate.y)) {
+      return obj;
+    }
+  }
+};
+

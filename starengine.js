@@ -160,10 +160,10 @@ se.Extent.prototype.clone = function () {
 };
 
 se.Extent.prototype.move = function (vector) {
-  this.min.x = vector.x;
-  this.min.y = vector.y;
-  this.max.x = vector.x + this.getWidth();
-  this.max.y = vector.y + this.getHeight();
+  this.min.x += vector.x;
+  this.min.y += vector.y;
+  this.max.x += vector.x;
+  this.max.y += vector.y;
   return this;
 };
 
@@ -200,7 +200,7 @@ se.Extent.prototype.extendVector = function (vector) {
 };
 
 se.Extent.prototype.extendVectors = function (vectors) {
-  for (var i = 0; i < vectors.lenth; i++) {
+  for (var i = 0; i < vectors.length; i++) {
     this.extendVector(vectors[i]);
   }
   return this;
@@ -248,6 +248,10 @@ se.Extent.prototype.getWidth = function () {
 
 se.Extent.prototype.getHeight = function () {
   return this.max.y - this.min.y;
+};
+
+se.Extent.prototype.containsXY = function (x, y) {
+  return this.min.x <= x && x <= this.max.x && this.min.y <= y && y <= this.max.y;
 };
 
 
@@ -688,7 +692,8 @@ se.Mesh.prototype.getExtent = function () {
   var pos = this.parent.transform.getRealPosition();
   var extent = se.Extent.createEmpty();
   extent.extendVectors(this.vertices);
-  return extent.move(pos);
+  extent.move(pos);
+  return extent;
 };
 
 se.Mesh.prototype.setParent = function (parent) {
@@ -986,6 +991,16 @@ se.Scene.prototype.clone = function () {
   return scene;
 };
 
+se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
+  var objs = this.getObjs();
+  for (var i = objs.length - 1; i >= 0; i--) {
+    var obj = objs[i];
+    if (obj.mesh.getExtent().containsXY(coordinate.x, coordinate.y)) {
+      return obj;
+    }
+  }
+};
+
 
 /* global se:true */
 /* global window:true */
@@ -1279,6 +1294,11 @@ se.ViewPort.prototype.scale = function (newscale) {
     }
   }
   return this._scale;
+};
+
+se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
+  var coor = new se.Vector(x, y);
+  return coor.add(this.pivot.position, true);
 };
 
 /* global se:true */

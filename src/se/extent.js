@@ -19,10 +19,10 @@ se.Extent.prototype.clone = function () {
 };
 
 se.Extent.prototype.move = function (vector) {
-  this.min.x = vector.x;
-  this.min.y = vector.y;
-  this.max.x = vector.x + this.getWidth();
-  this.max.y = vector.y + this.getHeight();
+  this.min.x += vector.x;
+  this.min.y += vector.y;
+  this.max.x += vector.x;
+  this.max.y += vector.y;
   return this;
 };
 
@@ -59,7 +59,7 @@ se.Extent.prototype.extendVector = function (vector) {
 };
 
 se.Extent.prototype.extendVectors = function (vectors) {
-  for (var i = 0; i < vectors.lenth; i++) {
+  for (var i = 0; i < vectors.length; i++) {
     this.extendVector(vectors[i]);
   }
   return this;
@@ -107,5 +107,9 @@ se.Extent.prototype.getWidth = function () {
 
 se.Extent.prototype.getHeight = function () {
   return this.max.y - this.min.y;
+};
+
+se.Extent.prototype.containsXY = function (x, y) {
+  return this.min.x <= x && x <= this.max.x && this.min.y <= y && y <= this.max.y;
 };
 
