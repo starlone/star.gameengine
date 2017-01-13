@@ -692,8 +692,7 @@ se.Mesh.prototype.getExtent = function () {
   var pos = this.parent.transform.getRealPosition();
   var extent = se.Extent.createEmpty();
   extent.extendVectors(this.vertices);
-  extent.move(pos);
-  return extent;
+  return extent.move(pos);
 };
 
 se.Mesh.prototype.setParent = function (parent) {
@@ -1181,6 +1180,19 @@ se.Vector.prototype.add = function (other, isSelf) {
   return out;
 };
 
+se.Vector.prototype.divide = function (other, isSelf) {
+  var out;
+  if (isSelf) {
+    out = this;
+  } else {
+    out = new se.Vector(0, 0);
+  }
+  out.x = this.x / other.x;
+  out.y = this.y / other.y;
+  return out;
+};
+
+
 /* global se:true */
 /* global window:true */
 /* eslint no-undef: 'error' */
@@ -1298,6 +1310,8 @@ se.ViewPort.prototype.scale = function (newscale) {
 
 se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
   var coor = new se.Vector(x, y);
+  var scale = new se.Vector(this._scale, this._scale);
+  coor.divide(scale, true);
   return coor.add(this.pivot.position, true);
 };
 

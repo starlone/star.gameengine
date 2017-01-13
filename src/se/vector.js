@@ -49,3 +49,16 @@ se.Vector.prototype.add = function (other, isSelf) {
   out.y = this.y + other.y;
   return out;
 };
+
+se.Vector.prototype.divide = function (other, isSelf) {
+  var out;
+  if (isSelf) {
+    out = this;
+  } else {
+    out = new se.Vector(0, 0);
+  }
+  out.x = this.x / other.x;
+  out.y = this.y / other.y;
+  return out;
+};
+
