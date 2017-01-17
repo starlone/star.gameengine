@@ -10,7 +10,7 @@ se.ZoomInteraction = function () {
 
 se.inherit(se.Interaction, se.ZoomInteraction);
 
-se.WheelZoomInteraction.prototype.init = function () {
+se.ZoomInteraction.prototype.init = function () {
   var self = this;
   var viewport = this.parent;
   var element = viewport.element;

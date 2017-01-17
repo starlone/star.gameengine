@@ -1510,15 +1510,15 @@ se.PanInteraction.prototype.init = function () {
 /* eslint no-undef: 'error' */
 
 /*
-    WheelZoomInteraction
+    ZoomInteraction
     */
-se.WheelZoomInteraction = function () {
+se.ZoomInteraction = function () {
   se.Interaction.call(this);
 };
 
-se.inherit(se.Interaction, se.WheelZoomInteraction);
+se.inherit(se.Interaction, se.ZoomInteraction);
 
-se.WheelZoomInteraction.prototype.init = function () {
+se.ZoomInteraction.prototype.init = function () {
   var self = this;
   var viewport = this.parent;
   var element = viewport.element;
