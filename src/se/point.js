@@ -2,70 +2,70 @@
 /* eslint no-undef: 'error' */
 
 /*
-  Vector
+  Point
 */
-se.Vector = function (x, y) {
+se.Point = function (x, y) {
   this.x = x;
   this.y = y;
 };
 
-se.Vector.prototype.equals = function (other) {
+se.Point.prototype.equals = function (other) {
   return (this.x === other.x && this.y === other.y);
 };
 
-se.Vector.prototype.clone = function () {
-  return new se.Vector(this.x, this.y);
+se.Point.prototype.clone = function () {
+  return new se.Point(this.x, this.y);
 };
 
-se.Vector.prototype.change = function (x, y) {
+se.Point.prototype.change = function (x, y) {
   this.x = x;
   this.y = y;
 };
 
-se.Vector.prototype.getMagnitude = function () {
+se.Point.prototype.getMagnitude = function () {
   return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
-se.Vector.prototype.sub = function (other, isSelf) {
+se.Point.prototype.sub = function (other, isSelf) {
   var out;
   if (isSelf) {
     out = this;
   } else {
-    out = new se.Vector(0, 0);
+    out = new se.Point(0, 0);
   }
   out.x = this.x - other.x;
   out.y = this.y - other.y;
   return out;
 };
 
-se.Vector.prototype.add = function (other, isSelf) {
+se.Point.prototype.add = function (other, isSelf) {
   var out;
   if (isSelf) {
     out = this;
   } else {
-    out = new se.Vector(0, 0);
+    out = new se.Point(0, 0);
   }
   out.x = this.x + other.x;
   out.y = this.y + other.y;
   return out;
 };
 
-se.Vector.prototype.divide = function (other, isSelf) {
+se.Point.prototype.divide = function (other, isSelf) {
   var out;
   if (isSelf) {
     out = this;
   } else {
-    out = new se.Vector(0, 0);
+    out = new se.Point(0, 0);
   }
   out.x = this.x / other.x;
   out.y = this.y / other.y;
   return out;
 };
 
-se.Vector.prototype.calcDistance = function (vector) {
+se.Point.prototype.calcDistance = function (Point) {
   // Catetos
-  var dx = this.x - vector.x;
-  var dy = this.y - vector.y;
+  var dx = this.x - Point.x;
+  var dy = this.y - Point.y;
   return Math.sqrt((dx * dx) + (dy * dy));
 };
 

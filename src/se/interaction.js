@@ -18,5 +18,5 @@ se.Interaction.prototype.setParent = function (obj) {
 };
 
 se.Interaction.prototype.parseTouchToVector = function (touch) {
-  return new se.Vector(touch.pageX, touch.pageY);
+  return new se.Point(touch.pageX, touch.pageY);
 };

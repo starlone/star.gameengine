@@ -114,8 +114,8 @@ se.ViewPort.prototype.scale = function (newscale) {
 };
 
 se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
-  var coor = new se.Vector(x, y);
-  var scale = new se.Vector(this._scale, this._scale);
+  var coor = new se.Point(x, y);
+  var scale = new se.Point(this._scale, this._scale);
   coor.divide(scale, true);
   return coor.add(this.pivot.position, true);
 };

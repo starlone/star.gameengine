@@ -175,8 +175,8 @@ se.GameObject.prototype.clone = function () {
 */
 se.Transform = function (parent, x, y) {
   this.parent = parent;
-  this.position = new se.Vector(x, y);
-  this.rotate = new se.Vector(1, 0);
+  this.position = new se.Point(x, y);
+  this.rotate = new se.Point(1, 0);
 };
 
 se.Transform.prototype.change = function (x, y) {

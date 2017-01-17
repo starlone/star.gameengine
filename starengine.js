@@ -280,10 +280,10 @@ se.factory.rect = function (options) {
   }
 
   var vertices = [
-    new se.Vector(0, 0),
-    new se.Vector(w, 0),
-    new se.Vector(w, h),
-    new se.Vector(0, h)
+    new se.Point(0, 0),
+    new se.Point(w, 0),
+    new se.Point(w, h),
+    new se.Point(0, h)
   ];
 
   var obj = new se.GameObject(name, x, y, {vertices: vertices});
@@ -530,8 +530,8 @@ se.GameObject.prototype.clone = function () {
 */
 se.Transform = function (parent, x, y) {
   this.parent = parent;
-  this.position = new se.Vector(x, y);
-  this.rotate = new se.Vector(1, 0);
+  this.position = new se.Point(x, y);
+  this.rotate = new se.Point(1, 0);
 };
 
 se.Transform.prototype.change = function (x, y) {
@@ -583,7 +583,7 @@ se.Interaction.prototype.setParent = function (obj) {
 };
 
 se.Interaction.prototype.parseTouchToVector = function (touch) {
-  return new se.Vector(touch.pageX, touch.pageY);
+  return new se.Point(touch.pageX, touch.pageY);
 };
 
 /* global se:true */
@@ -701,6 +701,78 @@ se.Mesh.prototype.getExtent = function () {
 
 se.Mesh.prototype.setParent = function (parent) {
   this.parent = parent;
+};
+
+
+/* global se:true */
+/* eslint no-undef: 'error' */
+
+/*
+  Point
+*/
+se.Point = function (x, y) {
+  this.x = x;
+  this.y = y;
+};
+
+se.Point.prototype.equals = function (other) {
+  return (this.x === other.x && this.y === other.y);
+};
+
+se.Point.prototype.clone = function () {
+  return new se.Point(this.x, this.y);
+};
+
+se.Point.prototype.change = function (x, y) {
+  this.x = x;
+  this.y = y;
+};
+
+se.Point.prototype.getMagnitude = function () {
+  return Math.sqrt((this.x * this.x) + (this.y * this.y));
+};
+
+se.Point.prototype.sub = function (other, isSelf) {
+  var out;
+  if (isSelf) {
+    out = this;
+  } else {
+    out = new se.Point(0, 0);
+  }
+  out.x = this.x - other.x;
+  out.y = this.y - other.y;
+  return out;
+};
+
+se.Point.prototype.add = function (other, isSelf) {
+  var out;
+  if (isSelf) {
+    out = this;
+  } else {
+    out = new se.Point(0, 0);
+  }
+  out.x = this.x + other.x;
+  out.y = this.y + other.y;
+  return out;
+};
+
+se.Point.prototype.divide = function (other, isSelf) {
+  var out;
+  if (isSelf) {
+    out = this;
+  } else {
+    out = new se.Point(0, 0);
+  }
+  out.x = this.x / other.x;
+  out.y = this.y / other.y;
+  return out;
+};
+
+se.Point.prototype.calcDistance = function (Point) {
+  // Catetos
+  var dx = this.x - Point.x;
+  var dy = this.y - Point.y;
+  return Math.sqrt((dx * dx) + (dy * dy));
 };
 
 
@@ -1133,78 +1205,6 @@ se.StarEngine.prototype.pause = function (status) {
 };
 
 /* global se:true */
-/* eslint no-undef: 'error' */
-
-/*
-  Vector
-*/
-se.Vector = function (x, y) {
-  this.x = x;
-  this.y = y;
-};
-
-se.Vector.prototype.equals = function (other) {
-  return (this.x === other.x && this.y === other.y);
-};
-
-se.Vector.prototype.clone = function () {
-  return new se.Vector(this.x, this.y);
-};
-
-se.Vector.prototype.change = function (x, y) {
-  this.x = x;
-  this.y = y;
-};
-
-se.Vector.prototype.getMagnitude = function () {
-  return Math.sqrt((this.x * this.x) + (this.y * this.y));
-};
-
-se.Vector.prototype.sub = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Vector(0, 0);
-  }
-  out.x = this.x - other.x;
-  out.y = this.y - other.y;
-  return out;
-};
-
-se.Vector.prototype.add = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Vector(0, 0);
-  }
-  out.x = this.x + other.x;
-  out.y = this.y + other.y;
-  return out;
-};
-
-se.Vector.prototype.divide = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Vector(0, 0);
-  }
-  out.x = this.x / other.x;
-  out.y = this.y / other.y;
-  return out;
-};
-
-se.Vector.prototype.calcDistance = function (vector) {
-  // Catetos
-  var dx = this.x - vector.x;
-  var dy = this.y - vector.y;
-  return Math.sqrt((dx * dx) + (dy * dy));
-};
-
-
-/* global se:true */
 /* global window:true */
 /* eslint no-undef: 'error' */
 
@@ -1320,8 +1320,8 @@ se.ViewPort.prototype.scale = function (newscale) {
 };
 
 se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
-  var coor = new se.Vector(x, y);
-  var scale = new se.Vector(this._scale, this._scale);
+  var coor = new se.Point(x, y);
+  var scale = new se.Point(this._scale, this._scale);
   coor.divide(scale, true);
   return coor.add(this.pivot.position, true);
 };

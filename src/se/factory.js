@@ -23,10 +23,10 @@ se.factory.rect = function (options) {
   }
 
   var vertices = [
-    new se.Vector(0, 0),
-    new se.Vector(w, 0),
-    new se.Vector(w, h),
-    new se.Vector(0, h)
+    new se.Point(0, 0),
+    new se.Point(w, 0),
+    new se.Point(w, h),
+    new se.Point(0, h)
   ];
 
   var obj = new se.GameObject(name, x, y, {vertices: vertices});
