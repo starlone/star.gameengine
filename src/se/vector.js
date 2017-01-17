@@ -62,3 +62,10 @@ se.Vector.prototype.divide = function (other, isSelf) {
   return out;
 };
 
+se.Vector.prototype.calcDistance = function (vector) {
+  // Catetos
+  var dx = this.x - vector.x;
+  var dy = this.y - vector.y;
+  return Math.sqrt((dx * dx) + (dy * dy));
+};
+

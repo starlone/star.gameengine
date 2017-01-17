@@ -16,3 +16,7 @@ se.Interaction.prototype.setParent = function (obj) {
   this.parent = obj;
   this.init();
 };
+
+se.Interaction.prototype.parseTouchToVector = function (touch) {
+  return new se.Vector(touch.pageX, touch.pageY);
+};
