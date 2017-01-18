@@ -116,6 +116,6 @@ se.ViewPort.prototype.scale = function (newscale) {
 se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
   var coor = new se.Point(x, y);
   var scale = new se.Point(this._scale, this._scale);
-  coor.divide(scale, true);
+  coor.div(scale, true);
   return coor.add(this.pivot.position, true);
 };

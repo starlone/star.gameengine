@@ -18,15 +18,13 @@ se.panEndEvent = new Event('sePanEnd');
 
 se.PanInteraction.prototype.init = function () {
   var self = this;
-  var x = 0;
-  var y = 0;
   var isDown = false;
   var element = this.parent.element;
   var viewport = this.parent;
+  var last = null;
 
-  function start(x2, y2) {
-    x = x2;
-    y = y2;
+  function start(x, y) {
+    last = new se.Point(x, y);
     isDown = true;
   }
 
@@ -35,24 +33,19 @@ se.PanInteraction.prototype.init = function () {
     document.dispatchEvent(se.panEndEvent);
   }
 
-  function move(ex, ey) {
+  function move(x, y) {
     if (!isDown) {
       return;
     }
-    var x2 = x;
-    var y2 = y;
-    x = ex;
-    y = ey;
-    var x3 = x - x2;
-    var y3 = y - y2;
+    var point = new se.Point(x, y);
+    var newp = point.sub(last);
     if (self.inverse) {
-      x3 *= -1;
-      y3 *= -1;
+      newp.neg(true);
     }
     var scale = viewport.scale();
-    x3 /= scale;
-    y3 /= scale;
-    self.target.transform.move(x3, y3);
+    newp.div({x: scale, y: scale}, true);
+    self.target.transform.move(newp.x, newp.y);
+    last = point;
   }
 
   element.addEventListener('mousedown', function (e) {

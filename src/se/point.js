@@ -40,17 +40,24 @@ se.Point.prototype.add = function (other, isSelf) {
   return out;
 };
 
-se.Point.prototype.divide = function (other, isSelf) {
+se.Point.prototype.div = function (other, isSelf) {
   var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x / other.x;
   out.y = this.y / other.y;
   return out;
 };
 
-se.Point.prototype.multiply = function (other, isSelf) {
+se.Point.prototype.mul = function (other, isSelf) {
   var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x * other.x;
   out.y = this.y * other.y;
+  return out;
+};
+
+se.Point.prototype.neg = function (isSelf) {
+  var out = isSelf ? this : new se.Point(0, 0);
+  out.x = this.x * -1;
+  out.y = this.y * -1;
   return out;
 };
 

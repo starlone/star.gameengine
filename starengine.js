@@ -746,17 +746,24 @@ se.Point.prototype.add = function (other, isSelf) {
   return out;
 };
 
-se.Point.prototype.divide = function (other, isSelf) {
+se.Point.prototype.div = function (other, isSelf) {
   var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x / other.x;
   out.y = this.y / other.y;
   return out;
 };
 
-se.Point.prototype.multiply = function (other, isSelf) {
+se.Point.prototype.mul = function (other, isSelf) {
   var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x * other.x;
   out.y = this.y * other.y;
+  return out;
+};
+
+se.Point.prototype.neg = function (isSelf) {
+  var out = isSelf ? this : new se.Point(0, 0);
+  out.x = this.x * -1;
+  out.y = this.y * -1;
   return out;
 };
 
@@ -1314,7 +1321,7 @@ se.ViewPort.prototype.scale = function (newscale) {
 se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
   var coor = new se.Point(x, y);
   var scale = new se.Point(this._scale, this._scale);
-  coor.divide(scale, true);
+  coor.div(scale, true);
   return coor.add(this.pivot.position, true);
 };
 
@@ -1439,15 +1446,13 @@ se.panEndEvent = new Event('sePanEnd');
 
 se.PanInteraction.prototype.init = function () {
   var self = this;
-  var x = 0;
-  var y = 0;
   var isDown = false;
   var element = this.parent.element;
   var viewport = this.parent;
+  var last = null;
 
-  function start(x2, y2) {
-    x = x2;
-    y = y2;
+  function start(x, y) {
+    last = new se.Point(x, y);
     isDown = true;
   }
 
@@ -1456,24 +1461,19 @@ se.PanInteraction.prototype.init = function () {
     document.dispatchEvent(se.panEndEvent);
   }
 
-  function move(ex, ey) {
+  function move(x, y) {
     if (!isDown) {
       return;
     }
-    var x2 = x;
-    var y2 = y;
-    x = ex;
-    y = ey;
-    var x3 = x - x2;
-    var y3 = y - y2;
+    var point = new se.Point(x, y);
+    var newp = point.sub(last);
     if (self.inverse) {
-      x3 *= -1;
-      y3 *= -1;
+      newp.neg(true);
     }
     var scale = viewport.scale();
-    x3 /= scale;
-    y3 /= scale;
-    self.target.transform.move(x3, y3);
+    newp.div({x: scale, y: scale}, true);
+    self.target.transform.move(newp.x, newp.y);
+    last = point;
   }
 
   element.addEventListener('mousedown', function (e) {
