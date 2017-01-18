@@ -733,38 +733,30 @@ se.Point.prototype.getMagnitude = function () {
 };
 
 se.Point.prototype.sub = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Point(0, 0);
-  }
+  var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x - other.x;
   out.y = this.y - other.y;
   return out;
 };
 
 se.Point.prototype.add = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Point(0, 0);
-  }
+  var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x + other.x;
   out.y = this.y + other.y;
   return out;
 };
 
 se.Point.prototype.divide = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Point(0, 0);
-  }
+  var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x / other.x;
   out.y = this.y / other.y;
+  return out;
+};
+
+se.Point.prototype.multiply = function (other, isSelf) {
+  var out = isSelf ? this : new se.Point(0, 0);
+  out.x = this.x * other.x;
+  out.y = this.y * other.y;
   return out;
 };
 
@@ -1215,7 +1207,7 @@ se.ViewPort = function (elementID) {
   var self = this;
   this.elementID = elementID;
   this.interactions = [];
-  this._scale = 1;
+  this._scale = 1.0;
 
   if (this.elementID) {
     this.element = window.document.getElementById(this.elementID);
@@ -1311,7 +1303,7 @@ se.ViewPort.prototype.addInteraction = function (interaction) {
 // Get and Setter to scale
 se.ViewPort.prototype.scale = function (newscale) {
   if (arguments.length) {
-    newscale = parseFloat(newscale, 0) || 0;
+    newscale = parseFloat(newscale, 1) || 1;
     if (newscale) {
       this._scale = newscale;
     }
@@ -1451,6 +1443,7 @@ se.PanInteraction.prototype.init = function () {
   var y = 0;
   var isDown = false;
   var element = this.parent.element;
+  var viewport = this.parent;
 
   function start(x2, y2) {
     x = x2;
@@ -1477,6 +1470,9 @@ se.PanInteraction.prototype.init = function () {
       x3 *= -1;
       y3 *= -1;
     }
+    var scale = viewport.scale();
+    x3 /= scale;
+    y3 /= scale;
     self.target.transform.move(x3, y3);
   }
 

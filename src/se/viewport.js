@@ -9,7 +9,7 @@ se.ViewPort = function (elementID) {
   var self = this;
   this.elementID = elementID;
   this.interactions = [];
-  this._scale = 1;
+  this._scale = 1.0;
 
   if (this.elementID) {
     this.element = window.document.getElementById(this.elementID);
@@ -105,7 +105,7 @@ se.ViewPort.prototype.addInteraction = function (interaction) {
 // Get and Setter to scale
 se.ViewPort.prototype.scale = function (newscale) {
   if (arguments.length) {
-    newscale = parseFloat(newscale, 0) || 0;
+    newscale = parseFloat(newscale, 1) || 1;
     if (newscale) {
       this._scale = newscale;
     }

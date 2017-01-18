@@ -22,6 +22,7 @@ se.PanInteraction.prototype.init = function () {
   var y = 0;
   var isDown = false;
   var element = this.parent.element;
+  var viewport = this.parent;
 
   function start(x2, y2) {
     x = x2;
@@ -48,6 +49,9 @@ se.PanInteraction.prototype.init = function () {
       x3 *= -1;
       y3 *= -1;
     }
+    var scale = viewport.scale();
+    x3 /= scale;
+    y3 /= scale;
     self.target.transform.move(x3, y3);
   }
 

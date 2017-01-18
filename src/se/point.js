@@ -27,38 +27,30 @@ se.Point.prototype.getMagnitude = function () {
 };
 
 se.Point.prototype.sub = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Point(0, 0);
-  }
+  var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x - other.x;
   out.y = this.y - other.y;
   return out;
 };
 
 se.Point.prototype.add = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Point(0, 0);
-  }
+  var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x + other.x;
   out.y = this.y + other.y;
   return out;
 };
 
 se.Point.prototype.divide = function (other, isSelf) {
-  var out;
-  if (isSelf) {
-    out = this;
-  } else {
-    out = new se.Point(0, 0);
-  }
+  var out = isSelf ? this : new se.Point(0, 0);
   out.x = this.x / other.x;
   out.y = this.y / other.y;
+  return out;
+};
+
+se.Point.prototype.multiply = function (other, isSelf) {
+  var out = isSelf ? this : new se.Point(0, 0);
+  out.x = this.x * other.x;
+  out.y = this.y * other.y;
   return out;
 };
 
