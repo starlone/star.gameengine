@@ -36,7 +36,9 @@
   },
   "eslintConfig": {
     "globals": {
-      "expect": true
+      "expect": true,
+      "se": true,
+      "window": true
     },
     "root": true,
     "extends": [

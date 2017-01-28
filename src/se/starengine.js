@@ -5,8 +5,8 @@
 /*
   Star Engine
 */
-se.StarEngine = function (elementID) {
-  this.elementID = elementID;
+se.StarEngine = function (element) {
+  this.element = element;
 
   this.scenes = [];
   this.joystick = new se.Joystick();
@@ -100,7 +100,12 @@ se.StarEngine.prototype.update = function (time) {
 se.StarEngine.prototype.run = function () {
   var runner = this.runner;
   var self = this;
-  this.viewport = new se.ViewPort(this.elementID);
+
+  this.viewport = this.viewport || null;
+  if (!this.viewport && this.element) {
+    this.viewport = new se.ViewPort(this.element);
+  }
+
   (function render(time) {
     runner.frameRequestId = window.requestAnimationFrame(render);
     var scene = self.getSceneCurrent();

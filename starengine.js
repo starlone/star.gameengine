@@ -1083,8 +1083,8 @@ se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
 /*
   Star Engine
 */
-se.StarEngine = function (elementID) {
-  this.elementID = elementID;
+se.StarEngine = function (element) {
+  this.element = element;
 
   this.scenes = [];
   this.joystick = new se.Joystick();
@@ -1178,7 +1178,12 @@ se.StarEngine.prototype.update = function (time) {
 se.StarEngine.prototype.run = function () {
   var runner = this.runner;
   var self = this;
-  this.viewport = new se.ViewPort(this.elementID);
+
+  this.viewport = this.viewport || null;
+  if (!this.viewport && this.element) {
+    this.viewport = new se.ViewPort(this.element);
+  }
+
   (function render(time) {
     runner.frameRequestId = window.requestAnimationFrame(render);
     var scene = self.getSceneCurrent();
@@ -1203,21 +1208,20 @@ se.StarEngine.prototype.pause = function (status) {
   this.runner.enabled = !status;
 };
 
-/* global se:true */
-/* global window:true */
-/* eslint no-undef: 'error' */
-
 /*
   View Port
 */
 se.ViewPort = function (elementID) {
   var self = this;
-  this.elementID = elementID;
   this.interactions = [];
   this._scale = 1.0;
 
-  if (this.elementID) {
-    this.element = window.document.getElementById(this.elementID);
+  if (elementID) {
+    if (typeof elementID === 'string') {
+      this.element = window.document.querySelector(elementID);
+    } else {
+      this.element = elementID;
+    }
   } else {
     this.element = window.document.body;
   }

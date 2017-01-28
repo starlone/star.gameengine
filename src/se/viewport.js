@@ -1,18 +1,17 @@
-/* global se:true */
-/* global window:true */
-/* eslint no-undef: 'error' */
-
 /*
   View Port
 */
 se.ViewPort = function (elementID) {
   var self = this;
-  this.elementID = elementID;
   this.interactions = [];
   this._scale = 1.0;
 
-  if (this.elementID) {
-    this.element = window.document.getElementById(this.elementID);
+  if (elementID) {
+    if (typeof elementID === 'string') {
+      this.element = window.document.querySelector(elementID);
+    } else {
+      this.element = elementID;
+    }
   } else {
     this.element = window.document.body;
   }
