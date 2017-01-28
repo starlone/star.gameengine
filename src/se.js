@@ -1,6 +1,3 @@
-/* global window:true */
-/* eslint no-undef: 'error' */
-
 /*
     Star Game Engine
 */

@@ -1,7 +1,3 @@
-/* global se:true */
-/* global Matter:true */
-/* eslint no-undef: 'error' */
-
 /*
     Factory
     */

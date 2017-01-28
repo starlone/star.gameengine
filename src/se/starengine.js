@@ -1,7 +1,3 @@
-/* global se:true */
-/* global window:true */
-/* eslint no-undef: 'error' */
-
 /*
   Star Engine
 */

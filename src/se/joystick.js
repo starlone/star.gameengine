@@ -1,7 +1,3 @@
-/* global se:true */
-/* global document:true */
-/* eslint no-undef: 'error' */
-
 /*
   Joystick
   */

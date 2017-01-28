@@ -1,6 +1,3 @@
-/* global window:true */
-/* eslint no-undef: 'error' */
-
 /*
     Star Game Engine
 */
@@ -31,9 +28,6 @@ se.inherit = function (Parent, Child) {
   Child.prototype = obj;
   Child.prototype.constructor = Child;
 };
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   Collider
@@ -115,9 +109,6 @@ se.RectCollider.prototype.clone = function () {
 };
 
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   Component
 */
@@ -138,9 +129,6 @@ se.Component.prototype.setParent = function (obj) {
   this.parent = obj;
 };
 
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   Extent
@@ -255,10 +243,6 @@ se.Extent.prototype.containsXY = function (x, y) {
 };
 
 
-/* global se:true */
-/* global Matter:true */
-/* eslint no-undef: 'error' */
-
 /*
     Factory
     */
@@ -352,9 +336,6 @@ se.factory.createCircleVertices = function (radius, maxSides) {
   }
   return Matter.Vertices.fromPath(path);
 };
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   GameObject
@@ -563,9 +544,6 @@ se.Transform.prototype.getRealPosition = function () {
 };
 
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   Interaction
 */
@@ -585,10 +563,6 @@ se.Interaction.prototype.setParent = function (obj) {
 se.Interaction.prototype.parseTouchToVector = function (touch) {
   return new se.Point(touch.pageX, touch.pageY);
 };
-
-/* global se:true */
-/* global document:true */
-/* eslint no-undef: 'error' */
 
 /*
   Joystick
@@ -671,10 +645,6 @@ se.KeyboardHandler.prototype.keyup = function (key) {
   }
 };
 
-/* global se:true */
-/* global Matter:true */
-/* eslint no-undef: 'error' */
-
 /*
   Mesh
 */
@@ -703,9 +673,6 @@ se.Mesh.prototype.setParent = function (parent) {
   this.parent = parent;
 };
 
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   Point
@@ -775,9 +742,6 @@ se.Point.prototype.calcDistance = function (Point) {
 };
 
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
     Renderer
     */
@@ -802,10 +766,6 @@ se.Renderer.prototype.clone = function () {
   }
   return copy;
 };
-
-/* global se:true */
-/* global Matter:true */
-/* eslint no-undef: 'error' */
 
 /*
   Rigid Body based in matter
@@ -926,10 +886,6 @@ Matter.Body.update = function (body, deltaTime, timeScale, correction) {
     Bounds.update(part.bounds, part.vertices, body.velocity);
   }
 };
-
-/* global se:true */
-/* global Matter:true */
-/* eslint no-undef: 'error' */
 
 /*
   Scene
@@ -1075,10 +1031,6 @@ se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
   }
 };
 
-
-/* global se:true */
-/* global window:true */
-/* eslint no-undef: 'error' */
 
 /*
   Star Engine
@@ -1329,9 +1281,6 @@ se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
   return coor.add(this.pivot.position, true);
 };
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   ComponentFollowPlayer
 */
@@ -1346,9 +1295,6 @@ se.ComponentFollowObject.prototype.update = function (obj) {
   obj.transform.position.x = this.objTarget.transform.position.x;
   obj.transform.position.y = this.objTarget.transform.position.y;
 };
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   ComponentPlatformPlayerController
@@ -1389,9 +1335,6 @@ se.ComponentPlatformPlayerController.prototype.update = function (obj, deltaTime
 };
 
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   ComponentScript
 */
@@ -1402,9 +1345,6 @@ se.ComponentScript = function (functionUpdate, functionResolveCollision) {
 };
 
 se.inherit(se.Component, se.ComponentScript);
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   FreeController
@@ -1429,11 +1369,6 @@ se.FreeController.prototype.update = function () {
   this.parent.transform.move(x, y);
 };
 
-
-/* global se:true */
-/* global Event:true */
-/* global document:true */
-/* eslint no-undef: 'error' */
 
 /*
   PanInteraction
@@ -1506,9 +1441,6 @@ se.PanInteraction.prototype.init = function () {
   });
 };
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
     ZoomInteraction
     */
@@ -1555,9 +1487,6 @@ se.ZoomInteraction.prototype.init = function () {
   });
 };
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   CircleRenderer
 */
@@ -1588,9 +1517,6 @@ se.CircleRenderer.prototype.render = function (ctx) {
   }
 };
 
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   GradientRenderer
 */
@@ -1614,10 +1540,6 @@ se.GradientRenderer.prototype.render = function (ctx, params) {
   ctx.fillRect(params.x, params.y, params.width, params.height);
 };
 
-/* global se:true */
-/* global Image:true */
-/* eslint no-undef: 'error' */
-
 /*
   ImageRenderer
 */
@@ -1635,9 +1557,6 @@ se.inherit(se.Renderer, se.ImageRenderer);
 se.ImageRenderer.prototype.render = function (ctx) {
   ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
 };
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
   MeshRenderer - Based in Matter JS
@@ -1674,9 +1593,6 @@ se.MeshRenderer.prototype.render = function (ctx) {
 
   c.fill();
 };
-
-/* global se:true */
-/* eslint no-undef: 'error' */
 
 /*
  RectRenderer

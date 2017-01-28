@@ -1,8 +1,3 @@
-/* global se:true */
-/* global Event:true */
-/* global document:true */
-/* eslint no-undef: 'error' */
-
 /*
   PanInteraction
   */

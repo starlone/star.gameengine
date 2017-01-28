@@ -1,6 +1,3 @@
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   ComponentPlatformPlayerController
 */

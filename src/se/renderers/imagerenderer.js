@@ -1,7 +1,3 @@
-/* global se:true */
-/* global Image:true */
-/* eslint no-undef: 'error' */
-
 /*
   ImageRenderer
 */

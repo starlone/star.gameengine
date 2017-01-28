@@ -38,7 +38,11 @@
     "globals": {
       "expect": true,
       "se": true,
-      "window": true
+      "window": true,
+      "document": true,
+      "Matter": true,
+      "Image": true,
+      "Event": true
     },
     "root": true,
     "extends": [

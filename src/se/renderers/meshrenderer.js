@@ -1,6 +1,3 @@
-/* global se:true */
-/* eslint no-undef: 'error' */
-
 /*
   MeshRenderer - Based in Matter JS
 */
