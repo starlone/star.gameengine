@@ -26,3 +26,14 @@ se.Mesh.prototype.setParent = function (parent) {
   this.parent = parent;
 };
 
+se.Mesh.prototype.json = function () {
+  var vertices = [];
+  for (var i = 0; i < this.vertices.length; i++) {
+    vertices.push(this.vertices[i].json());
+  }
+  return {
+    type: 'Mesh',
+    vertices: vertices
+  };
+};
+

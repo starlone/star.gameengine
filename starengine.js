@@ -506,6 +506,15 @@ se.GameObject.prototype.clone = function () {
   return obj;
 };
 
+se.GameObject.prototype.json = function () {
+  return {
+    type: 'GameObject',
+    name: this.name,
+    transform: this.transform.json(),
+    mesh: this.mesh.json()
+  };
+};
+
 /*
   Transform
 */
@@ -543,6 +552,13 @@ se.Transform.prototype.getRealPosition = function () {
   return {x: x, y: y};
 };
 
+se.Transform.prototype.json = function () {
+  return {
+    type: 'Transform',
+    position: this.position.json(),
+    rotate: this.rotate.json()
+  };
+};
 
 /*
   Interaction
@@ -673,6 +689,17 @@ se.Mesh.prototype.setParent = function (parent) {
   this.parent = parent;
 };
 
+se.Mesh.prototype.json = function () {
+  var vertices = [];
+  for (var i = 0; i < this.vertices.length; i++) {
+    vertices.push(this.vertices[i].json());
+  }
+  return {
+    type: 'Mesh',
+    vertices: vertices
+  };
+};
+
 
 /*
   Point
@@ -739,6 +766,14 @@ se.Point.prototype.calcDistance = function (Point) {
   var dx = this.x - Point.x;
   var dy = this.y - Point.y;
   return Math.sqrt((dx * dx) + (dy * dy));
+};
+
+se.Point.prototype.json = function () {
+  return {
+    type: 'Point',
+    x: this.x,
+    y: this.y
+  };
 };
 
 
@@ -1029,6 +1064,17 @@ se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
       return obj;
     }
   }
+};
+
+se.Scene.prototype.json = function () {
+  var objs = [];
+  for (var i = 0; i < this.objs.length; i++) {
+    objs.push(this.objs[i].json());
+  }
+  return {
+    type: 'Scene',
+    objs: objs
+  };
 };
 
 

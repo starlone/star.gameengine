@@ -65,3 +65,11 @@ se.Point.prototype.calcDistance = function (Point) {
   return Math.sqrt((dx * dx) + (dy * dy));
 };
 
+se.Point.prototype.json = function () {
+  return {
+    type: 'Point',
+    x: this.x,
+    y: this.y
+  };
+};
+

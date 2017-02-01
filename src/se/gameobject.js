@@ -167,6 +167,15 @@ se.GameObject.prototype.clone = function () {
   return obj;
 };
 
+se.GameObject.prototype.json = function () {
+  return {
+    type: 'GameObject',
+    name: this.name,
+    transform: this.transform.json(),
+    mesh: this.mesh.json()
+  };
+};
+
 /*
   Transform
 */
@@ -204,3 +213,10 @@ se.Transform.prototype.getRealPosition = function () {
   return {x: x, y: y};
 };
 
+se.Transform.prototype.json = function () {
+  return {
+    type: 'Transform',
+    position: this.position.json(),
+    rotate: this.rotate.json()
+  };
+};

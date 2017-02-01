@@ -142,3 +142,14 @@ se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
   }
 };
 
+se.Scene.prototype.json = function () {
+  var objs = [];
+  for (var i = 0; i < this.objs.length; i++) {
+    objs.push(this.objs[i].json());
+  }
+  return {
+    type: 'Scene',
+    objs: objs
+  };
+};
+
