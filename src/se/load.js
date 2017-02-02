@@ -33,7 +33,6 @@ se.load.gameobject = function (json) {
     var rend = se.load.renderer(json.renderer);
     obj.setRenderer(rend);
   }
-  console.log(obj);
   return obj;
 };
 
