@@ -27,3 +27,13 @@ se.CircleRenderer.prototype.render = function (ctx) {
     ctx.stroke();
   }
 };
+
+se.CircleRenderer.prototype.json = function () {
+  return {
+    type: 'CircleRenderer',
+    radius: this.radius,
+    fillStyle: this.fillStyle,
+    strokeStyle: this.strokeStyle,
+    lineWidth: this.lineWidth
+  };
+};

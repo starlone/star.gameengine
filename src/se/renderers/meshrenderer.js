@@ -33,3 +33,12 @@ se.MeshRenderer.prototype.render = function (ctx) {
 
   c.fill();
 };
+
+se.MeshRenderer.prototype.json = function () {
+  return {
+    type: 'MeshRenderer',
+    fillColor: this.color,
+    strokeStyle: this.strokeStyle,
+    lineWidth: this.lineWidth
+  };
+};

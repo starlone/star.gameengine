@@ -22,3 +22,10 @@ se.Renderer.prototype.clone = function () {
   }
   return copy;
 };
+
+se.Renderer.prototype.json = function () {
+  return {
+    type: 'Renderer'
+  };
+};
+

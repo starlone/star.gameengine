@@ -149,6 +149,7 @@ se.Scene.prototype.json = function () {
   }
   return {
     type: 'Scene',
+    renderer: this.renderer.json(),
     objs: objs
   };
 };

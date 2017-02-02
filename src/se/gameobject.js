@@ -173,13 +173,18 @@ se.GameObject.prototype.json = function () {
   if (this.rigidbody) {
     body = this.rigidbody.json();
   }
+  var rend = null;
+  if (this.renderer) {
+    rend = this.renderer.json();
+  }
   return {
     type: 'GameObject',
     name: this.name,
     angle: this.angle,
     transform: this.transform.json(),
     mesh: this.mesh.json(),
-    rigidbody: body
+    rigidbody: body,
+    renderer: rend
   };
 };
 

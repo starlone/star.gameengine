@@ -513,13 +513,18 @@ se.GameObject.prototype.json = function () {
   if (this.rigidbody) {
     body = this.rigidbody.json();
   }
+  var rend = null;
+  if (this.renderer) {
+    rend = this.renderer.json();
+  }
   return {
     type: 'GameObject',
     name: this.name,
     angle: this.angle,
     transform: this.transform.json(),
     mesh: this.mesh.json(),
-    rigidbody: body
+    rigidbody: body,
+    renderer: rend
   };
 };
 
@@ -676,7 +681,11 @@ se.KeyboardHandler.prototype.keyup = function (key) {
 se.load = {};
 
 se.load.scene = function (json) {
-  var scene = new se.Scene();
+  var rend = null;
+  if (json.renderer) {
+    rend = se.load.renderer(json.renderer);
+  }
+  var scene = new se.Scene(rend);
   for (var i = 0; i < json.objs.length; i++) {
     var o = json.objs[i];
     var obj = se.load.gameobject(o);
@@ -696,6 +705,11 @@ se.load.gameobject = function (json) {
   if (json.rigidbody) {
     obj.setRigidBody(new se.RigidBody(json.rigidbody));
   }
+  if (json.renderer) {
+    var rend = se.load.renderer(json.renderer);
+    obj.setRenderer(rend);
+  }
+  console.log(obj);
   return obj;
 };
 
@@ -711,6 +725,22 @@ se.load.points = function (jsonarray) {
     points.push(p);
   }
   return points;
+};
+
+se.load.renderer = function (json) {
+  var rend = null;
+  if (json.type === 'CircleRenderer') {
+    rend = new se.CircleRenderer(json.radius, json.fillStyle, json.strokeStyle, json.lineWidth);
+  } else if (json.type === 'RectRenderer') {
+    rend = new se.RectRenderer(json.color, json.width, json.height);
+  } else if (json.type === 'MeshRenderer') {
+    rend = new se.MeshRenderer(json.fillColor, json.strokeStyle, json.lineWidth);
+  } else if (json.type === 'ImageRenderer') {
+    rend = new se.ImageRenderer(json.imageSrc, json.width, json.height);
+  } else if (json.type === 'GradientRenderer') {
+    rend = new se.GradientRenderer(json.color1, json.color2);
+  }
+  return rend;
 };
 
 
@@ -854,6 +884,13 @@ se.Renderer.prototype.clone = function () {
   }
   return copy;
 };
+
+se.Renderer.prototype.json = function () {
+  return {
+    type: 'Renderer'
+  };
+};
+
 
 /*
   Rigid Body based in matter
@@ -1133,6 +1170,7 @@ se.Scene.prototype.json = function () {
   }
   return {
     type: 'Scene',
+    renderer: this.renderer.json(),
     objs: objs
   };
 };
@@ -1623,6 +1661,16 @@ se.CircleRenderer.prototype.render = function (ctx) {
   }
 };
 
+se.CircleRenderer.prototype.json = function () {
+  return {
+    type: 'CircleRenderer',
+    radius: this.radius,
+    fillStyle: this.fillStyle,
+    strokeStyle: this.strokeStyle,
+    lineWidth: this.lineWidth
+  };
+};
+
 /*
   GradientRenderer
 */
@@ -1646,6 +1694,15 @@ se.GradientRenderer.prototype.render = function (ctx, params) {
   ctx.fillRect(params.x, params.y, params.width, params.height);
 };
 
+se.GradientRenderer.prototype.json = function () {
+  return {
+    type: 'GradientRenderer',
+    color1: this.color1,
+    color2: this.color2
+  };
+};
+
+
 /*
   ImageRenderer
 */
@@ -1662,6 +1719,15 @@ se.inherit(se.Renderer, se.ImageRenderer);
 
 se.ImageRenderer.prototype.render = function (ctx) {
   ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height);
+};
+
+se.ImageRenderer.prototype.json = function () {
+  return {
+    type: 'ImageRenderer',
+    imageSrc: this.img.src,
+    width: this.width,
+    height: this.height
+  };
 };
 
 /*
@@ -1700,6 +1766,15 @@ se.MeshRenderer.prototype.render = function (ctx) {
   c.fill();
 };
 
+se.MeshRenderer.prototype.json = function () {
+  return {
+    type: 'MeshRenderer',
+    fillColor: this.color,
+    strokeStyle: this.strokeStyle,
+    lineWidth: this.lineWidth
+  };
+};
+
 /*
  RectRenderer
  */
@@ -1717,7 +1792,12 @@ se.RectRenderer.prototype.render = function (ctx) {
   ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
 };
 
-se.RectRenderer.prototype.setParent = function (obj) {
-  this.parent = obj;
+se.RectRenderer.prototype.json = function () {
+  return {
+    type: 'RectRenderer',
+    color: this.color,
+    width: this.width,
+    height: this.height
+  };
 };
 

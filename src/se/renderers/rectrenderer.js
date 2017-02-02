@@ -15,7 +15,12 @@ se.RectRenderer.prototype.render = function (ctx) {
   ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
 };
 
-se.RectRenderer.prototype.setParent = function (obj) {
-  this.parent = obj;
+se.RectRenderer.prototype.json = function () {
+  return {
+    type: 'RectRenderer',
+    color: this.color,
+    width: this.width,
+    height: this.height
+  };
 };
 

@@ -20,3 +20,12 @@ se.GradientRenderer.prototype.render = function (ctx, params) {
   ctx.fillStyle = grd;
   ctx.fillRect(params.x, params.y, params.width, params.height);
 };
+
+se.GradientRenderer.prototype.json = function () {
+  return {
+    type: 'GradientRenderer',
+    color1: this.color1,
+    color2: this.color2
+  };
+};
+

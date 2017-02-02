@@ -5,7 +5,11 @@
 se.load = {};
 
 se.load.scene = function (json) {
-  var scene = new se.Scene();
+  var rend = null;
+  if (json.renderer) {
+    rend = se.load.renderer(json.renderer);
+  }
+  var scene = new se.Scene(rend);
   for (var i = 0; i < json.objs.length; i++) {
     var o = json.objs[i];
     var obj = se.load.gameobject(o);
@@ -25,6 +29,11 @@ se.load.gameobject = function (json) {
   if (json.rigidbody) {
     obj.setRigidBody(new se.RigidBody(json.rigidbody));
   }
+  if (json.renderer) {
+    var rend = se.load.renderer(json.renderer);
+    obj.setRenderer(rend);
+  }
+  console.log(obj);
   return obj;
 };
 
@@ -40,5 +49,21 @@ se.load.points = function (jsonarray) {
     points.push(p);
   }
   return points;
+};
+
+se.load.renderer = function (json) {
+  var rend = null;
+  if (json.type === 'CircleRenderer') {
+    rend = new se.CircleRenderer(json.radius, json.fillStyle, json.strokeStyle, json.lineWidth);
+  } else if (json.type === 'RectRenderer') {
+    rend = new se.RectRenderer(json.color, json.width, json.height);
+  } else if (json.type === 'MeshRenderer') {
+    rend = new se.MeshRenderer(json.fillColor, json.strokeStyle, json.lineWidth);
+  } else if (json.type === 'ImageRenderer') {
+    rend = new se.ImageRenderer(json.imageSrc, json.width, json.height);
+  } else if (json.type === 'GradientRenderer') {
+    rend = new se.GradientRenderer(json.color1, json.color2);
+  }
+  return rend;
 };
 
