@@ -58,6 +58,7 @@ se.factory.circle = function (options) {
   var lineWidth = opt.lineWidth;
 
   var vertices = se.factory.createCircleVertices(radius, maxSides);
+  vertices = se.load.points(vertices);
 
   var obj = new se.GameObject(name, x, y, {vertices: vertices});
 

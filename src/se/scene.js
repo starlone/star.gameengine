@@ -8,7 +8,7 @@ se.Scene = function (renderer) {
   this.add(this.camera);
   this.collisionsActive = {};
 
-  this.renderer = renderer || new se.GradientRenderer('#8ED6FF', '#004CB3');
+  this.renderer = renderer || new se.GradientRenderer('#004CB3', '#8ED6FF');
   this.renderer.setParent(this);
 
   // create a Matter.js engine

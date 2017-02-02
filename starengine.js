@@ -303,6 +303,7 @@ se.factory.circle = function (options) {
   var lineWidth = opt.lineWidth;
 
   var vertices = se.factory.createCircleVertices(radius, maxSides);
+  vertices = se.load.points(vertices);
 
   var obj = new se.GameObject(name, x, y, {vertices: vertices});
 
@@ -495,7 +496,8 @@ se.GameObject.prototype.clone = function () {
   if (this.rigidbody) {
     var b = this.rigidbody.body;
     var opt = {
-      isStatic: b.isStatic
+      isStatic: b.isStatic,
+      canRotate: b.canRotate
     };
     obj.setRigidBody(new se.RigidBody(opt));
   }
@@ -507,11 +509,17 @@ se.GameObject.prototype.clone = function () {
 };
 
 se.GameObject.prototype.json = function () {
+  var body = null;
+  if (this.rigidbody) {
+    body = this.rigidbody.json();
+  }
   return {
     type: 'GameObject',
     name: this.name,
+    angle: this.angle,
     transform: this.transform.json(),
-    mesh: this.mesh.json()
+    mesh: this.mesh.json(),
+    rigidbody: body
   };
 };
 
@@ -660,6 +668,51 @@ se.KeyboardHandler.prototype.keyup = function (key) {
     this.joy.setAxis('jump', false);
   }
 };
+
+
+/*
+    Load
+    */
+se.load = {};
+
+se.load.scene = function (json) {
+  var scene = new se.Scene();
+  for (var i = 0; i < json.objs.length; i++) {
+    var o = json.objs[i];
+    var obj = se.load.gameobject(o);
+    scene.add(obj);
+  }
+  return scene;
+};
+
+se.load.gameobject = function (json) {
+  var vertices = se.load.points(json.mesh.vertices);
+  var options = {
+    angle: json.angle,
+    vertices: vertices
+  };
+  var pos = json.transform.position;
+  var obj = new se.GameObject(json.name, pos.x, pos.y, options);
+  if (json.rigidbody) {
+    obj.setRigidBody(new se.RigidBody(json.rigidbody));
+  }
+  return obj;
+};
+
+se.load.point = function (json) {
+  return new se.Point(json.x, json.y);
+};
+
+se.load.points = function (jsonarray) {
+  var points = [];
+  for (var i = 0; i < jsonarray.length; i++) {
+    var o = jsonarray[i];
+    var p = se.load.point(o);
+    points.push(p);
+  }
+  return points;
+};
+
 
 /*
   Mesh
@@ -862,6 +915,13 @@ se.RigidBody.prototype.setPosition = function (position) {
   Matter.Body.setPosition(this.body, position);
 };
 
+se.RigidBody.prototype.json = function () {
+  return {
+    isStatic: this.body.isStatic,
+    canRotate: this.body.canRotate
+  };
+};
+
 Matter.Body.update = function (body, deltaTime, timeScale, correction) {
   var Bounds = Matter.Bounds;
   var Vector = Matter.Vector;
@@ -932,7 +992,7 @@ se.Scene = function (renderer) {
   this.add(this.camera);
   this.collisionsActive = {};
 
-  this.renderer = renderer || new se.GradientRenderer('#8ED6FF', '#004CB3');
+  this.renderer = renderer || new se.GradientRenderer('#004CB3', '#8ED6FF');
   this.renderer.setParent(this);
 
   // create a Matter.js engine

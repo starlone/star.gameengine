@@ -58,6 +58,13 @@ se.RigidBody.prototype.setPosition = function (position) {
   Matter.Body.setPosition(this.body, position);
 };
 
+se.RigidBody.prototype.json = function () {
+  return {
+    isStatic: this.body.isStatic,
+    canRotate: this.body.canRotate
+  };
+};
+
 Matter.Body.update = function (body, deltaTime, timeScale, correction) {
   var Bounds = Matter.Bounds;
   var Vector = Matter.Vector;

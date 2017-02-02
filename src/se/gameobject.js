@@ -156,7 +156,8 @@ se.GameObject.prototype.clone = function () {
   if (this.rigidbody) {
     var b = this.rigidbody.body;
     var opt = {
-      isStatic: b.isStatic
+      isStatic: b.isStatic,
+      canRotate: b.canRotate
     };
     obj.setRigidBody(new se.RigidBody(opt));
   }
@@ -168,11 +169,17 @@ se.GameObject.prototype.clone = function () {
 };
 
 se.GameObject.prototype.json = function () {
+  var body = null;
+  if (this.rigidbody) {
+    body = this.rigidbody.json();
+  }
   return {
     type: 'GameObject',
     name: this.name,
+    angle: this.angle,
     transform: this.transform.json(),
-    mesh: this.mesh.json()
+    mesh: this.mesh.json(),
+    rigidbody: body
   };
 };
 
