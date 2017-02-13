@@ -476,8 +476,10 @@ se.GameObject.prototype.removeChild = function (child) {
 se.GameObject.prototype.destroy = function () {
   if (this.parent instanceof se.GameObject) {
     this.parent.removeChild(this);
+  } else {
+    this.getScene().remove(this);
   }
-  this.getScene().remove(this);
+  delete this;
 };
 
 se.GameObject.prototype.setMesh = function (mesh) {
