@@ -582,13 +582,17 @@ se.Interaction = function () {
 
 };
 
-se.Interaction.prototype.init = function () {
+se.Interaction.prototype.active = function () {
+
+};
+
+se.Interaction.prototype.desactive = function () {
 
 };
 
 se.Interaction.prototype.setParent = function (obj) {
   this.parent = obj;
-  this.init();
+  this.active();
 };
 
 se.Interaction.prototype.parseTouchToVector = function (touch) {
@@ -760,6 +764,9 @@ se.Mesh.prototype.setVertices = function (vertices) {
 
 se.Mesh.prototype.getVertices = function () {
   return this.vertices;
+};
+se.Mesh.prototype.addVertice = function (vertice) {
+  this.vertices.push(vertice);
 };
 
 se.Mesh.prototype.getExtent = function () {
@@ -1408,6 +1415,26 @@ se.ViewPort.prototype.addInteraction = function (interaction) {
   interaction.setParent(this);
 };
 
+se.ViewPort.prototype.removeInteraction = function (interaction) {
+  var inx = this.interactions.indexOf(interaction);
+  if (inx !== -1) {
+    this.interactions.splice(inx, 1);
+    interaction.desactive();
+  }
+};
+
+se.ViewPort.prototype.desactiveInteractions = function () {
+  for (var i = 0; i < this.interactions.length; i++) {
+    this.interactions[i].desactive();
+  }
+};
+
+se.ViewPort.prototype.activeInteractions = function () {
+  for (var i = 0; i < this.interactions.length; i++) {
+    this.interactions[i].active();
+  }
+};
+
 // Get and Setter to scale
 se.ViewPort.prototype.scale = function (newscale) {
   if (arguments.length) {
@@ -1516,106 +1543,200 @@ se.FreeController.prototype.update = function () {
 
 
 /*
+  DrawInteraction
+  */
+se.DrawInteraction = function (target) {
+  se.Interaction.call(this);
+  this.target = target;
+  var self = this;
+  this.last = null;
+
+  this.click = function () {
+    if (!self.target) {
+      return null;
+    }
+    if (self.last && self.point.equals(self.last)) {
+      return;
+    }
+    self.last = self.point;
+    self.point = self.point.clone();
+    self.target.mesh.addVertice(self.point);
+  };
+
+  this.end = function () {
+    if (!self.target) {
+      return null;
+    }
+    self.target.mesh.vertices.pop();
+    document.dispatchEvent(se.drawEndEvent);
+    self.target = null;
+  };
+
+  this.mousemove = function (e) {
+    self.move(e.offsetX, e.offsetY);
+  };
+
+  this.touchmove = function (e) {
+    if (e.touches.length === 1) {
+      var t = e.touches[0];
+      self.move(t.pageX, t.pageY);
+    }
+  };
+};
+
+se.inherit(se.Interaction, se.DrawInteraction);
+
+se.drawStartEvent = new Event('seDrawStart');
+se.drawEndEvent = new Event('seDrawEnd');
+
+se.DrawInteraction.prototype.active = function () {
+  var element = this.parent.element;
+  this.point = new se.Point(0, 0);
+  if (this.target) {
+    this.target.mesh.addVertice(this.point);
+  }
+  document.dispatchEvent(se.drawStartEvent);
+
+  element.addEventListener('click', this.click);
+  element.addEventListener('dblclick', this.end);
+
+  element.addEventListener('mousemove', this.mousemove);
+  element.addEventListener('touchmove', this.touchmove);
+};
+
+se.DrawInteraction.prototype.desactive = function () {
+  var element = this.parent.element;
+  element.removeEventListener('click', this.click);
+  element.removeEventListener('dblclick', this.end);
+  element.removeEventListener('mousemove', this.mousemove);
+  element.removeEventListener('touchmove', this.touchmove);
+};
+
+se.DrawInteraction.prototype.move = function (x, y) {
+  if (!this.target) {
+    return null;
+  }
+  var last = this.parent.transformPixelToCoordinate(x, y);
+  this.point.change(last.x, last.y);
+};
+
+
+/*
   PanInteraction
   */
 se.PanInteraction = function (target) {
   se.Interaction.call(this);
+  var self = this;
   this.target = target;
   this.inverse = true;
+
+  this.mousedown = function (e) {
+    self.start(e.offsetX, e.offsetY);
+  };
+  this.mouseup = function () {
+    self.end();
+  };
+  this.mousemove = function (e) {
+    self.move(e.offsetX, e.offsetY);
+  };
+  this.touchstart = function (e) {
+    if (e.touches.length === 1) {
+      var t = e.touches[0];
+      self.start(t.pageX, t.pageY);
+    }
+  };
+  this.touchend = function () {
+    self.end();
+  };
+  this.touchmove = function (e) {
+    if (e.touches.length === 1) {
+      var t = e.touches[0];
+      self.move(t.pageX, t.pageY);
+    }
+  };
 };
 
 se.inherit(se.Interaction, se.PanInteraction);
 
 se.panEndEvent = new Event('sePanEnd');
 
-se.PanInteraction.prototype.init = function () {
-  var self = this;
-  var isDown = false;
+se.PanInteraction.prototype.active = function () {
+  this.isDown = false;
+  this.last = null;
+
   var element = this.parent.element;
-  var viewport = this.parent;
-  var last = null;
-
-  function start(x, y) {
-    last = new se.Point(x, y);
-    isDown = true;
-  }
-
-  function end() {
-    isDown = false;
-    document.dispatchEvent(se.panEndEvent);
-  }
-
-  function move(x, y) {
-    if (!isDown) {
-      return;
-    }
-    var point = new se.Point(x, y);
-    var newp = point.sub(last);
-    if (self.inverse) {
-      newp.neg(true);
-    }
-    var scale = viewport.scale();
-    newp.div({x: scale, y: scale}, true);
-    self.target.transform.move(newp.x, newp.y);
-    last = point;
-  }
-
-  element.addEventListener('mousedown', function (e) {
-    start(e.offsetX, e.offsetY);
-  });
-  element.addEventListener('mouseup', function () {
-    end();
-  });
-  element.addEventListener('mousemove', function (e) {
-    move(e.offsetX, e.offsetY);
-  });
-  element.addEventListener('touchstart', function (e) {
-    if (e.touches.length === 1) {
-      var t = e.touches[0];
-      start(t.pageX, t.pageY);
-    }
-  });
-  element.addEventListener('touchend', function () {
-    end();
-  });
-  element.addEventListener('touchmove', function (e) {
-    if (e.touches.length === 1) {
-      var t = e.touches[0];
-      move(t.pageX, t.pageY);
-    }
-  });
+  element.addEventListener('mousedown', this.mousedown);
+  element.addEventListener('mouseup', this.mouseup);
+  element.addEventListener('mousemove', this.mousemove);
+  element.addEventListener('touchstart', this.touchstart);
+  element.addEventListener('touchend', this.touchend);
+  element.addEventListener('touchmove', this.touchmove);
 };
+
+se.PanInteraction.prototype.desactive = function () {
+  var element = this.parent.element;
+  element.removeEventListener('mousedown', this.mousedown);
+  element.removeEventListener('mouseup', this.mouseup);
+  element.removeEventListener('mousemove', this.mousemove);
+  element.removeEventListener('touchstart', this.touchstart);
+  element.removeEventListener('touchend', this.touchend);
+};
+
+se.PanInteraction.prototype.start = function (x, y) {
+  this.last = new se.Point(x, y);
+  this.isDown = true;
+};
+
+se.PanInteraction.prototype.end = function () {
+  this.isDown = false;
+  document.dispatchEvent(se.panEndEvent);
+};
+
+se.PanInteraction.prototype.move = function (x, y) {
+  var viewport = this.parent;
+  if (!this.isDown) {
+    return;
+  }
+  var point = new se.Point(x, y);
+  var newp = point.sub(this.last);
+  if (this.inverse) {
+    newp.neg(true);
+  }
+  var scale = viewport.scale();
+  newp.div({x: scale, y: scale}, true);
+  this.target.transform.move(newp.x, newp.y);
+  this.last = point;
+};
+
 
 /*
     ZoomInteraction
     */
 se.ZoomInteraction = function () {
   se.Interaction.call(this);
-};
-
-se.inherit(se.Interaction, se.ZoomInteraction);
-
-se.ZoomInteraction.prototype.init = function () {
   var self = this;
-  var viewport = this.parent;
-  var element = viewport.element;
-  element.addEventListener('wheel', function (e) {
+
+  this.wheel = function (e) {
+    var viewport = self.parent;
     var y = 0.05;
     if (e.deltaY > 0) {
       y *= -1;
     }
     var newscale = viewport.scale() + y;
     viewport.scale(newscale);
-  });
-  element.addEventListener('touchstart', function (e) {
+  };
+
+  this.touchstart = function (e) {
     if (e.touches.length === 2) {
       var a1 = self.parseTouchToVector(e.touches[0]);
       var a2 = self.parseTouchToVector(e.touches[1]);
       self._distance = a1.calcDistance(a2);
     }
-  });
-  element.addEventListener('touchmove', function (e) {
+  };
+
+  this.touchmove = function (e) {
     if (e.touches.length === 2) {
+      var viewport = self.parent;
       var b1 = self.parseTouchToVector(e.touches[0]);
       var b2 = self.parseTouchToVector(e.touches[1]);
       var distance = b1.calcDistance(b2);
@@ -1629,7 +1750,23 @@ se.ZoomInteraction.prototype.init = function () {
       var newscale = viewport.scale() + difference;
       viewport.scale(newscale);
     }
-  });
+  };
+};
+
+se.inherit(se.Interaction, se.ZoomInteraction);
+
+se.ZoomInteraction.prototype.active = function () {
+  var element = this.parent.element;
+  element.addEventListener('wheel', this.wheel);
+  element.addEventListener('touchstart', this.touchstart);
+  element.addEventListener('touchmove', this.touchmove);
+};
+
+se.ZoomInteraction.prototype.desactive = function () {
+  var element = this.parent.element;
+  element.removeEventListener('wheel', this.wheel);
+  element.removeEventListener('touchstart', this.touchstart);
+  element.removeEventListener('touchmove', this.touchmove);
 };
 
 /*
@@ -1669,6 +1806,83 @@ se.CircleRenderer.prototype.json = function () {
     fillStyle: this.fillStyle,
     strokeStyle: this.strokeStyle,
     lineWidth: this.lineWidth
+  };
+};
+
+/*
+  EditRenderer - Based in Matter JS
+  */
+se.EditRenderer = function (fillColor, strokeStyle, lineWidth, pointColor) {
+  se.Renderer.call(this);
+  this.color = fillColor;
+  this.strokeStyle = strokeStyle;
+  this.lineWidth = lineWidth;
+  this.pointColor = pointColor;
+};
+
+se.inherit(se.Renderer, se.EditRenderer);
+
+se.EditRenderer.prototype.render = function (ctx) {
+  var part = this.parent.mesh;
+  var c = ctx;
+
+  if (part.vertices.length) {
+    this.renderMesh(c);
+    this.renderPoints(c);
+  }
+  this.renderPosition(c);
+};
+
+se.EditRenderer.prototype.renderPosition = function (c) {
+  // Draw position
+  c.beginPath();
+  var pos = this.parent.transform.position;
+  c.fillStyle = 'red';
+  c.arc(pos.x, pos.y, 4, 0, 2 * Math.PI);
+  c.fill();
+};
+
+se.EditRenderer.prototype.renderMesh = function (c) {
+  var part = this.parent.mesh;
+  c.beginPath();
+  c.moveTo(part.vertices[0].x, part.vertices[0]);
+
+  for (var j = 1; j < part.vertices.length; j++) {
+    c.lineTo(part.vertices[j].x, part.vertices[j].y);
+  }
+
+  c.lineTo(part.vertices[0].x, part.vertices[0].y);
+  c.closePath();
+
+  c.fillStyle = this.color;
+  if (this.strokeStyle) {
+    c.lineWidth = this.lineWidth;
+    c.strokeStyle = this.strokeStyle;
+    c.stroke();
+  }
+
+  c.fill();
+};
+se.EditRenderer.prototype.renderPoints = function (c) {
+  var part = this.parent.mesh;
+  c.fillStyle = this.pointColor;
+  c.strokeStyle = 'white';
+  c.lineWidth = 1;
+  for (var i = 0; i < part.vertices.length; i++) {
+    c.beginPath();
+    c.arc(part.vertices[i].x, part.vertices[i].y, 3, 0, 2 * Math.PI);
+    c.fill();
+    c.stroke();
+  }
+};
+
+se.EditRenderer.prototype.json = function () {
+  return {
+    type: 'EditRenderer',
+    fillColor: this.color,
+    strokeStyle: this.strokeStyle,
+    lineWidth: this.lineWidth,
+    pointColor: this.pointColor
   };
 };
 
@@ -1746,6 +1960,10 @@ se.inherit(se.Renderer, se.MeshRenderer);
 se.MeshRenderer.prototype.render = function (ctx) {
   var part = this.parent.mesh;
   var c = ctx;
+
+  if (!part.vertices.length) {
+    return;
+  }
 
   c.beginPath();
   c.moveTo(part.vertices[0].x, part.vertices[0]);

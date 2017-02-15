@@ -101,6 +101,26 @@ se.ViewPort.prototype.addInteraction = function (interaction) {
   interaction.setParent(this);
 };
 
+se.ViewPort.prototype.removeInteraction = function (interaction) {
+  var inx = this.interactions.indexOf(interaction);
+  if (inx !== -1) {
+    this.interactions.splice(inx, 1);
+    interaction.desactive();
+  }
+};
+
+se.ViewPort.prototype.desactiveInteractions = function () {
+  for (var i = 0; i < this.interactions.length; i++) {
+    this.interactions[i].desactive();
+  }
+};
+
+se.ViewPort.prototype.activeInteractions = function () {
+  for (var i = 0; i < this.interactions.length; i++) {
+    this.interactions[i].active();
+  }
+};
+
 // Get and Setter to scale
 se.ViewPort.prototype.scale = function (newscale) {
   if (arguments.length) {

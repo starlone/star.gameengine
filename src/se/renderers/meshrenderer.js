@@ -14,6 +14,10 @@ se.MeshRenderer.prototype.render = function (ctx) {
   var part = this.parent.mesh;
   var c = ctx;
 
+  if (!part.vertices.length) {
+    return;
+  }
+
   c.beginPath();
   c.moveTo(part.vertices[0].x, part.vertices[0]);
 

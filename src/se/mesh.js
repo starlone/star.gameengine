@@ -14,6 +14,9 @@ se.Mesh.prototype.setVertices = function (vertices) {
 se.Mesh.prototype.getVertices = function () {
   return this.vertices;
 };
+se.Mesh.prototype.addVertice = function (vertice) {
+  this.vertices.push(vertice);
+};
 
 se.Mesh.prototype.getExtent = function () {
   var pos = this.parent.transform.getRealPosition();

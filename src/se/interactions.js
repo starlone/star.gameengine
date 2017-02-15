@@ -5,13 +5,17 @@ se.Interaction = function () {
 
 };
 
-se.Interaction.prototype.init = function () {
+se.Interaction.prototype.active = function () {
+
+};
+
+se.Interaction.prototype.desactive = function () {
 
 };
 
 se.Interaction.prototype.setParent = function (obj) {
   this.parent = obj;
-  this.init();
+  this.active();
 };
 
 se.Interaction.prototype.parseTouchToVector = function (touch) {
