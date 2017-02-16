@@ -110,3 +110,9 @@ se.Extent.prototype.containsXY = function (x, y) {
   return this.min.x <= x && x <= this.max.x && this.min.y <= y && y <= this.max.y;
 };
 
+se.Extent.prototype.getCenter = function () {
+  return new se.Point(
+    (this.min.x + this.max.x) / 2,
+    (this.min.y + this.max.y) / 2
+  );
+};
