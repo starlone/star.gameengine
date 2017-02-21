@@ -1,185 +1,185 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Star Engine</title>
-    <meta charset="utf-8">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+    <head>
+        <title>Star Engine</title>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
 
-    <meta name="title" content="Starlone" />
-    <meta itemprop="name" content="Starlone" />
-    <meta property="og:title" content="Starlone" />
-    <meta name="description" content="Esta é uma pagina pessoal de Starlone" />
-    <meta itemprop="description" content="Esta é uma pagina pessoal de Starlone" />
-    <meta id="meta-tag-description" property="og:description" content="Esta é uma pagina pessoal de Starlone" />
+        <meta name="title" content="Starlone" />
+        <meta itemprop="name" content="Starlone" />
+        <meta property="og:title" content="Starlone" />
+        <meta name="description" content="Esta é uma pagina pessoal de Starlone" />
+        <meta itemprop="description" content="Esta é uma pagina pessoal de Starlone" />
+        <meta id="meta-tag-description" property="og:description" content="Esta é uma pagina pessoal de Starlone" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-    <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-    <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+        <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
 
-    <script type="text/javascript" src="libs/matter.min.js"></script>
-    <script type="text/javascript" src="libs/starengine.min.js"></script>
+        <script type="text/javascript" src="libs/matter.min.js"></script>
+        <script type="text/javascript" src="libs/starengine.min.js"></script>
 
-    <script type="text/javascript">
-        $(function(){
-            $('.button-collapse').sideNav();
-        });
-    </script>
+        <script type="text/javascript">
+            $(function(){
+                $('.button-collapse').sideNav();
+            });
+        </script>
 
-    <script type="text/javascript">
-        var game;
-        window.onload = function(){
-            game = new se.StarEngine('canvas');
+        <script type="text/javascript">
+            var game;
+window.onload = function(){
+    game = new se.StarEngine('canvas');
 
-            var scene = new se.Scene(game, new se.GradientRenderer('#004CB3','#8ED6FF'));
-            game.addScene(scene);
+    var scene = new se.Scene(game, new se.GradientRenderer('#004CB3','#8ED6FF'));
+    game.addScene(scene);
 
-            var grass = se.factory.rect({x: 1000, y: 300, w: 3800, h: 30, fillColor: 'green', rigidopts: { isStatic: true } });
-            scene.add(grass);
+    var grass = se.factory.rect({x: 1000, y: 300, w: 3800, h: 30, fillColor: 'green', rigidopts: { isStatic: true } });
+    scene.add(grass);
 
-            var ground = se.factory.rect({x: 1000, y: 600, w: 3800, h: 600, fillColor: '#6B4226', rigidopts: { isStatic: true }});
-            scene.add(ground);
+    var ground = se.factory.rect({x: 1000, y: 600, w: 3800, h: 600, fillColor: '#6B4226', rigidopts: { isStatic: true }});
+    scene.add(ground);
 
-            var wall = se.factory.rect({x: 0, y:0, w: 200, h: 600, fillColor: '#6B4226', rigidopts: { isStatic:true }});
-            scene.add(wall);
+    var wall = se.factory.rect({x: 0, y:0, w: 200, h: 600, fillColor: '#6B4226', rigidopts: { isStatic:true }});
+    scene.add(wall);
 
-            var box = se.factory.rect({x: 480, y: -50, w: 80, h: 80, image_src: 'box.jpg'});
-            scene.add(box);
+    var box = se.factory.rect({x: 480, y: -50, w: 80, h: 80, image_src: 'box.jpg'});
+    scene.add(box);
 
-            var circle = se.factory.circle({x: 650, y: 50, radius: 20, fillColor: 'yellow', strokeColor: 'white', lineWidth: 1, hasRigidbody: false});
-            circle.addCollider( new se.RectCollider() );
-            circle.addComponent( new se.ComponentScript(function(){}, function(other){
-                circle.destroy();
-            }));
-            scene.add(circle);
+    var circle = se.factory.circle({x: 650, y: 50, radius: 20, fillColor: 'yellow', strokeColor: 'white', lineWidth: 1, hasRigidbody: false});
+    circle.addCollider( new se.RectCollider() );
+    circle.addComponent( new se.ComponentScript(function(){}, function(other){
+        circle.destroy();
+    }));
+    scene.add(circle);
 
-            var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', rigidopts: { canRotate: false }});
-            obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, -10) );
-            obj_player.addCollider( new se.RectCollider() );
-            scene.add(obj_player);
+    var obj_player = se.factory.rect({x: 450, y: 50, w: 50, h: 50, fillColor: '#dddddd', rigidopts: { canRotate: false }});
+    obj_player.addComponent( new se.ComponentPlatformPlayerController(game.joystick, 0.5, -10) );
+    obj_player.addCollider( new se.RectCollider() );
+    scene.add(obj_player);
 
-            var player_eye = new se.GameObject('PlayerEye', 10, -8);
-            player_eye.setRenderer( new se.RectRenderer('blue', 15, 10) );
-            obj_player.addChild(player_eye);
+    var player_eye = new se.GameObject('PlayerEye', 10, -8);
+    player_eye.setRenderer( new se.RectRenderer('blue', 15, 10) );
+    obj_player.addChild(player_eye);
 
-            scene.getCamera().addComponent( new se.ComponentFollowObject(obj_player));
+    scene.getCamera().addComponent( new se.ComponentFollowObject(obj_player));
 
-            game.run();
+    game.run();
 
-            // Buttons
-            // B1
-            var b1 = document.getElementById('b1');
-            var b1start = function(){
-                game.joystick.setAxis('horizontal',-1);
-            };
-            b1.addEventListener('mousedown', b1start);
-            b1.addEventListener('touchstart', b1start);
-            var b1end   = function(){
-                game.joystick.setAxis('horizontal',0);
-            };
-            b1.addEventListener('mouseup', b1end);
-            b1.addEventListener('touchend', b1end);
+    // Buttons
+    // B1
+    var b1 = document.getElementById('b1');
+    var b1start = function(){
+        game.joystick.setAxis('horizontal',-1);
+    };
+    b1.addEventListener('mousedown', b1start);
+    b1.addEventListener('touchstart', b1start);
+    var b1end   = function(){
+        game.joystick.setAxis('horizontal',0);
+    };
+    b1.addEventListener('mouseup', b1end);
+    b1.addEventListener('touchend', b1end);
 
-            // B2
-            var b2 = document.getElementById('b2');
-            var b2start = function(){
-                game.joystick.setAxis('horizontal',1);
-            };
-            b2.addEventListener('mousedown', b2start);
-            b2.addEventListener('touchstart', b2start);
-            var b2end   = function(){
-                game.joystick.setAxis('horizontal',0);
-            };
-            b2.addEventListener('mouseup', b2end);
-            b2.addEventListener('touchend', b1end);
+    // B2
+    var b2 = document.getElementById('b2');
+    var b2start = function(){
+        game.joystick.setAxis('horizontal',1);
+    };
+    b2.addEventListener('mousedown', b2start);
+    b2.addEventListener('touchstart', b2start);
+    var b2end   = function(){
+        game.joystick.setAxis('horizontal',0);
+    };
+    b2.addEventListener('mouseup', b2end);
+    b2.addEventListener('touchend', b1end);
 
-            // B3
-            var b3 = document.getElementById('b3');
-            var b3start = function(){
-                game.joystick.setAxis('jump',true);
-            };
-            b3.addEventListener('mousedown', b3start);
-            b3.addEventListener('touchstart', b3start);
-            var b3end   = function(){
-                game.joystick.setAxis('jump',false);
-            };
-            b3.addEventListener('mouseup', b3end);
-            b3.addEventListener('touchend', b3end);
-        };
-    </script>
-    <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        body, html {
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
-        canvas {
-            border: 1px solid black;
-        }
-        .se-joy-buttons{
-            display: block;
-            position: absolute;
-            bottom: 40px;
-        }
-        .se-joy-buttons span{
-            padding: 10px 20px;
-            border: 1px solid black;
-            background-color: #CCC;
-            font-size: 37px;
-        }
-        #b1{
-            left: 30px;
-        }
-        #b2{
-            left: 100px;
-        }
-        #b3{
-            right: 30px;
-        }
-        html {
-            -webkit-user-select: none;
-        }
-    </style>
-  </head>
-  <body>
+    // B3
+    var b3 = document.getElementById('b3');
+    var b3start = function(){
+        game.joystick.setAxis('jump',true);
+    };
+    b3.addEventListener('mousedown', b3start);
+    b3.addEventListener('touchstart', b3start);
+    var b3end   = function(){
+        game.joystick.setAxis('jump',false);
+    };
+    b3.addEventListener('mouseup', b3end);
+    b3.addEventListener('touchend', b3end);
+};
+        </script>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body, html {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+            }
+            canvas {
+                border: 1px solid black;
+            }
+            .se-joy-buttons{
+                display: block;
+                position: absolute;
+                bottom: 40px;
+            }
+            .se-joy-buttons span{
+                padding: 10px 20px;
+                border: 1px solid black;
+                background-color: #CCC;
+                font-size: 37px;
+            }
+            #b1{
+                left: 30px;
+            }
+            #b2{
+                left: 100px;
+            }
+            #b3{
+                right: 30px;
+            }
+            html {
+                -webkit-user-select: none;
+            }
+        </style>
+    </head>
+    <body>
 
-    <div class="navbar-fixed">
-        <nav class="grey darken-4" role="navigation">
-            <div class="nav-wrapper container">
-                <a id="logo-container" href="/" class="brand-logo">Star Game Engine</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="/#about">Sobre</a></li>
-                    <li><a href="/#dependence">Dependências</a></li>
-                    <li><a href="/#install">Instalação</a></li>
-                    <li><a href="/#examples">Examplos</a></li>
-                </ul>
-                <ul id="nav-mobile" class="side-nav">
-                    <li><a href="/#about">Sobre</a></li>
-                    <li><a href="/#dependence">Dependências</a></li>
-                    <li><a href="/#install">Instalação</a></li>
-                    <li><a href="/#examples">Examplos</a></li>
-                </ul>
-                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            </div>
-        </nav>
-    </div>
+        <div class="navbar-fixed">
+            <nav class="grey darken-4" role="navigation">
+                <div class="nav-wrapper container">
+                    <a id="logo-container" href="/" class="brand-logo">Star Game Engine</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="/#about">Sobre</a></li>
+                        <li><a href="/#dependence">Dependências</a></li>
+                        <li><a href="/#install">Instalação</a></li>
+                        <li><a href="/#examples">Examplos</a></li>
+                    </ul>
+                    <ul id="nav-mobile" class="side-nav">
+                        <li><a href="/#about">Sobre</a></li>
+                        <li><a href="/#dependence">Dependências</a></li>
+                        <li><a href="/#install">Instalação</a></li>
+                        <li><a href="/#examples">Examplos</a></li>
+                    </ul>
+                    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+                </div>
+            </nav>
+        </div>
 
-      <canvas id="canvas" width="600" height="600"></canvas>
-      <div id="b1" class="se-joy-buttons">
-          <span href="#"> < </span>
-      </div>
-      <div id="b2" class="se-joy-buttons">
-          <span href="#"> > </span>
-      </div>
-      <div id="b3" class="se-joy-buttons">
-          <span href="#"> ^ </span>
-      </div>
-  </body>
+        <canvas id="canvas" width="600" height="600"></canvas>
+        <div id="b1" class="se-joy-buttons">
+            <span href="#"> < </span>
+        </div>
+        <div id="b2" class="se-joy-buttons">
+            <span href="#"> > </span>
+        </div>
+        <div id="b3" class="se-joy-buttons">
+            <span href="#"> ^ </span>
+        </div>
+    </body>
 </html>
