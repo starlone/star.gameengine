@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Star Engine</title>
+        <title>Star Game Engine</title>
+
         <meta charset="utf-8">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta name="title" content="Starlone" />
         <meta itemprop="name" content="Starlone" />
-        <meta property="og:title" content="Starlone" />
-        <meta name="description" content="Esta é uma pagina pessoal de Starlone" />
-        <meta itemprop="description" content="Esta é uma pagina pessoal de Starlone" />
-        <meta id="meta-tag-description" property="og:description" content="Esta é uma pagina pessoal de Starlone" />
+        <meta property="og:title" content="Star Game Engine" />
+        <meta name="description" content="Star Game Engine é um motor de jogo feito em HTML5." />
+        <meta itemprop="description" content="Star Game Engine é um motor de jogo feito em HTML5." />
+        <meta id="meta-tag-description" property="og:description" content="Star Game Engine é um motor de jogo feito em HTML5." />
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-        <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-        <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
         <script type="text/javascript" src="libs/matter.min.js"></script>
         <script type="text/javascript" src="libs/starengine.min.js"></script>
 
-        <script type="text/javascript">
-            $(function(){
-                $('.button-collapse').sideNav();
-            });
-        </script>
 
         <script type="text/javascript">
             var game;
@@ -110,6 +115,69 @@ window.onload = function(){
     b3.addEventListener('touchend', b3end);
 };
         </script>
+
+        <style>
+            body {
+                background-color: #f5f5f5;
+            }
+
+            .navbar-default, .panel-primary .panel-heading {
+                background-color: #607d8b;
+            }
+
+            nav.navbar.navbar-default a {
+                color: white;
+            }
+
+            nav.navbar.navbar-default a:hover {
+                color: #eee;
+            }
+
+            .jumbotron {
+                background: none;
+                text-align: center;
+            }
+
+            .panel, .navbar{
+                box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+                border-color: #DDD;
+            }
+
+            .panel-body {
+                min-height: 80px;
+            }
+
+            .navbar-nav {
+                text-align: center;
+            }
+
+            @media (max-width: 768px) {
+                .star-menu > li {
+                    display: table-cell;
+                    width: 1%;
+                }
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            pre {
+                background-color: white;
+                box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+                border-color: #DDD;
+            }
+
+            .page-footer {
+                padding-top: 50px;
+                padding-bottom: 50px;
+                margin-top: 100px;
+                color: white;
+                text-align: center;
+                background-color: #455A64;
+            }
+        </style>
+
         <style type="text/css">
             * {
                 margin: 0;
@@ -150,26 +218,21 @@ window.onload = function(){
     </head>
     <body>
 
-        <div class="navbar-fixed">
-            <nav class="grey darken-4" role="navigation">
-                <div class="nav-wrapper container">
-                    <a id="logo-container" href="/" class="brand-logo">Star Game Engine</a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="/#about">Sobre</a></li>
-                        <li><a href="/#dependence">Dependências</a></li>
-                        <li><a href="/#install">Instalação</a></li>
-                        <li><a href="/#examples">Examplos</a></li>
-                    </ul>
-                    <ul id="nav-mobile" class="side-nav">
-                        <li><a href="/#about">Sobre</a></li>
-                        <li><a href="/#dependence">Dependências</a></li>
-                        <li><a href="/#install">Instalação</a></li>
-                        <li><a href="/#examples">Examplos</a></li>
-                    </ul>
-                    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Star Game Engine</a>
                 </div>
-            </nav>
-        </div>
+                <nav class="navbar-right">
+                    <ul class="nav navbar-nav star-menu">
+                        <li><a href="../#about">Sobre</a></li>
+                        <li><a href="../#dependence">Dependências</a></li>
+                        <li><a href="../#install">Instalação</a></li>
+                        <li><a href="../#examples">Examplos</a></li>
+                    </ul>
+                </nav><!--/.nav-collapse -->
+            </div>
+        </nav>
 
         <canvas id="canvas" width="600" height="600"></canvas>
         <div id="b1" class="se-joy-buttons">
