@@ -14,11 +14,7 @@
     <meta itemprop="description" content="Star Game Engine é um motor de jogo feito em HTML5." />
     <meta id="meta-tag-description" property="og:description" content="Star Game Engine é um motor de jogo feito em HTML5." />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-    <link rel="stylesheet" href="libs/materialize/css/materialize.min.css"/>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="libs/materialize/js/materialize.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,112 +23,128 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script type="text/javascript">
-        $(function(){
-            $('.button-collapse').sideNav();
-        });
-    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .navbar-default, .panel-primary .panel-heading {
+            background-color: #607d8b;
+        }
+
+        nav.navbar.navbar-default a {
+            color: white;
+        }
+
+        nav.navbar.navbar-default a:hover {
+            color: #eee;
+        }
+
+        .jumbotron {
+            background: none;
+            text-align: center;
+        }
+
+        .panel, .navbar{
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+            border-color: #DDD;
+        }
+
+        .panel-body {
+            min-height: 80px;
+        }
+
+        .navbar-nav {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .star-menu > li {
+                display: table-cell;
+                width: 1%;
+            }
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        pre {
+            background-color: white;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+            border-color: #DDD;
+        }
+
+        .page-footer {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            margin-top: 100px;
+            color: white;
+            text-align: center;
+            background-color: #455A64;
+        }
+    </style>
+
 </head>
 <body>
-    <div class="navbar-fixed">
-        <nav class="grey darken-4" role="navigation">
-            <div class="nav-wrapper container">
-                <a id="logo-container" href="/" class="brand-logo">Star Game Engine</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="#about">Sobre</a></li>
-                    <li><a href="#dependence">Dependências</a></li>
-                    <li><a href="#install">Instalação</a></li>
-                    <li><a href="#examples">Examplos</a></li>
-                </ul>
-                <ul id="nav-mobile" class="side-nav">
-                    <li><a href="#about">Sobre</a></li>
-                    <li><a href="#dependence">Dependências</a></li>
-                    <li><a href="#install">Instalação</a></li>
-                    <li><a href="#examples">Examplos</a></li>
-                </ul>
-                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            </div>
-        </nav>
-    </div>
-
-    <div class="section no-pad-bot" id="index-banner">
+    <nav class="navbar navbar-default">
         <div class="container">
-            <br><br>
-            <h1 id="about" class="header center orange-text">Star Game Engine</h1>
-            <div class="row center">
-                <h5 class="header col s12 light">Star Game Engine é um motor de jogo feito em HTML5.</h5>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Star Game Engine</a>
             </div>
-            <br><br>
+            <nav class="navbar-right">
+                <ul class="nav navbar-nav star-menu">
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#dependence">Dependências</a></li>
+                    <li><a href="#install">Instalação</a></li>
+                    <li><a href="#examples">Examplos</a></li>
+                </ul>
+            </nav><!--/.nav-collapse -->
         </div>
+    </nav>
+
+    <div id="about" class="jumbotron ">
+        <h1>Star Game Engine</h1>
+        <p class="lead">Star Game Engine é um motor de jogo feito em HTML5.</p>
     </div>
 
     <div class="container">
-        <div class="section">
-            <div class="row">
-                <div class="col s12 center">
-                    <h4 id="dependence">Dependência</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col m4 s12">&nbsp;</div>
-                <div class="col m4 s12 center">
-                    <ul>
-                        <li>Physic 2D - <a href="https://github.com/liabru/matter-js">Matter.js</a>
-                    </li>
-                </div>
-                <div class="col m4 s12"></div>
-            </div>
+        <h2 id="dependence">Dependência</h2>
+        <div>
+            Physic 2D: <a href="http://brm.io/matter-js/">Matter.js</a>
+            - <a href="https://github.com/liabru/matter-js">Github</a>
         </div>
-    </div>
+        <h2 id="projects">Instalação</h2>
+        <pre><code>
+&lt;script type="text/javascript" src="matter.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="starengine.min.js"&gt;&lt;/script&gt;
+        </code></pre>
+        <h2 id="projects">Bower</h2>
+        <pre><code>
+bower install starlone/star.gameengine
+        </code></pre>
 
-    <div class="container">
-        <div class="section">
-            <div class="row">
-                <div class="col s12 center">
-                    <h4 id="projects">Instalação</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col m12 s12">
-                    <pre><code>
-                    &lt;script type="text/javascript" src="matter.min.js"&gt;&lt;/script&gt;
-                    &lt;script type="text/javascript" src="starengine.min.js"&gt;&lt;/script&gt;
-                    </code></pre>
+        <h2 id="examples">Exemplos</h2>
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Example 1</div>
+                    <ul class="nav nav-pills nav-justified">
+                        <li><a href="example1.html">Veja</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div class="container">
-        <div class="section">
-            <div class="row">
-                <div class="col s12 center">
-                    <h4 id="examples">Exemplos</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col m4 s12">&nbsp;</div>
-                <div class="col m4 s12">
-                    <div class="card hoverable">
-                        <div class="card-content">
-                            <span class="card-title">Example 1</span>
-                        </div>
-                        <div class="card-action">
-                            <a href="example1.html">Veja</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-      </footer>
-    </div>
-
-    <footer class="page-footer black white-text">
+    <footer class="page-footer">
         <div class="footer-copyright">
             <div class="container">
                 Star.gameengine maintained by <a href="https://github.com/starlone">Starlone</a>
@@ -140,7 +152,6 @@
             </div>
         </div>
     </footer>
-
 
 </body>
 </html>
