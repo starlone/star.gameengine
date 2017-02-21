@@ -1062,12 +1062,16 @@ Matter.Body.update = function (body, deltaTime, timeScale, correction) {
 /*
   Scene
 */
-se.Scene = function (renderer) {
-  this.camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
+se.Scene = function (renderer, noCamera) {
   this.objs = [];
   this.colliders = [];
-  this.add(this.camera);
   this.collisionsActive = {};
+
+  if (!noCamera) {
+    var camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
+    this.add(camera);
+    this._indexCamera = 0;
+  }
 
   this.renderer = renderer || new se.GradientRenderer('#004CB3', '#8ED6FF');
   this.renderer.setParent(this);
@@ -1078,7 +1082,18 @@ se.Scene = function (renderer) {
 };
 
 se.Scene.prototype.getCamera = function () {
-  return this.camera;
+  return this.objs[this._indexCamera];
+};
+
+se.Scene.prototype.setCamera = function (obj) {
+  if (typeof obj === 'number') {
+    this._indexCamera = obj;
+  } else {
+    var i = this.objs.indexOf(obj);
+    if (i !== -1) {
+      this._indexCamera = i;
+    }
+  }
 };
 
 se.Scene.prototype.getObjs = function () {
@@ -1183,13 +1198,14 @@ se.Scene.prototype.render = function (ctx) {
 };
 
 se.Scene.prototype.clone = function () {
-  var scene = new se.Scene(this.renderer);
+  var scene = new se.Scene(this.renderer, true);
   var objs = this.getObjs();
   for (var i = 0; i < objs.length; i++) {
     var obj = objs[i];
     var newobj = obj.clone();
     scene.add(newobj);
   }
+  scene.setCamera(this._indexCamera);
   return scene;
 };
 
