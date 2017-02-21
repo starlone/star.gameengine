@@ -14,6 +14,11 @@ se.factory.rect = function (options) {
   var fillColor = opt.fillColor || '#6B4226';
   var rigidopts = opt.rigidopts || {};
 
+  var isStatic = false;
+  if (options.isStatic !== null && options.isStatic !== undefined) {
+    isStatic = options.isStatic;
+  }
+
   if (opt.hasRigidbody === undefined) {
     opt.hasRigidbody = true;
   }
@@ -25,7 +30,7 @@ se.factory.rect = function (options) {
     new se.Point(0, h)
   ];
 
-  var obj = new se.GameObject(name, x, y, {vertices: vertices});
+  var obj = new se.GameObject(name, x, y, {vertices: vertices, isStatic: isStatic});
 
   if (opt.hasRigidbody) {
     obj.setRigidBody(new se.RigidBody(rigidopts));
@@ -49,6 +54,11 @@ se.factory.circle = function (options) {
   var rigidopts = opt.rigidopts || {};
   var maxSides = opt.maxSides || 25;
 
+  var isStatic = false;
+  if (options.isStatic !== null && options.isStatic !== undefined) {
+    isStatic = options._isStatic;
+  }
+
   if (opt.hasRigidbody === undefined) {
     opt.hasRigidbody = true;
   }
@@ -60,7 +70,7 @@ se.factory.circle = function (options) {
   var vertices = se.factory.createCircleVertices(radius, maxSides);
   vertices = se.load.points(vertices);
 
-  var obj = new se.GameObject(name, x, y, {vertices: vertices});
+  var obj = new se.GameObject(name, x, y, {vertices: vertices, isStatic: isStatic});
 
   if (opt.hasRigidbody) {
     obj.setRigidBody(new se.RigidBody(rigidopts));

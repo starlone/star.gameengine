@@ -24,7 +24,8 @@ se.RigidBody.prototype.createBody = function () {
     label: name,
     position: {x: x, y: y},
     vertices: obj.mesh.getVertices(),
-    angle: obj.angle
+    angle: obj.angle,
+    isStatic: obj.isStatic()
   };
   this.body = Matter.Body.create(Matter.Common.extend({}, body, options));
 };

@@ -265,6 +265,11 @@ se.factory.rect = function (options) {
   var fillColor = opt.fillColor || '#6B4226';
   var rigidopts = opt.rigidopts || {};
 
+  var isStatic = false;
+  if (options.isStatic !== null && options.isStatic !== undefined) {
+    isStatic = options.isStatic;
+  }
+
   if (opt.hasRigidbody === undefined) {
     opt.hasRigidbody = true;
   }
@@ -276,7 +281,7 @@ se.factory.rect = function (options) {
     new se.Point(0, h)
   ];
 
-  var obj = new se.GameObject(name, x, y, {vertices: vertices});
+  var obj = new se.GameObject(name, x, y, {vertices: vertices, isStatic: isStatic});
 
   if (opt.hasRigidbody) {
     obj.setRigidBody(new se.RigidBody(rigidopts));
@@ -300,6 +305,11 @@ se.factory.circle = function (options) {
   var rigidopts = opt.rigidopts || {};
   var maxSides = opt.maxSides || 25;
 
+  var isStatic = false;
+  if (options.isStatic !== null && options.isStatic !== undefined) {
+    isStatic = options._isStatic;
+  }
+
   if (opt.hasRigidbody === undefined) {
     opt.hasRigidbody = true;
   }
@@ -311,7 +321,7 @@ se.factory.circle = function (options) {
   var vertices = se.factory.createCircleVertices(radius, maxSides);
   vertices = se.load.points(vertices);
 
-  var obj = new se.GameObject(name, x, y, {vertices: vertices});
+  var obj = new se.GameObject(name, x, y, {vertices: vertices, isStatic: isStatic});
 
   if (opt.hasRigidbody) {
     obj.setRigidBody(new se.RigidBody(rigidopts));
@@ -363,6 +373,11 @@ se.GameObject = function (name, x, y, options) {
 
   this.rigidbody = options.rigidbody || null;
   this.angle = options.angle || 0;
+
+  this._isStatic = false;
+  if (options.isStatic !== null && options.isStatic !== undefined) {
+    this._isStatic = options.isStatic;
+  }
 };
 
 se.GameObject.prototype.getX = function () {
@@ -493,10 +508,21 @@ se.GameObject.prototype.setMesh = function (mesh) {
   mesh.setParent(this);
 };
 
+se.GameObject.prototype.isStatic = function (newvalue) {
+  if (arguments.length && newvalue !== null && newvalue !== undefined) {
+    this._isStatic = newvalue;
+    if (this.rigidbody && this.rigidbody.body) {
+      Matter.Body.setStatic(this.rigidbody.body, newvalue);
+    }
+  }
+  return this._isStatic;
+};
+
 se.GameObject.prototype.clone = function () {
   var options = {
     vertices: this.mesh.vertices,
-    angle: this.angle
+    angle: this.angle,
+    isStatic: this.isStatic()
   };
   var x = this.transform.position.x;
   var y = this.transform.position.y;
@@ -504,7 +530,6 @@ se.GameObject.prototype.clone = function () {
   if (this.rigidbody) {
     var b = this.rigidbody.body;
     var opt = {
-      isStatic: b.isStatic,
       canRotate: b.canRotate
     };
     obj.setRigidBody(new se.RigidBody(opt));
@@ -932,7 +957,8 @@ se.RigidBody.prototype.createBody = function () {
     label: name,
     position: {x: x, y: y},
     vertices: obj.mesh.getVertices(),
-    angle: obj.angle
+    angle: obj.angle,
+    isStatic: obj.isStatic()
   };
   this.body = Matter.Body.create(Matter.Common.extend({}, body, options));
 };
