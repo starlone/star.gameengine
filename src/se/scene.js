@@ -8,7 +8,7 @@ se.Scene = function (renderer, noCamera) {
 
   if (!noCamera) {
     var camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
-    this.add(camera);    
+    this.add(camera);
   }
   this._indexCamera = 0;
 
@@ -166,7 +166,8 @@ se.Scene.prototype.json = function () {
   return {
     type: 'Scene',
     renderer: this.renderer.json(),
-    objs: objs
+    objs: objs,
+    indexCamera: this._indexCamera
   };
 };
 

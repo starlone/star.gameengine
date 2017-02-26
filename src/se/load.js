@@ -9,12 +9,13 @@ se.load.scene = function (json) {
   if (json.renderer) {
     rend = se.load.renderer(json.renderer);
   }
-  var scene = new se.Scene(rend);
+  var scene = new se.Scene(rend, true);
   for (var i = 0; i < json.objs.length; i++) {
     var o = json.objs[i];
     var obj = se.load.gameobject(o);
     scene.add(obj);
   }
+  scene.setCamera(json.indexCamera);
   return scene;
 };
 

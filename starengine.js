@@ -722,12 +722,13 @@ se.load.scene = function (json) {
   if (json.renderer) {
     rend = se.load.renderer(json.renderer);
   }
-  var scene = new se.Scene(rend);
+  var scene = new se.Scene(rend, true);
   for (var i = 0; i < json.objs.length; i++) {
     var o = json.objs[i];
     var obj = se.load.gameobject(o);
     scene.add(obj);
   }
+  scene.setCamera(json.indexCamera);
   return scene;
 };
 
@@ -1070,8 +1071,8 @@ se.Scene = function (renderer, noCamera) {
   if (!noCamera) {
     var camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
     this.add(camera);
-    this._indexCamera = 0;
   }
+  this._indexCamera = 0;
 
   this.renderer = renderer || new se.GradientRenderer('#004CB3', '#8ED6FF');
   this.renderer.setParent(this);
@@ -1227,7 +1228,8 @@ se.Scene.prototype.json = function () {
   return {
     type: 'Scene',
     renderer: this.renderer.json(),
-    objs: objs
+    objs: objs,
+    indexCamera: this._indexCamera
   };
 };
 
