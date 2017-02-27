@@ -554,6 +554,7 @@ se.GameObject.prototype.json = function () {
     type: 'GameObject',
     name: this.name,
     angle: this.angle,
+    isStatic: this.isStatic(),
     transform: this.transform.json(),
     mesh: this.mesh.json(),
     rigidbody: body,
@@ -736,6 +737,7 @@ se.load.gameobject = function (json) {
   var vertices = se.load.points(json.mesh.vertices);
   var options = {
     angle: json.angle,
+    isStatic: json.isStatic,
     vertices: vertices
   };
   var pos = json.transform.position;

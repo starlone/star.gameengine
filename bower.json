@@ -15,6 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "Matter": "matterjs#^0.10.0"
+    "Matter": "matter-js#^0.10.0"
   }
 }

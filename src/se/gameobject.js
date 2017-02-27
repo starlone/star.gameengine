@@ -198,6 +198,7 @@ se.GameObject.prototype.json = function () {
     type: 'GameObject',
     name: this.name,
     angle: this.angle,
+    isStatic: this.isStatic(),
     transform: this.transform.json(),
     mesh: this.mesh.json(),
     rigidbody: body,

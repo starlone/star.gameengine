@@ -23,6 +23,7 @@ se.load.gameobject = function (json) {
   var vertices = se.load.points(json.mesh.vertices);
   var options = {
     angle: json.angle,
+    isStatic: json.isStatic,
     vertices: vertices
   };
   var pos = json.transform.position;
