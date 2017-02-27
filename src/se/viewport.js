@@ -138,3 +138,17 @@ se.ViewPort.prototype.transformPixelToCoordinate = function (x, y) {
   coor.div(scale, true);
   return coor.add(this.pivot.position, true);
 };
+
+se.ViewPort.prototype.getExtent = function () {
+  return new se.Extent(
+    this.pivot.position.x,
+    this.pivot.position.y,
+    this.getWidth() + this.pivot.position.x,
+    this.getHeight() + this.pivot.position.y
+  );
+};
+
+se.ViewPort.prototype.getCenter = function () {
+  return this.getExtent().getCenter();
+};
+
