@@ -16,6 +16,7 @@ se.load.scene = function (json) {
     scene.add(obj);
   }
   scene.setCamera(json.indexCamera);
+  scene.zoomCamera = json.zoomCamera;
   return scene;
 };
 
@@ -34,6 +35,11 @@ se.load.gameobject = function (json) {
   if (json.renderer) {
     var rend = se.load.renderer(json.renderer);
     obj.setRenderer(rend);
+  }
+  for (var i = 0; i < json.children.length; i++) {
+    var j = json.children[i];
+    var child = se.load.gameobject(j);
+    obj.addChild(child);
   }
   return obj;
 };

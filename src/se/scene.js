@@ -11,6 +11,7 @@ se.Scene = function (renderer, noCamera) {
     this.add(camera);
   }
   this._indexCamera = 0;
+  this.zoomCamera = 1;
 
   this.renderer = renderer || new se.GradientRenderer('#004CB3', '#8ED6FF');
   this.renderer.setParent(this);
@@ -48,7 +49,14 @@ se.Scene.prototype.add = function (obj) {
   obj.setParent(this);
   if (obj.rigidbody) {
     this.addBody(obj.rigidbody.body);
+  } else {
+    var children = obj.getChildren();
+    for (var j = children.length - 1; j >= 0; j--) {
+      var c = children[j];
+      this.addBody(c.rigidbody.body);
+    }
   }
+
   this.addColliders(obj.getColliders());
 };
 
@@ -145,6 +153,7 @@ se.Scene.prototype.clone = function () {
     scene.add(newobj);
   }
   scene.setCamera(this._indexCamera);
+  scene.zoomCamera = this.zoomCamera;
   return scene;
 };
 
@@ -174,7 +183,8 @@ se.Scene.prototype.json = function () {
     type: 'Scene',
     renderer: this.renderer.json(),
     objs: objs,
-    indexCamera: this._indexCamera
+    indexCamera: this._indexCamera,
+    zoomCamera: this.zoomCamera
   };
 };
 

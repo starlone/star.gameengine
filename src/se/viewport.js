@@ -79,6 +79,7 @@ se.ViewPort.prototype.clearframe = function () {
 se.ViewPort.prototype.render = function (scene) {
   this.updatePivot(scene.getCamera().transform.position);
   this.clearframe();
+  scene.zoomCamera = this.scale();
   this.renderBackground(scene);
   scene.render(this.ctx);
 };

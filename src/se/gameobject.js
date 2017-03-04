@@ -136,6 +136,24 @@ se.GameObject.prototype.setParent = function (parent) {
 se.GameObject.prototype.addChild = function (child) {
   this.children.push(child);
   child.setParent(this);
+  if (child.rigidbody) {
+    child.rigidbody.updateRealPosition();
+    var parent = this;
+    var flag = true;
+    while (flag) {
+      if (!parent) {
+        flag = false;
+      } else if (parent instanceof se.Scene) {
+        flag = false;
+        parent.addBody(child.rigidbody.body);
+      } else if (parent.rigidbody) {
+        this.rigidbody.addChild(child.rigidbody.body);
+        flag = false;
+      } else {
+        parent = parent.parent;
+      }
+    }
+  }
 };
 
 se.GameObject.prototype.removeChild = function (child) {
@@ -186,6 +204,11 @@ se.GameObject.prototype.clone = function () {
     var renderer = this.renderer.clone();
     obj.setRenderer(renderer);
   }
+
+  for (var i = 0; i < this.children.length; i++) {
+    var c = this.children[i];
+    obj.addChild(c.clone());
+  }
   return obj;
 };
 
@@ -198,6 +221,10 @@ se.GameObject.prototype.json = function () {
   if (this.renderer) {
     rend = this.renderer.json();
   }
+  var objs = [];
+  for (var i = 0; i < this.children.length; i++) {
+    objs.push(this.children[i].json());
+  }
   return {
     type: 'GameObject',
     name: this.name,
@@ -206,6 +233,7 @@ se.GameObject.prototype.json = function () {
     transform: this.transform.json(),
     mesh: this.mesh.json(),
     rigidbody: body,
+    children: objs,
     renderer: rend
   };
 };
@@ -234,17 +262,16 @@ se.Transform.prototype.move = function (x, y) {
 };
 
 se.Transform.prototype.getRealPosition = function () {
-  var x = this.position.x;
-  var y = this.position.y;
+  var pos = this.position;
 
   var obj = this.parent;
   var parent = obj.parent;
   if (parent instanceof se.GameObject) {
-    x += parent.transform.position.x;
-    y += parent.transform.position.y;
+    var pos2 = parent.transform.getRealPosition();
+    pos = pos.add(pos2);
   }
 
-  return {x: x, y: y};
+  return pos;
 };
 
 se.Transform.prototype.json = function () {

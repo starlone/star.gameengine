@@ -24,10 +24,10 @@ se.factory.rect = function (options) {
   }
 
   var vertices = [
-    new se.Point(0, 0),
-    new se.Point(w, 0),
-    new se.Point(w, h),
-    new se.Point(0, h)
+    new se.Point(-w / 2, -h / 2),
+    new se.Point(w / 2, -h / 2),
+    new se.Point(w / 2, h / 2),
+    new se.Point(-w / 2, h / 2)
   ];
 
   var obj = new se.GameObject(name, x, y, {vertices: vertices, isStatic: isStatic});
