@@ -1,6 +1,6 @@
 /*
   Scene
-*/
+  */
 se.Scene = function (renderer, noCamera) {
   this.objs = [];
   this.colliders = [];
@@ -154,6 +154,13 @@ se.Scene.prototype.getObjectFromCoordinate = function (coordinate) {
     var obj = objs[i];
     if (obj.mesh.getExtent().containsXY(coordinate.x, coordinate.y)) {
       return obj;
+    }
+    var children = obj.getChildren();
+    for (var j = children.length - 1; j >= 0; j--) {
+      var c = children[j];
+      if (c.mesh.getExtent().containsXY(coordinate.x, coordinate.y)) {
+        return c;
+      }
     }
   }
 };

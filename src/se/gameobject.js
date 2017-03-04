@@ -61,6 +61,10 @@ se.GameObject.prototype.getRenderer = function () {
   return this.renderer;
 };
 
+se.GameObject.prototype.getChildren = function () {
+  return this.children;
+};
+
 se.GameObject.prototype.update = function (deltaTime, correction) {
   var rb = this.rigidbody;
   if (rb) {
