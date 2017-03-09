@@ -557,6 +557,10 @@ se.GameObject.prototype.setParent = function (parent) {
   this.parent = parent;
 };
 
+se.GameObject.prototype.getParent = function () {
+  return this.parent;
+};
+
 se.GameObject.prototype.addChild = function (child) {
   this.children.push(child);
   child.setParent(this);
@@ -584,8 +588,15 @@ se.GameObject.prototype.addChild = function (child) {
   }
 };
 
-se.GameObject.prototype.removeChild = function (child) {
-  this.children.remove(child);
+se.GameObject.prototype.remove = function (child) {
+  var inx = this.children.indexOf(child);
+  if (inx !== -1) {
+    this.children.splice(inx, 1);
+  }
+  var scene = this.getScene();
+  if (scene) {
+    scene.remove(child);
+  }
 };
 
 se.GameObject.prototype.destroy = function () {
@@ -1126,6 +1137,7 @@ se.Scene = function (renderer, noCamera) {
   this.colliders = [];
   this.collisionsActive = {};
   this.sequence = -1;
+  this.indexObjs = {};
 
   if (!noCamera) {
     var camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
@@ -1181,19 +1193,6 @@ se.Scene.prototype.add = function (obj) {
   this.setIdInObj(obj);
 };
 
-se.Scene.prototype.setIdInObj = function (obj) {
-  obj.id(this.nextId());
-  for (var i = 0; i < obj.children.length; i++) {
-    var c = obj.children[i];
-    this.setIdInObj(c);
-  }
-};
-
-se.Scene.prototype.nextId = function () {
-  this.sequence ++;
-  return this.sequence;
-};
-
 se.Scene.prototype.remove = function (obj) {
   var cs = obj.getColliders();
   for (var i = 0; i < cs.length; i++) {
@@ -1211,6 +1210,21 @@ se.Scene.prototype.remove = function (obj) {
   if (j !== -1) {
     this.objs.splice(j, 1);
   }
+  delete this.indexObjs[obj.id()];
+};
+
+se.Scene.prototype.setIdInObj = function (obj) {
+  obj.id(this.nextId());
+  this.indexObjs[obj.id()] = obj;
+  for (var i = 0; i < obj.children.length; i++) {
+    var c = obj.children[i];
+    this.setIdInObj(c);
+  }
+};
+
+se.Scene.prototype.nextId = function () {
+  this.sequence ++;
+  return this.sequence;
 };
 
 se.Scene.prototype.addBody = function (body) {

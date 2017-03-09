@@ -141,6 +141,10 @@ se.GameObject.prototype.setParent = function (parent) {
   this.parent = parent;
 };
 
+se.GameObject.prototype.getParent = function () {
+  return this.parent;
+};
+
 se.GameObject.prototype.addChild = function (child) {
   this.children.push(child);
   child.setParent(this);
@@ -168,8 +172,15 @@ se.GameObject.prototype.addChild = function (child) {
   }
 };
 
-se.GameObject.prototype.removeChild = function (child) {
-  this.children.remove(child);
+se.GameObject.prototype.remove = function (child) {
+  var inx = this.children.indexOf(child);
+  if (inx !== -1) {
+    this.children.splice(inx, 1);
+  }
+  var scene = this.getScene();
+  if (scene) {
+    scene.remove(child);
+  }
 };
 
 se.GameObject.prototype.destroy = function () {
