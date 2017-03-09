@@ -425,6 +425,7 @@ se.GameObject = function (name, x, y, options) {
   this.renderer = null;
   this.parent = null;
   this.children = [];
+  this._id = null;
 
   options = options || {};
 
@@ -454,6 +455,13 @@ se.GameObject.prototype.getWidth = function () {
 
 se.GameObject.prototype.getHeight = function () {
   return this.height;
+};
+
+se.GameObject.prototype.id = function (newid) {
+  if (arguments.length) {
+    this._id = newid;
+  }
+  return this._id;
 };
 
 se.GameObject.prototype.getScene = function () {
@@ -552,6 +560,10 @@ se.GameObject.prototype.setParent = function (parent) {
 se.GameObject.prototype.addChild = function (child) {
   this.children.push(child);
   child.setParent(this);
+  var scene = this.getScene();
+  if (scene) {
+    scene.setIdInObj(child);
+  }
   if (child.rigidbody) {
     child.rigidbody.updateRealPosition();
     var parent = this;
@@ -1113,6 +1125,7 @@ se.Scene = function (renderer, noCamera) {
   this.objs = [];
   this.colliders = [];
   this.collisionsActive = {};
+  this.sequence = -1;
 
   if (!noCamera) {
     var camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
@@ -1155,17 +1168,30 @@ se.Scene.prototype.setParent = function (parent) {
 se.Scene.prototype.add = function (obj) {
   this.objs.push(obj);
   obj.setParent(this);
+  var children = obj.getChildren();
   if (obj.rigidbody) {
     this.addBody(obj.rigidbody.body);
   } else {
-    var children = obj.getChildren();
     for (var j = children.length - 1; j >= 0; j--) {
       var c = children[j];
       this.addBody(c.rigidbody.body);
     }
   }
-
   this.addColliders(obj.getColliders());
+  this.setIdInObj(obj);
+};
+
+se.Scene.prototype.setIdInObj = function (obj) {
+  obj.id(this.nextId());
+  for (var i = 0; i < obj.children.length; i++) {
+    var c = obj.children[i];
+    this.setIdInObj(c);
+  }
+};
+
+se.Scene.prototype.nextId = function () {
+  this.sequence ++;
+  return this.sequence;
 };
 
 se.Scene.prototype.remove = function (obj) {

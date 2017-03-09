@@ -9,6 +9,7 @@ se.GameObject = function (name, x, y, options) {
   this.renderer = null;
   this.parent = null;
   this.children = [];
+  this._id = null;
 
   options = options || {};
 
@@ -38,6 +39,13 @@ se.GameObject.prototype.getWidth = function () {
 
 se.GameObject.prototype.getHeight = function () {
   return this.height;
+};
+
+se.GameObject.prototype.id = function (newid) {
+  if (arguments.length) {
+    this._id = newid;
+  }
+  return this._id;
 };
 
 se.GameObject.prototype.getScene = function () {
@@ -136,6 +144,10 @@ se.GameObject.prototype.setParent = function (parent) {
 se.GameObject.prototype.addChild = function (child) {
   this.children.push(child);
   child.setParent(this);
+  var scene = this.getScene();
+  if (scene) {
+    scene.setIdInObj(child);
+  }
   if (child.rigidbody) {
     child.rigidbody.updateRealPosition();
     var parent = this;

@@ -5,6 +5,7 @@ se.Scene = function (renderer, noCamera) {
   this.objs = [];
   this.colliders = [];
   this.collisionsActive = {};
+  this.sequence = -1;
 
   if (!noCamera) {
     var camera = new se.GameObject('MainCamera', 0, 0, 0, 0);
@@ -47,17 +48,30 @@ se.Scene.prototype.setParent = function (parent) {
 se.Scene.prototype.add = function (obj) {
   this.objs.push(obj);
   obj.setParent(this);
+  var children = obj.getChildren();
   if (obj.rigidbody) {
     this.addBody(obj.rigidbody.body);
   } else {
-    var children = obj.getChildren();
     for (var j = children.length - 1; j >= 0; j--) {
       var c = children[j];
       this.addBody(c.rigidbody.body);
     }
   }
-
   this.addColliders(obj.getColliders());
+  this.setIdInObj(obj);
+};
+
+se.Scene.prototype.setIdInObj = function (obj) {
+  obj.id(this.nextId());
+  for (var i = 0; i < obj.children.length; i++) {
+    var c = obj.children[i];
+    this.setIdInObj(c);
+  }
+};
+
+se.Scene.prototype.nextId = function () {
+  this.sequence ++;
+  return this.sequence;
 };
 
 se.Scene.prototype.remove = function (obj) {
