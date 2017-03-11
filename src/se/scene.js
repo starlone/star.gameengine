@@ -46,8 +46,33 @@ se.Scene.prototype.setParent = function (parent) {
   this.parent = parent;
 };
 
-se.Scene.prototype.add = function (obj) {
-  this.objs.push(obj);
+se.Scene.prototype.add = function (child) {
+  child.destroy();
+  this.objs.push(child);
+  this.initChild(child);
+};
+
+se.Scene.prototype.addAtIndex = function (child, index) {
+  child.destroy();
+  var last = this.objs.splice(index);
+  this.objs.push(child);
+  for (var i = 0; i < last.length; i++) {
+    this.objs.push(last[i]);
+  }
+  this.initChild(child);
+};
+
+se.Scene.prototype.addAfter = function (child, sibling) {
+  child.destroy();
+  var index = this.objs.indexOf(sibling);
+  if (index === -1) {
+    this.addChild(child);
+  } else {
+    this.addAtIndex(child, index + 1);
+  }
+};
+
+se.Scene.prototype.initChild = function (obj) {
   obj.setParent(this);
   var children = obj.getChildren();
   if (obj.rigidbody) {
@@ -63,13 +88,10 @@ se.Scene.prototype.add = function (obj) {
 };
 
 se.Scene.prototype.remove = function (obj) {
+  obj.setParent(null);
   var cs = obj.getColliders();
   for (var i = 0; i < cs.length; i++) {
-    var c = cs[i];
-    var inx = this.colliders.indexOf(c);
-    if (inx !== -1) {
-      this.colliders.splice(inx, 1);
-    }
+    this.removeCollider(cs[i]);
   }
   if (obj.rigidbody) {
     this.removeBody(obj.rigidbody.body);
@@ -95,6 +117,9 @@ se.Scene.prototype.nextId = function () {
   this.sequence ++;
   return this.sequence;
 };
+se.Scene.prototype.getObj = function (id) {
+  return this.indexObjs[id];
+};
 
 se.Scene.prototype.addBody = function (body) {
   var engine = this.matterengine;
@@ -116,6 +141,13 @@ se.Scene.prototype.addColliders = function (colliders) {
 se.Scene.prototype.addCollider = function (collider) {
   this.colliders.push(collider);
   collider.id = this.colliders.length - 1;
+};
+
+se.Scene.prototype.removeCollider = function (collider) {
+  var inx = this.colliders.indexOf(collider);
+  if (inx !== -1) {
+    this.colliders.splice(inx, 1);
+  }
 };
 
 se.Scene.prototype.update = function (deltaTime, correction) {

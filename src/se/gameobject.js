@@ -145,8 +145,39 @@ se.GameObject.prototype.getParent = function () {
   return this.parent;
 };
 
+se.GameObject.prototype.add = function (child) {
+  if (child instanceof se.GameObject) {
+    this.addChild(child);
+  }
+};
+
 se.GameObject.prototype.addChild = function (child) {
+  child.destroy();
   this.children.push(child);
+  this.initChild(child);
+};
+
+se.GameObject.prototype.addAtIndex = function (child, index) {
+  child.destroy();
+  var last = this.children.splice(index);
+  this.children.push(child);
+  for (var i = 0; i < last.length; i++) {
+    this.children.push(last[i]);
+  }
+  this.initChild(child);
+};
+
+se.GameObject.prototype.addAfter = function (child, sibling) {
+  child.destroy();
+  var index = this.children.indexOf(sibling);
+  if (index === -1) {
+    this.addChild(child);
+  } else {
+    this.addAtIndex(child, index + 1);
+  }
+};
+
+se.GameObject.prototype.initChild = function (child) {
   child.setParent(this);
   var scene = this.getScene();
   if (scene) {
@@ -173,6 +204,7 @@ se.GameObject.prototype.addChild = function (child) {
 };
 
 se.GameObject.prototype.remove = function (child) {
+  child.setParent(null);
   var inx = this.children.indexOf(child);
   if (inx !== -1) {
     this.children.splice(inx, 1);
@@ -184,8 +216,9 @@ se.GameObject.prototype.remove = function (child) {
 };
 
 se.GameObject.prototype.destroy = function () {
-  this.parent.remove(this);
-  delete this;
+  if (this.parent) {
+    this.parent.remove(this);
+  }
 };
 
 se.GameObject.prototype.setMesh = function (mesh) {
