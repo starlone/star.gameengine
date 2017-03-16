@@ -1654,7 +1654,7 @@ se.ViewPort.prototype.activeInteractions = function () {
 se.ViewPort.prototype.scale = function (newscale) {
   if (arguments.length) {
     newscale = parseFloat(newscale, 1) || 1;
-    if (newscale) {
+    if (newscale > 0) {
       this._scale = newscale;
     }
   }
