@@ -27,8 +27,8 @@ se.RectCollider.prototype.setParent = function (obj) {
     var ext = obj.mesh.getExtent();
     this.x = ext.min.x;
     this.y = ext.min.y;
-    this.width = ext.max.x;
-    this.height = ext.max.y;
+    this.width = ext.getWidth();
+    this.height = ext.getHeight();
   }
 };
 
